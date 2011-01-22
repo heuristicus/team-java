@@ -13,6 +13,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ public class BoxFrame extends JPanel implements KeyListener {
     int width = 20, height = 20;
     int rotation = 0;
     Rectangle2D box = new Rectangle2D.Double(cur_x, cur_y, width, height);
+    Line2D pointer = null;
 
     public static void main(String[] args) {
         BoxFrame b = new BoxFrame();
@@ -48,6 +50,9 @@ public class BoxFrame extends JPanel implements KeyListener {
         };
 
         addMouseListener(m);
+
+        pointer = new Line2D.Double(box.getCenterX(), box.getCenterY(), box.getCenterX(), box.getCenterY()+30);
+
         mFrame.setSize(600, 600);
         mFrame.setEnabled(true);
         mFrame.setVisible(true);
@@ -67,12 +72,14 @@ public class BoxFrame extends JPanel implements KeyListener {
         rt.translate(-box.getCenterX(), -box.getCenterY());
         g2.setTransform(rt);
         g2.draw(box);
+        g2.draw(pointer);
 
 
     }
 
     public void updateBox() {
         box = new Rectangle2D.Double(cur_x, cur_y, width, height);
+        pointer = new Line2D.Double(box.getCenterX(), box.getCenterY(), box.getCenterX(), box.getCenterY()+30);
     }
 
     private void addFrameBits() {
