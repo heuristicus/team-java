@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -56,15 +57,22 @@ public class BoxFrame extends JPanel implements KeyListener {
 
     @Override
     protected void paintComponent(Graphics g) {
+        normaliseRotation();
+        normaliseCoordinates();
         updateBox();
+
         Graphics2D g2 = (Graphics2D) g;
+
+        g2.translate(cur_x + width / 2, cur_y + height / 2);
+        g2.drawLine(50, 50, 0, 0);
         AffineTransform rot = new AffineTransform();
-        rot.rotate(rotation);
+        rot.rotate(Math.toRadians(rotation));
         g2.transform(rot);
+        g2.drawLine(50, 50, 0, 0);
         g2.draw(box);
     }
-    
-    public void updateBox(){
+
+    public void updateBox() {
         box = new Rectangle2D.Double(cur_x, cur_y, width, height);
     }
 
@@ -89,16 +97,44 @@ public class BoxFrame extends JPanel implements KeyListener {
                 cur_y -= 5;
                 break;
             case 37:
-                System.out.println("left");
+                System.out.println(rotation);
                 rotation += 5;
                 break;
             case 39:
-                System.out.println("right");
+                System.out.println(rotation);
                 rotation -= 5;
                 break;
 
         }
         repaint();
+
+
+    }
+
+    /**
+     * Ensures that the angle of rotation remains between 0 and 360
+     */
+    public void normaliseRotation() {
+        if (rotation >= 360) {
+            /*
+             * Takes into account that you could be at 360 degrees or more
+             * e.g 364deg normalised = 4deg.
+             */
+            rotation -= 360;
+        } else if (rotation < 0) {
+            /*
+             * Since you're at less than zero degrees, to get the correct angle,
+             * you have to add 360.  e.g. -7deg = 353deg normalised.
+             */
+            rotation += 360;
+        }
+    }
+
+    /**
+     * Makes sure that the coordinates of the box are always within the bounds
+     * of the frame.
+     */
+    public void normaliseCoordinates() {
         if (cur_y >= mFrame.getHeight()) {
             cur_y = 0;
         } else if (cur_y < 0) {
@@ -110,9 +146,7 @@ public class BoxFrame extends JPanel implements KeyListener {
         } else if (cur_x < 0) {
             cur_x = mFrame.getWidth();
         }
-
     }
-
 
     public void keyReleased(KeyEvent e) {
     }
