@@ -4,17 +4,15 @@
  */
 package MovingBox;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
+import java.awt.RenderingHints;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -60,16 +58,17 @@ public class BoxFrame extends JPanel implements KeyListener {
         normaliseRotation();
         normaliseCoordinates();
         updateBox();
-
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        g2.translate(cur_x + width / 2, cur_y + height / 2);
-        g2.drawLine(50, 50, 0, 0);
-        AffineTransform rot = new AffineTransform();
-        rot.rotate(Math.toRadians(rotation));
-        g2.transform(rot);
-        g2.drawLine(50, 50, 0, 0);
+        AffineTransform rt = new AffineTransform();
+        rt.translate(box.getCenterX(), box.getCenterY());
+        rt.rotate(Math.toRadians(rotation));
+        rt.translate(-box.getCenterX(), -box.getCenterY());
+        g2.setTransform(rt);
         g2.draw(box);
+
+
     }
 
     public void updateBox() {
@@ -89,19 +88,15 @@ public class BoxFrame extends JPanel implements KeyListener {
         int typed = e.getKeyCode();
         switch (typed) {
             case 40:
-                System.out.println("down");
                 cur_y += 5;
                 break;
             case 38:
-                System.out.println("up");
                 cur_y -= 5;
                 break;
             case 37:
-                System.out.println(rotation);
                 rotation += 5;
                 break;
             case 39:
-                System.out.println(rotation);
                 rotation -= 5;
                 break;
 
