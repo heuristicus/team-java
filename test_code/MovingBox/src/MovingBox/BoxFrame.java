@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Line2D;
+import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -30,7 +31,8 @@ public class BoxFrame extends JPanel implements KeyListener {
     int width = 20, height = 20;
     int rotation = 0;
     Rectangle2D box = new Rectangle2D.Double(cur_x, cur_y, width, height);
-    Line2D pointer = null;
+    Line2D pointer = new Line2D.Double(box.getX(), box.getY(), box.getX(), box.getY() - 5);
+    Point2D movePoint = new Point2D.Double(pointer.getX2(), pointer.getY2());
 
     public static void main(String[] args) {
         BoxFrame b = new BoxFrame();
@@ -50,8 +52,7 @@ public class BoxFrame extends JPanel implements KeyListener {
         };
 
         addMouseListener(m);
-
-        pointer = new Line2D.Double(box.getCenterX(), box.getCenterY(), box.getCenterX(), box.getCenterY()+30);
+        //pointer = new Line2D.Double(box.getCenterX(), box.getCenterY(), box.getCenterX(), box.getCenterY() + 30);
 
         mFrame.setSize(600, 600);
         mFrame.setEnabled(true);
@@ -62,10 +63,12 @@ public class BoxFrame extends JPanel implements KeyListener {
     protected void paintComponent(Graphics g) {
         normaliseRotation();
         normaliseCoordinates();
-        updateBox();
+        normaliseMovePoint();
+        updateMovingParts();
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
+        System.out.println(box);
+        System.out.println(movePoint);
         AffineTransform rt = new AffineTransform();
         rt.translate(box.getCenterX(), box.getCenterY());
         rt.rotate(Math.toRadians(rotation));
@@ -74,12 +77,15 @@ public class BoxFrame extends JPanel implements KeyListener {
         g2.draw(box);
         g2.draw(pointer);
 
-
     }
 
-    public void updateBox() {
-        box = new Rectangle2D.Double(cur_x, cur_y, width, height);
-        pointer = new Line2D.Double(box.getCenterX(), box.getCenterY(), box.getCenterX(), box.getCenterY()+30);
+    /**
+     * Updates the locations of the box and pointer based on the new values of
+     * cur_x and so forth.
+     */
+    public void updateMovingParts() {
+        box = new Rectangle2D.Double(movePoint.getX(), movePoint.getY(), width, height);
+        pointer = new Line2D.Double(box.getX(), box.getY(), box.getX(), box.getY() - 5);
     }
 
     private void addFrameBits() {
@@ -94,23 +100,20 @@ public class BoxFrame extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int typed = e.getKeyCode();
         switch (typed) {
-            case 40:
-                cur_y += 5;
+            case 40: // Down
                 break;
-            case 38:
-                cur_y -= 5;
+            case 38: // Up
+                movePoint.setLocation(movePoint.getX(), movePoint.getY() - 5);
                 break;
-            case 37:
+            case 37: // Left
                 rotation += 5;
                 break;
-            case 39:
+            case 39: // Right
                 rotation -= 5;
                 break;
 
         }
         repaint();
-
-
     }
 
     /**
@@ -147,6 +150,20 @@ public class BoxFrame extends JPanel implements KeyListener {
             cur_x = 0;
         } else if (cur_x < 0) {
             cur_x = mFrame.getWidth();
+        }
+    }
+
+    public void normaliseMovePoint() {
+        if (movePoint.getY() >= mFrame.getHeight()) {
+            movePoint.setLocation(movePoint.getX(), 0);
+        } else if (movePoint.getY() < 0) {
+            movePoint.setLocation(movePoint.getX(), mFrame.getHeight());
+        }
+
+        if (movePoint.getX() >= mFrame.getWidth()) {
+            movePoint.setLocation(0, movePoint.getY());
+        } else if (movePoint.getX() < 0) {
+            movePoint.setLocation(mFrame.getWidth(), movePoint.getY());
         }
     }
 
