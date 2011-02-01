@@ -5,8 +5,10 @@
 package B3.trunk.tests;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
@@ -17,6 +19,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -43,6 +46,7 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     public movementTest() {
 
         initFrame();
+        hideMouse();
 
     }
 
@@ -161,6 +165,13 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
         if (e.getKeyCode() == 32) {//space
             space = false;
         }
+    }
+
+    public void hideMouse(){
+        ImageIcon invisi = new ImageIcon(new byte[0]);
+        Cursor invisible = getToolkit().createCustomCursor(
+                invisi.getImage(), new Point(0,0), "Hiding");
+        this.setCursor(invisible);
     }
 
     public void mouseClicked(MouseEvent e) {
