@@ -42,4 +42,13 @@ public class BaseFrame {
     public void addPanel(JPanel addPanel) {
         bFrame.add(addPanel);
     }
+    /**
+     * Replaces the current panel in the frame with a new panel.
+     * @param repPanel Panel to put into the frame.
+     */
+    public void replacePanel(JPanel repPanel) {
+        bFrame.removeAll();
+        bFrame.add(repPanel);
+    }
+
 }
