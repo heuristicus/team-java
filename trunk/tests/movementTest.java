@@ -11,6 +11,9 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -21,7 +24,7 @@ import javax.swing.JPanel;
  *
  * @author michal
  */
-public class movementTest extends JPanel implements KeyListener {
+public class movementTest extends JPanel implements KeyListener, MouseListener, MouseMotionListener {
 
     JFrame frame = new JFrame();
     int x1 = 10, y1 = 10, x2 = 20, y2 = 20;
@@ -38,6 +41,7 @@ public class movementTest extends JPanel implements KeyListener {
     }
 
     public movementTest() {
+
         initFrame();
 
     }
@@ -53,7 +57,7 @@ public class movementTest extends JPanel implements KeyListener {
         g_.fill(rect);
         g_.setColor(Color.blue);
         for (Shape shape : toDraw) {
-            System.out.println(shape);
+            //System.out.println(shape);
             g_.setColor(Color.black);
             g_.draw(shape);
         }
@@ -92,7 +96,7 @@ public class movementTest extends JPanel implements KeyListener {
     public void pruneArray() {
         for (Shape shape : toDraw) {
             Line2D line = (Line2D) shape;
-            if (line.getY1() < 0){
+            if (line.getY1() < 0) {
                 toDraw.remove(shape);
             }
 
@@ -107,17 +111,19 @@ public class movementTest extends JPanel implements KeyListener {
     }
 
     public void addPanel() {
+        addMouseListener(this);
+        addMouseMotionListener(this);
         frame.add(this);
         frame.addKeyListener(this);
         addKeyListener(this);
     }
 
     public void keyTyped(KeyEvent e) {
-        System.out.println("asdsad");
+       // System.out.println("asdsad");
     }
 
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
+       // System.out.println(e.getKeyCode());
         // System.out.println("press");
         if (e.getKeyCode() == 40) {//down
             down = true;
@@ -155,5 +161,42 @@ public class movementTest extends JPanel implements KeyListener {
         if (e.getKeyCode() == 32) {//space
             space = false;
         }
+    }
+
+    public void mouseClicked(MouseEvent e) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public void mousePressed(MouseEvent e) {
+        space = true;
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+        space = false;
+    }
+
+    public void mouseEntered(MouseEvent e) {
+        x1 = e.getX();
+        y1 = e.getY();
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+        
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        x1 = e.getX();
+        y1 = e.getY();
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        x1 = e.getX();
+        y1 = e.getY();
+
+
+
+        //rect = new Rectangle2D.Double(e.getX(), e.getY(), (e.getX() +10), (e.getY()+10));
     }
 }
