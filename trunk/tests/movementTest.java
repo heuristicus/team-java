@@ -4,12 +4,14 @@
  */
 package B3.trunk.tests;
 
+import java.awt.AWTException;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Robot;
 import java.awt.Shape;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -19,6 +21,8 @@ import java.awt.event.MouseMotionListener;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -33,11 +37,14 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     int x1 = 10, y1 = 10, x2 = 20, y2 = 20;
     Rectangle2D rect = new Rectangle2D.Double(x1, y1, x2, y2);
     ArrayList<Shape> toDraw = new ArrayList<Shape>();
+    Robot mouseRobot;
     boolean up = false;
     boolean down = false;
     boolean left = false;
     boolean right = false;
     boolean space = false;
+    boolean kb = false;
+    boolean mouse = false;
 
     public static void main(String[] args) {
         new movementTest();
@@ -108,6 +115,12 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     }
 
     public void initFrame() {
+        try {
+            mouseRobot = new Robot();
+        } catch (AWTException ex) {
+            System.out.println("robot init failed.");
+        }
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addPanel();
         frame.setSize(800, 600);
@@ -123,11 +136,14 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     }
 
     public void keyTyped(KeyEvent e) {
-       // System.out.println("asdsad");
+        kb = true;
+        // System.out.println("asdsad");
     }
 
     public void keyPressed(KeyEvent e) {
-       // System.out.println(e.getKeyCode());
+        kb = true;
+
+        // System.out.println(e.getKeyCode());
         // System.out.println("press");
         if (e.getKeyCode() == 40) {//down
             down = true;
@@ -149,6 +165,8 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     }
 
     public void keyReleased(KeyEvent e) {
+        kb = true;
+
         if (e.getKeyCode() == 40) {//down
             down = false;
         }
@@ -167,10 +185,10 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
         }
     }
 
-    public void hideMouse(){
+    public void hideMouse() {
         ImageIcon invisi = new ImageIcon(new byte[0]);
         Cursor invisible = getToolkit().createCustomCursor(
-                invisi.getImage(), new Point(0,0), "Hiding");
+                invisi.getImage(), new Point(0, 0), "Hiding");
         this.setCursor(invisible);
     }
 
@@ -188,21 +206,33 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     }
 
     public void mouseEntered(MouseEvent e) {
+        mouse = true;
+        mouseRobot.mouseMove((int) rect.getX(), (int) rect.getY());
         x1 = e.getX();
         y1 = e.getY();
 
     }
 
     public void mouseExited(MouseEvent e) {
-        
     }
 
     public void mouseDragged(MouseEvent e) {
+        if (kb == true) {
+            mouseRobot.mouseMove(x1, y1);
+            kb = false;
+        }
+        mouse = true;
         x1 = e.getX();
         y1 = e.getY();
+
     }
 
     public void mouseMoved(MouseEvent e) {
+        if (kb == true) {
+            mouseRobot.mouseMove(x1, y1);
+            kb = false;
+        }
+        mouse = true;
         x1 = e.getX();
         y1 = e.getY();
 
