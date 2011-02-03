@@ -5,6 +5,8 @@
 
 package B3.trunk.src.Game;
 
+import B3.trunk.src.Projectile.Projectile;
+import B3.trunk.src.Unit.Unit;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +23,12 @@ public class Game {
      * some way of referring to all of the stuff. We could always have two different
      * arrays for projectiles and ships, and grab them independently.
      */
-    //ArrayList<GameObject> gameObjects;
+    ArrayList<Unit> units;
+    ArrayList<Projectile> projectiles;
+
+    public Game() {
+    }
+
+
 
 }
