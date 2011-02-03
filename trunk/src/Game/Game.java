@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package B3.trunk.src.Game;
 
 import B3.trunk.src.Projectile.Projectile;
@@ -29,6 +28,35 @@ public class Game {
     public Game() {
     }
 
+    /**
+     * Adds a unit to the units array.
+     * @param addUnit The unit to add to the array.
+     */
+    public void addUnitToArray(Unit addUnit) {
+        units.add(addUnit);
+    }
 
+    /**
+     * Adds a new projectile to the projectiles array.
+     * @param addProjectile Projectile to add the the array.
+     */
+    public void addProjectileToArray(Projectile addProjectile) {
+        projectiles.add(addProjectile);
+    }
 
+    /**
+     * Returns the list of units currently present in the game.
+     * @return Arraylist of units.
+     */
+    public ArrayList<Unit> getUnitArray() {
+        return units;
+    }
+
+    /**
+     * Returns the list of projectiles currently present in the game.
+     * @return Arraylist of projectiles.
+     */
+    public ArrayList<Projectile> getProjectileArray() {
+        return projectiles;
+    }
 }
