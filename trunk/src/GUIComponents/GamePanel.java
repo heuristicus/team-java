@@ -21,17 +21,22 @@ public class GamePanel extends JPanel {
      */
     Game shootGame;
     JPanel gPanel;
+//    Controls a;
 
     public GamePanel() {
         System.out.println("gamepanel constructor");
-    }
+ //     a = new Controls();
 
+    }
 
     /**
      * Initialises the panel. (not sure what needs to be done here)
      */
     private void initPanel() {
         gPanel = new JPanel();
+//        gPanel.addMouseListener(a);
+//        gPanel.addKeyListener(a);
+//        gPanel.addMouseMotionListener(a);
     }
 
     /**
@@ -43,7 +48,7 @@ public class GamePanel extends JPanel {
         drawBackground();
         drawShips();
         drawProjectiles();
-        
+
     }
 
     /**
