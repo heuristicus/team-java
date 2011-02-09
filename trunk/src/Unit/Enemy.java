@@ -7,6 +7,7 @@ package B3.trunk.src.Unit;
 
 import B3.trunk.src.Weapon.Weapon;
 import java.awt.Shape;
+import java.awt.Color;
 
 /**
  *
@@ -15,12 +16,12 @@ import java.awt.Shape;
 public class Enemy extends Unit{
 
     public static void main(String[] args) {
-        Enemy p = new Enemy(1, 2, null, null, 3);
-        Player r = new Player(4,5, null, null, 6);
+        Enemy p = new Enemy(1, 2, null, null, 3, 0, 0, Color.RED);
+        Player r = new Player(4,5, null, null, 6, 0, 0, Color.GREEN);
     }
 
-    public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue) {
-        super(health, speed, shape, weaponType, pointValue);
+    public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue int xCoord, int yCoord, Color color) {
+        super(health, speed, shape, weaponType, pointValue, xCoord, yCoord, color);
         check();
     }
 
@@ -30,6 +31,8 @@ public class Enemy extends Unit{
         System.out.println(speed);
         System.out.println(weaponType);
         System.out.println(pointValue);
+		System.out.println(xCoord + ", " + yCoord);
+		System.out.println(color);
     }
 
 }
