@@ -6,6 +6,7 @@ package GUIComponents;
 
 import B3.trunk.src.Game.Game;
 import java.awt.Graphics;
+import java.awt.Color;
 import javax.swing.JPanel;
 
 /**
@@ -21,6 +22,7 @@ public class GamePanel extends JPanel {
      */
     Game shootGame;
     JPanel gPanel;
+	Color bgColor = Color.BLACK;
 //    Controls a;
 
     public GamePanel() {
@@ -55,6 +57,7 @@ public class GamePanel extends JPanel {
      * Draws the background
      */
     private void drawBackground() {
+		this.setBackground(bgColor);
     }
 
     private void drawShips() {
