@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package B3.trunk.src.Unit;
+package Unit;
 
 import B3.trunk.src.Weapon.Weapon;
 import java.awt.Shape;
@@ -20,7 +20,7 @@ public class Enemy extends Unit{
         Player r = new Player(4,5, null, null, 6, 0, 0, Color.GREEN);
     }
 
-    public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue int xCoord, int yCoord, Color color) {
+    public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, shape, weaponType, pointValue, xCoord, yCoord, color);
         check();
     }

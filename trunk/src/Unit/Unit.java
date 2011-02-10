@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package B3.trunk.src.Unit;
+package Unit;
 
 import B3.trunk.src.Weapon.Weapon;
 import java.awt.Shape;
@@ -39,7 +39,7 @@ public abstract class Unit {
 	* set/get methods for x/y coordinated and Unit color
 	* @author danielcecil
 	*/
-	public void setX(newX){
+	public void setX(int newX){
 		xCoord = newX;
 	}
 	
@@ -47,7 +47,7 @@ public abstract class Unit {
 		return xCoord;
 	}
 	
-	public void setY(newY){
+	public void setY(int newY){
 		yCoord = newY;
 	}
 	
@@ -55,7 +55,7 @@ public abstract class Unit {
 		return yCoord;
 	}
 	
-	public void setColor(newColor){
+	public void setColor(Color newColor){
 		color = newColor;
 	}
 	

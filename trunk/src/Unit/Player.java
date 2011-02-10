@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package B3.trunk.src.Unit;
+package Unit;
 
 import B3.trunk.src.Weapon.Weapon;
 import java.awt.Shape;
