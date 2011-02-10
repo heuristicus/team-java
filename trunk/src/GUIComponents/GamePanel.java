@@ -5,8 +5,10 @@
 package GUIComponents;
 
 import Game.Game;
+import Unit.Unit;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.util.ArrayList;
 import javax.swing.JPanel;
 
 /**
@@ -58,9 +60,15 @@ public class GamePanel extends JPanel {
      */
     private void drawBackground() {
 	// gPanel.setBackground(bgColor);
+        // Background now set in BaseFrame
     }
 
     private void drawShips() {
+        /*
+         * Get the unit array from Game.java
+         * For each unit call it's draw method passing Graphics g
+         *
+         */
     }
 
     private void drawProjectiles() {
