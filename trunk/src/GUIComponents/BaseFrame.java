@@ -5,6 +5,7 @@
 package GUIComponents;
 
 import Controls.Controls;
+import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -43,6 +44,7 @@ public class BaseFrame extends JFrame{
      addKeyListener(c);
      addMouseListener(c);
      addMouseMotionListener(c);
+     setBackground(Color.BLACK);
      setEnabled(true);
      setVisible(true);
      //   initFrame();     

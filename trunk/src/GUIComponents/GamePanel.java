@@ -57,7 +57,7 @@ public class GamePanel extends JPanel {
      * Draws the background
      */
     private void drawBackground() {
-		this.setBackground(bgColor);
+	// gPanel.setBackground(bgColor);
     }
 
     private void drawShips() {

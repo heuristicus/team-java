@@ -2,12 +2,15 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Unit;
 
+import Game.Game;
 import Weapon.Weapon;
-import java.awt.Shape;
+import java.awt.*;
 import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.geom.*;
 
 /**
  *
@@ -21,8 +24,8 @@ public abstract class Unit {
     protected Weapon weaponType;
     //protected int team;
     protected int pointValue;
-	protected int xCoord, yCoord;
-	protected Color color;
+    protected int xCoord, yCoord;
+    protected Color color;
 
     public Unit(int health, int speed, Shape shape, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         this.health = health;
@@ -30,37 +33,40 @@ public abstract class Unit {
         this.shape = shape;
         this.weaponType = weaponType;
         this.pointValue = pointValue;
-		this.xCoord = xCoord;
-		this.yCoord = yCoord;
-		this.color = color;
+        this.xCoord = xCoord;
+        this.yCoord = yCoord;
+        this.color = color;
     }
 
-	/**
-	* set/get methods for x/y coordinated and Unit color
-	* @author danielcecil
-	*/
-	public void setX(int newX){
-		xCoord = newX;
-	}
-	
-	public int getX(){
-		return xCoord;
-	}
-	
-	public void setY(int newY){
-		yCoord = newY;
-	}
-	
-	public int getY(){
-		return yCoord;
-	}
-	
-	public void setColor(Color newColor){
-		color = newColor;
-	}
-	
-	public Color getColor(){
-		return color;
-	}
-	
+    /**
+     * set/get methods for x/y coordinated and Unit color
+     * @author danielcecil
+     */
+    public void setX(int newX) {
+        xCoord = newX;
+    }
+
+    public int getX() {
+        return xCoord;
+    }
+
+    public void setY(int newY) {
+        yCoord = newY;
+    }
+
+    public int getY() {
+        return yCoord;
+    }
+
+    public void setColor(Color newColor) {
+        color = newColor;
+    }
+
+    public Color getColor() {
+        return color;
+    }
+
+    public abstract void draw(Graphics g);
+        
+
 }
