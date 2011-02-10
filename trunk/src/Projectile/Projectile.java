@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package B3.trunk.src.Projectile;
+package Projectile;
 
 import java.awt.Shape;
 

@@ -4,7 +4,7 @@
  */
 package GUIComponents;
 
-import B3.trunk.src.Game.Game;
+import Game.Game;
 import java.awt.Graphics;
 import java.awt.Color;
 import javax.swing.JPanel;

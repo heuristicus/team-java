@@ -5,8 +5,6 @@
 
 package Projectile;
 
-import B3.trunk.src.Projectile.Projectile;
-
 /**
  *
  * @author michal

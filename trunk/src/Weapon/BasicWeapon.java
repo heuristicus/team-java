@@ -5,8 +5,6 @@
 
 package Weapon;
 
-import B3.trunk.src.Weapon.Weapon;
-
 /**
  *
  * @author michal

@@ -5,7 +5,7 @@
 
 package Unit;
 
-import B3.trunk.src.Weapon.Weapon;
+import Weapon.Weapon;
 import java.awt.Shape;
 import java.awt.Color;
 
