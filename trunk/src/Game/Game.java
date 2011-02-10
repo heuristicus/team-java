@@ -27,6 +27,8 @@ public class Game {
     ArrayList<Projectile> projectiles;
 
     public Game() {
+        units = new ArrayList<Unit>();
+        projectiles = new ArrayList<Projectile>();
     }
 
     /**

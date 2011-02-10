@@ -103,6 +103,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      */
     public void mousePressed(MouseEvent e) {
         space = true;
+        System.out.println("space");
     }
 
     /**

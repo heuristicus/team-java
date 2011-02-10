@@ -5,9 +5,14 @@
 package GUIComponents;
 
 import Game.Game;
+import Unit.Player;
 import Unit.Unit;
+import Weapon.BasicWeapon;
+import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.util.ArrayList;
 import javax.swing.JPanel;
 
@@ -25,10 +30,15 @@ public class GamePanel extends JPanel {
     Game shootGame;
     JPanel gPanel;
 	Color bgColor = Color.BLACK;
+        Player one;
+        BasicWeapon base;
 //    Controls a;
 
     public GamePanel() {
+        base = new BasicWeapon();
         System.out.println("gamepanel constructor");
+        shootGame = new Game();
+        one = new Player(200, 200, base, 200, 20, 20, Color.BLUE);
  //     a = new Controls();
 
     }
@@ -49,6 +59,13 @@ public class GamePanel extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+      
+       // Polygon shipone = one.ship(g2);
+        g2.setColor(Color.green);
+      // g2.fill(ship
+        shootGame.addUnitToArray(one);
+        shootGame.getUnitArray().get(0).draw(g2);
         drawBackground();
         drawShips();
         drawProjectiles();
@@ -69,6 +86,10 @@ public class GamePanel extends JPanel {
          * For each unit call it's draw method passing Graphics g
          *
          */
+
+
+
+
     }
 
     private void drawProjectiles() {
