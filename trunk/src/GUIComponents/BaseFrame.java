@@ -39,10 +39,10 @@ public class BaseFrame extends JFrame{
      add("Center", new GamePanel());
      setSize(windowSize);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+     c = new Controls();     
      addKeyListener(c);
      addMouseListener(c);
      addMouseMotionListener(c);
-     c = new Controls();
      setEnabled(true);
      setVisible(true);
      //   initFrame();     
