@@ -32,7 +32,9 @@ public class GameTest {
     Unit enemy;
     Unit player;
     Projectile proj;
+    Projectile inF1;
     Projectile outF1;
+    Unit inF2;
     Unit outF2;
 
     public GameTest() {
@@ -54,6 +56,8 @@ public class GameTest {
         proj = new BasicProjectile(20, 20);
         outF1 = new BasicProjectile(-300, -300);
         outF2 = new DefaultUnit(-400, -400);
+        inF1 = new BasicProjectile(40, 40);
+        inF2 = new DefaultUnit(60, 60);
     }
 
     @After
@@ -110,18 +114,19 @@ public class GameTest {
     @Test
     public void testPruneUnitArray() {
         ArrayList<Unit> expUnit = new ArrayList<Unit>();
-        ArrayList<Projectile> expProj = new ArrayList<Projectile>();
-        g.addProjectileToArray(outF1);
-        g.addUnitToArray(outF2);
-        g.pruneArrays(new Dimension(800, 600));
-        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+        expUnit.add(inF2);
+        g.addUnitToArray(outF2); // adds a unit outside the bounds
+        g.addUnitToArray(inF2); // adds a unit inside the bounds
+        g.pruneUnitArray(800, 600);
         assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 
     @Test
     public void testPruneProjectileArray() {
         ArrayList<Projectile> expProj = new ArrayList<Projectile>();
-        g.addProjectileToArray(outF1);
+        expProj.add(inF1);
+        g.addProjectileToArray(outF1); // adds a projectile outside the bounds
+        g.addProjectileToArray(inF1); // adds a projectile inside the bounds
         g.pruneProjectileArray(800, 600);
         assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
     }
@@ -129,8 +134,16 @@ public class GameTest {
     @Test
     public void testPruneArray() {
         ArrayList<Unit> expUnit = new ArrayList<Unit>();
-        g.addUnitToArray(outF2);
-        g.pruneUnitArray(800, 600);
+        ArrayList<Projectile> expProj = new ArrayList<Projectile>();
+        expProj.add(inF1);
+        expUnit.add(inF2);
+        g.addProjectileToArray(outF1); // adds a projectile outside the bounds
+        g.addProjectileToArray(inF1); // adds a projectile inside the bounds
+        g.addUnitToArray(outF2); // adds a unit outside the bounds
+        g.addUnitToArray(inF2); // adds a unit inside the bounds
+        g.pruneArrays(new Dimension(800, 600));
+        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
         assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
+        
     }
 }

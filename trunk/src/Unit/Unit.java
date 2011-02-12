@@ -67,6 +67,10 @@ public abstract class Unit {
         return color;
     }
 
+    public Point getLocation(){
+        return new Point(xCoord, yCoord);
+    }
+
 //    public Polygon getShip() {
 //        return ship;
 //    }
