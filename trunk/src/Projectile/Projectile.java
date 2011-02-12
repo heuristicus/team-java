@@ -1,22 +1,45 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package Projectile;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Shape;
 
 /**
  *
- * @author michal
+ * @author Jere
  */
 public abstract class Projectile {
-// damage shape friend foe speed
+
     private int damage;
     private Shape shape;
     private boolean enemy;
     private int speed;
+    private Color color;
     
+    public Projectile(int damage, int speed, boolean enemy, Shape shape, Color color)
+    {
+        this.damage = damage;
+        this.enemy = enemy;
+        this.speed = speed;
+        this.shape = shape;
+        this.color = color;
+    }
 
+    // Accessory methods.
+    public int getDamage() { return damage; }
+    public Shape getShape() { return shape; }
+    public boolean getEnemy() { return enemy; }
+    public int getSpeed() { return speed; }
+    public Color getColor() { return color; }
+
+    public void setShape(Shape shape) { this.shape = shape; }
+
+    // Abstract methods.
+    public abstract void move(int x, int y);
+
+    // Rendering methods.
+    public void draw(Graphics2D g2)
+    {
+        g2.fill(shape);
+    }
 }
