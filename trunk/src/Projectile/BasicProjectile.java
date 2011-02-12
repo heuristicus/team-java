@@ -11,8 +11,6 @@ public class BasicProjectile extends Projectile{
 
     final int HEIGHT = 5;
     final int WIDTH = 1;
-    int x;
-    int y;
 
     public BasicProjectile(int x, int y)
     {

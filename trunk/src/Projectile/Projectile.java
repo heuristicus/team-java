@@ -13,7 +13,7 @@ public abstract class Projectile {
 
     private int damage;
     private Shape shape;
-    private boolean enemy;
+    private boolean isEnemy;
     private int speed;
     private Color color;
     private int x;
@@ -21,8 +21,10 @@ public abstract class Projectile {
     
     public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color)
     {
+        this.x = x;
+        this.y = y;
         this.damage = damage;
-        this.enemy = enemy;
+        this.isEnemy = enemy;
         this.speed = speed;
         this.shape = shape;
         this.color = color;
@@ -31,7 +33,7 @@ public abstract class Projectile {
     // Accessory methods.
     public int getDamage() { return damage; }
     public Shape getShape() { return shape; }
-    public boolean getEnemy() { return enemy; }
+    public boolean isEnemy() { return isEnemy; }
     public int getSpeed() { return speed; }
     public Color getColor() { return color; }
     public Point getLocation(){ return new Point(x,y); }
