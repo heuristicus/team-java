@@ -4,11 +4,13 @@
  */
 package Game;
 
+import java.awt.Dimension;
 import java.awt.Color;
 import Unit.Enemy;
 import Projectile.Projectile;
 import Unit.Unit;
 import Projectile.BasicProjectile;
+import Unit.DefaultUnit;
 import Unit.Player;
 import Weapon.BasicWeapon;
 import java.awt.geom.Rectangle2D;
@@ -28,8 +30,10 @@ public class GameTest {
 
     Game g;
     Unit enemy;
-    Player player;
+    Unit player;
     Projectile proj;
+    Projectile outF1;
+    Unit outF2;
 
     public GameTest() {
     }
@@ -45,9 +49,11 @@ public class GameTest {
     @Before
     public void setUp() {
         g = new Game();
-        enemy = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20, 10,10, Color.red);
+        enemy = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20, 10, 10, Color.red);
         player = new Player(300, 200, new BasicWeapon(), 0, 40, 40, Color.green);
-        proj = new BasicProjectile();
+        proj = new BasicProjectile(20, 20);
+        outF1 = new BasicProjectile(-300, -300);
+        outF2 = new DefaultUnit(-400, -400);
     }
 
     @After
@@ -58,38 +64,16 @@ public class GameTest {
     }
 
     /**
-     * Test of addUnitToArray method, of class Game.
+     * Array getter methods should be tested first, since if they don't work
+     * properly, everything else is going to be broken as well, probably.
      */
-    @Test
-    public void testAddUnitToArray() {
-        
-    }
-
-    /**
-     * Test of addProjectileToArray method, of class Game.
-     */
-    @Test
-    public void testAddProjectileToArray() {
-        System.out.println("addProjectileToArray");
-        Projectile addProjectile = null;
-        Game instance = new Game();
-        instance.addProjectileToArray(addProjectile);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
     /**
      * Test of getUnitArray method, of class Game.
      */
     @Test
     public void testGetUnitArray() {
-        System.out.println("getUnitArray");
-        Game instance = new Game();
-        ArrayList expResult = null;
-        ArrayList result = instance.getUnitArray();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Unit> expRes = new ArrayList<Unit>();
+        assertArrayEquals(expRes.toArray(), g.getUnitArray().toArray());
     }
 
     /**
@@ -97,12 +81,56 @@ public class GameTest {
      */
     @Test
     public void testGetProjectileArray() {
-        System.out.println("getProjectileArray");
-        Game instance = new Game();
-        ArrayList expResult = null;
-        ArrayList result = instance.getProjectileArray();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        ArrayList<Projectile> expRes = new ArrayList<Projectile>();
+        assertArrayEquals(expRes.toArray(), g.getProjectileArray().toArray());
+    }
+
+    /**
+     * Test of addUnitToArray method, of class Game.
+     */
+    @Test
+    public void testAddUnitToArray() {
+        ArrayList<Unit> expArray = new ArrayList<Unit>();
+        expArray.add(player);
+        g.addUnitToArray(player);
+        assertArrayEquals(expArray.toArray(), g.getUnitArray().toArray());
+    }
+
+    /**
+     * Test of addProjectileToArray method, of class Game.
+     */
+    @Test
+    public void testAddProjectileToArray() {
+        ArrayList<Projectile> expArray = new ArrayList<Projectile>();
+        expArray.add(proj);
+        g.addProjectileToArray(proj);
+        assertArrayEquals(expArray.toArray(), g.getProjectileArray().toArray());
+    }
+
+    @Test
+    public void testPruneUnitArray() {
+        ArrayList<Unit> expUnit = new ArrayList<Unit>();
+        ArrayList<Projectile> expProj = new ArrayList<Projectile>();
+        g.addProjectileToArray(outF1);
+        g.addUnitToArray(outF2);
+        g.pruneArrays(new Dimension(800, 600));
+        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+        assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
+    }
+
+    @Test
+    public void testPruneProjectileArray() {
+        ArrayList<Projectile> expProj = new ArrayList<Projectile>();
+        g.addProjectileToArray(outF1);
+        g.pruneProjectileArray(800, 600);
+        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+    }
+
+    @Test
+    public void testPruneArray() {
+        ArrayList<Unit> expUnit = new ArrayList<Unit>();
+        g.addUnitToArray(outF2);
+        g.pruneUnitArray(800, 600);
+        assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 }
