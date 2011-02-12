@@ -4,11 +4,12 @@
  */
 package Game;
 
-import B3.trunk.src.Unit.Enemy;
-import B3.trunk.src.Game.Game;
-import B3.trunk.src.Projectile.Projectile;
-import B3.trunk.src.Unit.Unit;
+import java.awt.Color;
+import Unit.Enemy;
+import Projectile.Projectile;
+import Unit.Unit;
 import Projectile.BasicProjectile;
+import Unit.Player;
 import Weapon.BasicWeapon;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
@@ -26,8 +27,9 @@ import static org.junit.Assert.*;
 public class GameTest {
 
     Game g;
-    Unit u;
-    Projectile p;
+    Unit enemy;
+    Player player;
+    Projectile proj;
 
     public GameTest() {
     }
@@ -43,15 +45,16 @@ public class GameTest {
     @Before
     public void setUp() {
         g = new Game();
-        u = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20);
-        p = new BasicProjectile();
+        enemy = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20, 10,10, Color.red);
+        player = new Player(300, 200, new BasicWeapon(), 0, 40, 40, Color.green);
+        proj = new BasicProjectile();
     }
 
     @After
     public void tearDown() {
         g = null;
-        u = null;
-        p = null;
+        enemy = null;
+        proj = null;
     }
 
     /**

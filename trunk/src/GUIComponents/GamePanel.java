@@ -29,9 +29,9 @@ public class GamePanel extends JPanel {
      */
     Game shootGame;
     JPanel gPanel;
-	Color bgColor = Color.BLACK;
-        Player one;
-        BasicWeapon base;
+    Color bgColor = Color.BLACK;
+    Player one;
+    BasicWeapon base;
 //    Controls a;
 
     public GamePanel() {
@@ -39,7 +39,7 @@ public class GamePanel extends JPanel {
         System.out.println("gamepanel constructor");
         shootGame = new Game();
         one = new Player(200, 200, base, 200, 20, 20, Color.BLUE);
- //     a = new Controls();
+        //     a = new Controls();
 
     }
 
@@ -60,10 +60,10 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
-      
-       // Polygon shipone = one.ship(g2);
+        shootGame.pruneArrays(this.getSize());
+        // Polygon shipone = one.ship(g2);
         g2.setColor(Color.green);
-      // g2.fill(ship
+        // g2.fill(ship
         shootGame.addUnitToArray(one);
         shootGame.getUnitArray().get(0).draw(g2);
         drawBackground();
@@ -76,7 +76,7 @@ public class GamePanel extends JPanel {
      * Draws the background
      */
     private void drawBackground() {
-	// gPanel.setBackground(bgColor);
+        // gPanel.setBackground(bgColor);
         // Background now set in BaseFrame
     }
 
@@ -86,10 +86,6 @@ public class GamePanel extends JPanel {
          * For each unit call it's draw method passing Graphics g
          *
          */
-
-
-
-
     }
 
     private void drawProjectiles() {

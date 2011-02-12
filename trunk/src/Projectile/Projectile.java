@@ -2,6 +2,7 @@ package Projectile;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Shape;
 
 /**
@@ -15,8 +16,10 @@ public abstract class Projectile {
     private boolean enemy;
     private int speed;
     private Color color;
+    private int x;
+    private int y;
     
-    public Projectile(int damage, int speed, boolean enemy, Shape shape, Color color)
+    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color)
     {
         this.damage = damage;
         this.enemy = enemy;
@@ -31,6 +34,7 @@ public abstract class Projectile {
     public boolean getEnemy() { return enemy; }
     public int getSpeed() { return speed; }
     public Color getColor() { return color; }
+    public Point getLocation(){ return new Point(x,y); }
 
     public void setShape(Shape shape) { this.shape = shape; }
 

@@ -7,6 +7,7 @@ package Game;
 
 import Projectile.Projectile;
 import Unit.Unit;
+import java.awt.Dimension;
 import java.util.ArrayList;
 
 /**
@@ -29,6 +30,26 @@ public class Game {
     public Game() {
         units = new ArrayList<Unit>();
         projectiles = new ArrayList<Projectile>();
+    }
+
+    /**
+     * Prunes the unit and projectile arrays to remove objects that are no longer
+     * in the field of play.
+     */
+    public void pruneArrays(Dimension frameSize){
+        // TODO Decide on some kind of range outside the frame in which we keep objects
+        int height = frameSize.height;
+        int width = frameSize.width;
+        pruneUnitArray(height, width);
+        pruneProjectileArray(height, width);
+    }
+
+    public void pruneUnitArray(int height, int width) {
+
+    }
+
+    public void pruneProjectileArray(int height, int width){
+        
     }
 
     /**
