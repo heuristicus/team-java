@@ -11,7 +11,7 @@ public class BasicWeapon extends Weapon {
 
     public BasicWeapon()
     {
-        super(new BasicProjectile(), 20);
+        super(new BasicProjectile(10,10), 20);
     }
 
     @Override

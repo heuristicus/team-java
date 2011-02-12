@@ -14,11 +14,11 @@ public class BasicProjectile extends Projectile{
     int x;
     int y;
 
-    public BasicProjectile()
+    public BasicProjectile(int x, int y)
     {
         // FIXME Need to check the values for speed, damage, etc.
-        super (20,20,10, 100, false,
-                new Line2D.Double(0,0,1,5),
+        super (x,y,10, 100, false,
+                new Line2D.Double(x,y,1,5),
                 Color.RED);
     }
 
