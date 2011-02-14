@@ -4,6 +4,7 @@
  */
 package GUIComponents;
 
+import Controls.Controls;
 import Game.Game;
 import Unit.Player;
 import Unit.Unit;
@@ -32,15 +33,20 @@ public class GamePanel extends JPanel {
     Color bgColor = Color.BLACK;
     Player one;
     BasicWeapon base;
-//    Controls a;
+    int player1_x = 500;
+    int player1_y = 500;
+    Controls a;
 
     public GamePanel() {
         base = new BasicWeapon();
         System.out.println("gamepanel constructor");
         shootGame = new Game();
-        one = new Player(200, 200, base, 200, 20, 20, Color.BLUE);
-        //     a = new Controls();
-
+        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
+        a = new Controls();
+        setFocusable(true);
+        addMouseListener(a);
+        addKeyListener(a);
+        addMouseMotionListener(a);
     }
 
     /**
@@ -59,9 +65,13 @@ public class GamePanel extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
+        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
         // Polygon shipone = one.ship(g2);
+        movement();
         g2.setColor(Color.green);
         // g2.fill(ship
         shootGame.addUnitToArray(one);
@@ -69,6 +79,7 @@ public class GamePanel extends JPanel {
         drawBackground();
         drawShips();
         drawProjectiles();
+        repaint();
 
     }
 
@@ -86,6 +97,25 @@ public class GamePanel extends JPanel {
          * For each unit call it's draw method passing Graphics g
          *
          */
+    }
+
+    private void movement() {
+        player1_x = a.getMouseX();
+        player1_y = a.getMouseY();
+
+
+//        if () {
+//            y1 -= 1;
+//        }
+//        if (down) {
+//            y1 += 1;
+//        }
+//        if (left) {
+//            x1 -= 1;
+//        }
+//        if (right) {
+//            x1 += 1;
+//        }
     }
 
     private void drawProjectiles() {

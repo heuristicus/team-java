@@ -33,18 +33,18 @@ public class BaseFrame extends JFrame{
 
    // JFrame bFrame;
     Dimension windowSize;
-    Controls c;
+  //  Controls c;
 
     public BaseFrame(Dimension windowSize) {
      this.windowSize = windowSize;
      add("Center", new GamePanel());
      setSize(windowSize);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     c = new Controls();     
-     addKeyListener(c);
-     addMouseListener(c);
-     addMouseMotionListener(c);
-     setBackground(Color.BLACK);
+//     c = new Controls();
+//     addKeyListener(c);
+//     addMouseListener(c);
+//     addMouseMotionListener(c);
+//     setBackground(Color.BLACK);
      setEnabled(true);
      setVisible(true);
      //   initFrame();     
