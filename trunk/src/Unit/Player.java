@@ -4,26 +4,18 @@
  */
 package Unit;
 
-import Game.Game;
 import Weapon.Weapon;
-import java.awt.Shape;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
-import java.awt.geom.Point2D;
 
 /**
  *
  * @author michal
  */
 public class Player extends Unit {
-
-    public static void main(String[] args) {
-        Player p = new Player(1, 2, null, 3, 0, 0, Color.GREEN);
-    }
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);

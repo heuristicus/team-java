@@ -18,11 +18,6 @@ import java.awt.geom.Path2D;
  */
 public class Enemy extends Unit {
 
-    public static void main(String[] args) {
-        Enemy p = new Enemy(1, 2, null, null, 3, 0, 0, Color.RED);
-        Player r = new Player(4, 5, null, 6, 0, 0, Color.GREEN);
-    }
-
     public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
         check();
