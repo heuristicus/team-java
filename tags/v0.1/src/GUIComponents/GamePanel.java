@@ -85,7 +85,7 @@ public class GamePanel extends JPanel {
         // Polygon shipone = one.ship(g2);
         movement();
         g2.setColor(Color.green);
-        one.setLocation(player1_x, player1_y);
+        one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         shootGame.addUnitToArray(one);
         try {
