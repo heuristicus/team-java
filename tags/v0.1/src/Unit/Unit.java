@@ -64,9 +64,15 @@ public abstract class Unit {
         return color;
     }
 
+    public void setLocation(Point newLoc){
+        xCoord = newLoc.x;
+        yCoord = newLoc.y;
+    }
+
     public Point getLocation(){
         return new Point(xCoord, yCoord);
     }
+
 
 //    public Polygon getShip() {
 //        return ship;
