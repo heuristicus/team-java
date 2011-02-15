@@ -27,6 +27,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     boolean space = false; // True if the ship is to fire
     int mouseX; // Current mouse X position
     int mouseY; // Currrent Mouse Y position
+    boolean mouse = false;//if mouse is being used or not
 
     /**
      * Sout in constructor to inform if the controls are enabled
@@ -72,6 +73,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void keyReleased(KeyEvent e) {
+        mouse = false;
         if (e.getKeyCode() == 40) {//down
             down = false;
         }
@@ -120,6 +122,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void mouseEntered(MouseEvent e) {
+        mouse = true;
         mouseX = e.getX();
         mouseY = e.getY();
     }
@@ -136,6 +139,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void mouseDragged(MouseEvent e) {
+        mouse = true;
         mouseX = e.getX();
         mouseY = e.getY();
     }
@@ -145,6 +149,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void mouseMoved(MouseEvent e) {
+        mouse = true;
         mouseX = e.getX();
         mouseY = e.getY();
         System.out.println("x= " + mouseX);
@@ -194,5 +199,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         return up;
     }
 
-
+    public boolean isMouse() {
+        return mouse;
+    }
 }

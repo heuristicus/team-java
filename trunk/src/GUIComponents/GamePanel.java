@@ -35,6 +35,7 @@ public class GamePanel extends JPanel {
     int player1_x = 500;
     int player1_y = 500;
     Controls a;
+    Boolean mouse; //if mouse is being used or not
 
     public GamePanel() {
         base = new BasicWeapon();
@@ -47,6 +48,8 @@ public class GamePanel extends JPanel {
         addKeyListener(a);
         addMouseMotionListener(a);
         hideMouse();
+        mouse = a.isMouse();
+
     }
 
     /**
@@ -58,9 +61,10 @@ public class GamePanel extends JPanel {
 //        gPanel.addKeyListener(a);
 //        gPanel.addMouseMotionListener(a);
     }
-/**
- * Code that hides the mouse pointer
- */
+
+    /**
+     * Code that hides the mouse pointer
+     */
     public void hideMouse() {
         ImageIcon invisi = new ImageIcon(new byte[0]);
         Cursor invisible = getToolkit().createCustomCursor(
@@ -82,6 +86,7 @@ public class GamePanel extends JPanel {
         movement();
         g2.setColor(Color.green);
         one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
+        mouse = a.isMouse();
         shootGame.addUnitToArray(one);
         try {
             shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
@@ -113,10 +118,28 @@ public class GamePanel extends JPanel {
          *
          */
     }
-
+/**
+ * used to control the movement
+ */
     private void movement() {
-        player1_x = a.getMouseX();
-        player1_y = a.getMouseY();
+
+        if (mouse) {
+            player1_x = a.getMouseX();
+            player1_y = a.getMouseY();
+        } else {
+            if (a.isUp()) {
+                player1_y -= 1;
+            }
+            if (a.isDown()) {
+                player1_y += 1;
+            }
+            if (a.isLeft()) {
+                player1_x -= 1;
+            }
+            if (a.isRight()) {
+                player1_x += 1;
+            }
+        }
     }
 
     private void drawProjectiles() {
