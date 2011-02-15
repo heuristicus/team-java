@@ -39,6 +39,8 @@ public abstract class Projectile {
     public Point getLocation(){ return new Point(x,y); }
 
     public void setShape(Shape shape) { this.shape = shape; }
+    public void setX(int x) { this.x = x; }
+    public void setY(int y) { this.y = y; }
 
     // Abstract methods.
     public abstract void move(int x, int y);

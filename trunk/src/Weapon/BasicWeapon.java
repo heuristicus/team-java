@@ -1,6 +1,6 @@
 package Weapon;
 
-import Projectile.BasicProjectile;
+import Projectile.*;
 import java.awt.Graphics2D;
 
 /**
@@ -11,7 +11,7 @@ public class BasicWeapon extends Weapon {
 
     public BasicWeapon()
     {
-        super(new BasicProjectile(10,10), 20);
+        super(new BasicProjectile(10,10), 10);
     }
 
     @Override
@@ -20,6 +20,16 @@ public class BasicWeapon extends Weapon {
         {
             projectile.move(x,y-i);
             projectile.draw(g);
+        }
+    }
+    // Mostly for testing purposes.
+    public void fire(int x, int y) {
+        System.out.println("Fired!");
+        System.out.println(super.range*10);
+        for(int i = 0; i <= super.range*10;i++)
+        {
+            if(y-i > 0)
+            projectile.move(x,y-i);
         }
     }
 

@@ -22,6 +22,7 @@ public abstract class Weapon {
     // Accessory methods
     public int getRange() { return range; }
     public int getDamage() { return projectile.getDamage(); }
+    public Projectile getProjectile() { return projectile; }
 
     // Abstract methods.
     public abstract void fire(Graphics2D g, int x, int y);
