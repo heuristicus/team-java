@@ -6,6 +6,7 @@ package GUIComponents;
 
 import Controls.Controls;
 import Game.Game;
+import Projectile.Projectile;
 import Unit.Player;
 import Weapon.BasicWeapon;
 import java.awt.Graphics;
@@ -99,7 +100,7 @@ public class GamePanel extends JPanel {
         }
         drawBackground();
         drawShips();
-        drawProjectiles();
+        drawProjectiles(g2);
         repaint();
     }
 
@@ -118,6 +119,14 @@ public class GamePanel extends JPanel {
          *
          */
     }
+
+    private void drawProjectiles(Graphics2D g2) {
+        for (Projectile p : shootGame.getProjectileArray()) {
+            p.doMove();
+            p.draw(g2);
+        }
+    }
+
 /**
  * used to control the movement
  */
@@ -142,6 +151,5 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void drawProjectiles() {
-    }
+    
 }

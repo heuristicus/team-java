@@ -26,4 +26,9 @@ public class BasicProjectile extends Projectile{
         super.setY(y);
         super.setShape(new Line2D.Double(x, y, WIDTH, HEIGHT));
     }
+
+    @Override
+    public void doMove() {
+        
+    }
 }

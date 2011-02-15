@@ -23,6 +23,4 @@ public class SpaceRunner {
         BaseFrame baseFrame = new BaseFrame(DEFAULT_WINDOW_SIZE);
     }
 
-
-
 }
