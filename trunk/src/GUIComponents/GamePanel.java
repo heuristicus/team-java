@@ -7,14 +7,13 @@ package GUIComponents;
 import Controls.Controls;
 import Game.Game;
 import Unit.Player;
-import Unit.Unit;
 import Weapon.BasicWeapon;
-import com.sun.org.apache.xpath.internal.axes.OneStepIterator;
 import java.awt.Graphics;
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Graphics2D;
-import java.awt.Polygon;
-import java.util.ArrayList;
+import java.awt.Point;
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 /**
@@ -47,6 +46,7 @@ public class GamePanel extends JPanel {
         addMouseListener(a);
         addKeyListener(a);
         addMouseMotionListener(a);
+        hideMouse();
     }
 
     /**
@@ -57,6 +57,15 @@ public class GamePanel extends JPanel {
 //        gPanel.addMouseListener(a);
 //        gPanel.addKeyListener(a);
 //        gPanel.addMouseMotionListener(a);
+    }
+/**
+ * Code that hides the mouse pointer
+ */
+    public void hideMouse() {
+        ImageIcon invisi = new ImageIcon(new byte[0]);
+        Cursor invisible = getToolkit().createCustomCursor(
+                invisi.getImage(), new Point(0, 0), "Hiding");
+        this.setCursor(invisible);
     }
 
     /**
@@ -69,18 +78,24 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
-        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
         // Polygon shipone = one.ship(g2);
         movement();
         g2.setColor(Color.green);
-        // g2.fill(ship
+        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
         shootGame.addUnitToArray(one);
-        shootGame.getUnitArray().get(0).draw(g2);
+        try {
+            shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            try {
+                Thread.sleep(100);
+            } catch (InterruptedException ex) {
+            }
+        }
         drawBackground();
         drawShips();
         drawProjectiles();
         repaint();
-
     }
 
     /**
@@ -102,20 +117,6 @@ public class GamePanel extends JPanel {
     private void movement() {
         player1_x = a.getMouseX();
         player1_y = a.getMouseY();
-
-
-//        if () {
-//            y1 -= 1;
-//        }
-//        if (down) {
-//            y1 += 1;
-//        }
-//        if (left) {
-//            x1 -= 1;
-//        }
-//        if (right) {
-//            x1 += 1;
-//        }
     }
 
     private void drawProjectiles() {

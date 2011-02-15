@@ -109,4 +109,11 @@ public class Game {
     public ArrayList<Projectile> getProjectileArray() {
         return projectiles;
     }
+/**
+ * Returns the unit array size to be used in the game panel class
+ * @return
+ */
+    public int getUnitArrayLength(){
+        return units.size();
+    }
 }
