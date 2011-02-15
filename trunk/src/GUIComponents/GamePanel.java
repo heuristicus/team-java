@@ -14,6 +14,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
@@ -42,7 +43,7 @@ public class GamePanel extends JPanel {
         base = new BasicWeapon();
         System.out.println("gamepanel constructor");
         shootGame = new Game();
-        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.BLUE);
+        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         setFocusable(true);
         addMouseListener(a);
@@ -81,6 +82,8 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
+        RenderingHints.VALUE_ANTIALIAS_ON);
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
         // Polygon shipone = one.ship(g2);

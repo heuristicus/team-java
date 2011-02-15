@@ -48,22 +48,27 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         // System.out.println("press");
         if (e.getKeyCode() == 40) {//down
             down = true;
+            currentKey = 40;
             System.out.println("down");
         }
         if (e.getKeyCode() == 37) {//left
             left = true;
+            currentKey = 37;
             System.out.println("left");
         }
         if (e.getKeyCode() == 38) {//up
             up = true;
+            currentKey = 38;
             System.out.println("up");
         }
         if (e.getKeyCode() == 39) {//right
             right = true;
+            currentKey = 39;
             System.out.println("right");
         }
         if (e.getKeyCode() == 32) {//space
             space = true;
+            currentKey = 32;
             System.out.println("space");
         }
     }
@@ -76,6 +81,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         mouse = false;
         if (e.getKeyCode() == 40) {//down
             down = false;
+
         }
         if (e.getKeyCode() == 37) {//left
             left = false;
