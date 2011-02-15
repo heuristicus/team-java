@@ -121,7 +121,7 @@ public class GamePanel extends JPanel {
     }
 
     private void drawProjectiles(Graphics2D g2) {
-        for (Projectile p : shootGame.getProjectileArray()){
+        for (Projectile p : shootGame.getProjectileArray()) {
             p.doMove();
             p.draw(g2);
         }
