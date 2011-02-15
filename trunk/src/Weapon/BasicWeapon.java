@@ -24,8 +24,6 @@ public class BasicWeapon extends Weapon {
     }
     // Mostly for testing purposes.
     public void fire(int x, int y) {
-        System.out.println("Fired!");
-        System.out.println(super.range*10);
         for(int i = 0; i <= super.range*10;i++)
         {
             if(y-i > 0)
