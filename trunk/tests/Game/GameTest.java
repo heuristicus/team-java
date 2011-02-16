@@ -48,23 +48,41 @@ public class GameTest {
     public static void tearDownClass() throws Exception {
     }
 
+    /**
+     */
     @Before
     public void setUp() {
-        g = new Game();
+        g = new Game(); // game object
+        // Enemy
         enemy = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20, 10, 10, Color.red);
+        // Player
         player = new Player(300, 200, new BasicWeapon(), 0, 40, 40, Color.green);
+        // Projectile
         proj = new BasicProjectile(20, 20);
+        // Projectile outside the bounds of a normal frame
         outF1 = new BasicProjectile(-300, -300);
+        // Unit outside the bounds of a normal frame.
         outF2 = new DefaultUnit(-400, -400);
+        // Projectile inside normal frame bounds.
         inF1 = new BasicProjectile(40, 40);
+        // Unit inside normal frame bounds.
         inF2 = new DefaultUnit(60, 60);
     }
 
+    /**
+     * Sets all values used to null, to ensure that we're not using objects that
+     * were modified by previous tests.
+     */
     @After
     public void tearDown() {
         g = null;
         enemy = null;
         proj = null;
+        player = null;
+        inF1 = null;
+        outF1 = null;
+        inF2 = null;
+        outF2 = null;
     }
 
     /**
@@ -73,6 +91,8 @@ public class GameTest {
      */
     /**
      * Test of getUnitArray method, of class Game.
+     * Tests that the initial array in the game class is the same as one created
+     * here.
      */
     @Test
     public void testGetUnitArray() {
@@ -82,6 +102,8 @@ public class GameTest {
 
     /**
      * Test of getProjectileArray method, of class Game.
+     * Checks that the initial array created by the game class is the same as
+     * one created in this class.
      */
     @Test
     public void testGetProjectileArray() {
@@ -91,6 +113,8 @@ public class GameTest {
 
     /**
      * Test of addUnitToArray method, of class Game.
+     * Adds a unit to the array created here, and one to the array created in
+     * the game class, and then checks that these arrays contain the same items.
      */
     @Test
     public void testAddUnitToArray() {
@@ -102,6 +126,8 @@ public class GameTest {
 
     /**
      * Test of addProjectileToArray method, of class Game.
+     * Adds a projectile to the array here, and to the array in game, and checks that
+     * they are equal.
      */
     @Test
     public void testAddProjectileToArray() {
@@ -111,6 +137,12 @@ public class GameTest {
         assertArrayEquals(expArray.toArray(), g.getProjectileArray().toArray());
     }
 
+    /**
+     * Checks whether the prune units method works correctly. Adds two units to the
+     * game array, one inside the bounding box, and one outside, prunes the array,
+     * and then checks to see if it is the same as the one here, which contains only
+     * the unit that is inside the bounds.
+     */
     @Test
     public void testPruneUnitArray() {
         ArrayList<Unit> expUnit = new ArrayList<Unit>();
@@ -121,6 +153,12 @@ public class GameTest {
         assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 
+    /**
+     * Checks whether the prune projectiles method works correctly. Adds two projectiles to the
+     * game array, one inside the bounding box, and one outside, prunes the array,
+     * and then checks to see if it is the same as the one here, which contains only
+     * the projectile that is inside the bounds.
+     */
     @Test
     public void testPruneProjectileArray() {
         ArrayList<Projectile> expProj = new ArrayList<Projectile>();
@@ -131,6 +169,11 @@ public class GameTest {
         assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
     }
 
+    /**
+     * Tests that the pruneArray method works correctly. Does essentially the same
+     * stuff as the individual test methods, but adds to both arrays at once, and
+     * ensures that they are both pruned by the method once it is called.
+     */
     @Test
     public void testPruneArray() {
         ArrayList<Unit> expUnit = new ArrayList<Unit>();
@@ -144,6 +187,6 @@ public class GameTest {
         g.pruneArrays(new Dimension(800, 600));
         assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
         assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
-        
+
     }
 }
