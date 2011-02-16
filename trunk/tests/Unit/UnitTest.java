@@ -47,6 +47,7 @@ public class UnitTest {
         System.out.println("setX");
         int newX = 50;
         instance.setX(newX);
+        assertEquals(newX, instance.getX());
 
     }
 
@@ -70,6 +71,7 @@ public class UnitTest {
         int newY = 50;
         
         instance.setY(newY);
+        assertEquals(newY,instance.getY());
     }
 
     /**
@@ -91,8 +93,9 @@ public class UnitTest {
     public void testSetColor() {
         System.out.println("setColor");
         Color newColor = Color.RED;
-        
+
         instance.setColor(newColor);
+        assertEquals(newColor, instance.getColor());
     }
 
     /**
@@ -114,8 +117,8 @@ public class UnitTest {
     public void testSetLocation() {
         System.out.println("setLocation");
         Point newLoc = new Point(50,50);
-        
         instance.setLocation(newLoc);
+        assertEquals(newLoc, instance.getLocation());
     }
 
     /**
