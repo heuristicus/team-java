@@ -18,11 +18,11 @@ import java.awt.geom.Path2D;
  */
 public class Enemy extends Unit {
 
-    Shape shape;
 
-    public Enemy(int health, int speed, Shape shape, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
+
+    public Enemy(int health, int speed,  Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-        this.shape = shape;
+        
         check();
     }
 
@@ -47,11 +47,4 @@ public class Enemy extends Unit {
         g_.fill(a);
     }
 
-    public void setShape(Shape s){
-        shape = s;
-    }
-
-    public Shape getShape(){
-        return shape;
-    }
 }
