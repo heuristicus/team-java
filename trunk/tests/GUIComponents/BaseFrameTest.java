@@ -5,6 +5,7 @@
 
 package GUIComponents;
 
+import java.awt.Dimension;
 import GUIComponents.BaseFrame;
 import javax.swing.JPanel;
 import org.junit.After;
@@ -17,6 +18,7 @@ import static org.junit.Assert.*;
 /**
  *
  * @author michal
+ * @modified David
  */
 public class BaseFrameTest {
 
@@ -45,11 +47,11 @@ public class BaseFrameTest {
     @Test
     public void testAddPanel() {
         System.out.println("addPanel");
-        JPanel addPanel = null;
-        BaseFrame instance = null;
+        Dimension DEFAULT_WINDOW_SIZE = new Dimension(800, 600);
+        JPanel addPanel = new GamePanel();
+        BaseFrame instance = new BaseFrame(DEFAULT_WINDOW_SIZE);
         instance.addPanel(addPanel);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        assertNotNull(instance);       
     }
 
 }

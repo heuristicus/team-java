@@ -6,13 +6,8 @@ package Game;
 
 import java.awt.Dimension;
 import java.awt.Color;
-import Unit.Enemy;
-import Projectile.Projectile;
-import Unit.Unit;
-import Projectile.BasicProjectile;
 import Unit.DefaultUnit;
 import Unit.Player;
-import Weapon.BasicWeapon;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import Projectile.BasicProjectile;
@@ -23,9 +18,11 @@ import Weapon.BasicWeapon;
 import org.junit.*;
 
 
+
 /**
  *
  * @author michal
+ * @modified
  */
 public class GameTest {
 
@@ -55,7 +52,7 @@ public class GameTest {
     public void setUp() {
         g = new Game(); // game object
         // Enemy
-        enemy = new Enemy(300, 100, new Rectangle2D.Double(), new BasicWeapon(), 20, 10, 10, Color.red);
+        enemy = new Enemy(300, 100, new BasicWeapon(), 20, 10, 10, Color.red);
         // Player
         player = new Player(300, 200, new BasicWeapon(), 0, 40, 40, Color.green);
         // Projectile
@@ -98,7 +95,7 @@ public class GameTest {
     @Test
     public void testGetUnitArray() {
         ArrayList<Unit> expRes = new ArrayList<Unit>();
-        assertArrayEquals(expRes.toArray(), g.getUnitArray().toArray());
+        org.junit.Assert.assertArrayEquals(expRes.toArray(), g.getUnitArray().toArray());
     }
 
     /**
@@ -109,7 +106,7 @@ public class GameTest {
     @Test
     public void testGetProjectileArray() {
         ArrayList<Projectile> expRes = new ArrayList<Projectile>();
-        assertArrayEquals(expRes.toArray(), g.getProjectileArray().toArray());
+        org.junit.Assert.assertArrayEquals(expRes.toArray(), g.getProjectileArray().toArray());
     }
 
     /**
@@ -122,7 +119,7 @@ public class GameTest {
         ArrayList<Unit> expArray = new ArrayList<Unit>();
         expArray.add(player);
         g.addUnitToArray(player);
-        assertArrayEquals(expArray.toArray(), g.getUnitArray().toArray());
+        org.junit.Assert.assertArrayEquals(expArray.toArray(), g.getUnitArray().toArray());
     }
 
     /**
@@ -135,7 +132,7 @@ public class GameTest {
         ArrayList<Projectile> expArray = new ArrayList<Projectile>();
         expArray.add(proj);
         g.addProjectileToArray(proj);
-        assertArrayEquals(expArray.toArray(), g.getProjectileArray().toArray());
+        org.junit.Assert.assertArrayEquals(expArray.toArray(), g.getProjectileArray().toArray());
     }
 
     /**
@@ -151,7 +148,7 @@ public class GameTest {
         g.addUnitToArray(outF2); // adds a unit outside the bounds
         g.addUnitToArray(inF2); // adds a unit inside the bounds
         g.pruneUnitArray(800, 600);
-        assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
+        org.junit.Assert.assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 
     /**
@@ -167,7 +164,7 @@ public class GameTest {
         g.addProjectileToArray(outF1); // adds a projectile outside the bounds
         g.addProjectileToArray(inF1); // adds a projectile inside the bounds
         g.pruneProjectileArray(800, 600);
-        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+        org.junit.Assert.assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
     }
 
     /**
@@ -186,8 +183,8 @@ public class GameTest {
         g.addUnitToArray(outF2); // adds a unit outside the bounds
         g.addUnitToArray(inF2); // adds a unit inside the bounds
         g.pruneArrays(new Dimension(800, 600));
-        assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
-        assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
+        org.junit.Assert.assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+        org.junit.Assert.assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
 
     }
 }

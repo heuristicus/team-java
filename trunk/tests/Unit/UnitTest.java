@@ -1,4 +1,3 @@
-
 package Unit;
 
 import java.awt.Color;
@@ -15,12 +14,14 @@ import static org.junit.Assert.*;
 /**
  *
  * @author Jere
+ * @modified David
  */
 public class UnitTest {
 
     Unit instance;
+
     public UnitTest() {
-       instance = new Player(100, 100, new BasicWeapon(), 100, 100, 100, Color.BLUE);
+        instance = new Player(100, 100, new BasicWeapon(), 100, 100, 100, Color.BLUE);
     }
 
     @BeforeClass
@@ -69,9 +70,9 @@ public class UnitTest {
     public void testSetY() {
         System.out.println("setY");
         int newY = 50;
-        
+
         instance.setY(newY);
-        assertEquals(newY,instance.getY());
+        assertEquals(newY, instance.getY());
     }
 
     /**
@@ -80,7 +81,7 @@ public class UnitTest {
     @Test
     public void testGetY() {
         System.out.println("getY");
-        
+
         int expResult = 100;
         int result = instance.getY();
         assertEquals(expResult, result);
@@ -104,7 +105,7 @@ public class UnitTest {
     @Test
     public void testGetColor() {
         System.out.println("getColor");
-        
+
         Color expResult = Color.BLUE;
         Color result = instance.getColor();
         assertEquals(expResult, result);
@@ -116,7 +117,7 @@ public class UnitTest {
     @Test
     public void testSetLocation() {
         System.out.println("setLocation");
-        Point newLoc = new Point(50,50);
+        Point newLoc = new Point(50, 50);
         instance.setLocation(newLoc);
         assertEquals(newLoc, instance.getLocation());
     }
@@ -127,12 +128,15 @@ public class UnitTest {
     @Test
     public void testGetLocation() {
         System.out.println("getLocation");
-        
-        Point expResult = new Point(100,100);
+
+        Point expResult = new Point(100, 100);
         Point result = instance.getLocation();
         assertEquals(expResult, result);
     }
 
+    /**
+     * checks if the class can be extended
+     */
     public class UnitImpl extends Unit {
 
         public UnitImpl() {
@@ -142,5 +146,4 @@ public class UnitTest {
         public void draw(Graphics g) {
         }
     }
-
 }

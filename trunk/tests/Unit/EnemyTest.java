@@ -6,7 +6,6 @@ package Unit;
 
 import java.awt.geom.*;
 import java.awt.Shape;
-import Unit.Enemy;
 import java.awt.Point;
 import Weapon.*;
 import java.awt.Color;
@@ -20,12 +19,13 @@ import static org.junit.Assert.*;
 /**
  *
  * @author danielcecil
+ * @modified David
  */
 public class EnemyTest {
 
     Enemy e;
     private static final int HEALTH = 100, SPEED = 100, POINTVALUE = 100, X = 200, Y = 200;
-    private static Shape SHAPE = new Rectangle2D.Double(10, 10, 5, 5);
+    private static Shape SHAPE = new Rectangle2D.Double(10,10,5,5);
     private static Color COLOR = Color.white;
     private static Weapon WEAPON = new BasicWeapon();
 
@@ -33,7 +33,7 @@ public class EnemyTest {
      * EnemyTest constructor creates new instance of the enemy class to be tested.
      */
     public EnemyTest() {
-        e = new Enemy(HEALTH, SPEED, SHAPE, WEAPON, POINTVALUE, X, Y, COLOR);
+        e = new Enemy(HEALTH, SPEED, WEAPON, POINTVALUE, X, Y, COLOR);
         e.check();
     }
 
@@ -145,32 +145,4 @@ public class EnemyTest {
         Point expResult = new Point(X, Y);
         assertEquals(expResult, e.getLocation());
     }
-
-    /**
-     * testSetShape tests the setShape method of the enemy by comparing the
-     * result to the result from the getShape method.
-     */
-    @Test
-    public void testSetShape() {
-        System.out.println("Test set shape");
-        Shape shape = new Ellipse2D.Double(10, 10, 5, 5);
-        e.setShape(shape);
-        assertEquals(shape, e.getShape());
-    }
-
-    /**
-     * testGetShape method tests the getShape method of the enemy by
-     * comparing the result to the original shape when the object was instantiated.
-     */
-    @Test
-    public void testGetShape() {
-        System.out.println("Test get shape");
-        Shape expResult = SHAPE;
-        assertEquals(expResult, e.getShape());
-    }
-
-    /*
-     * MORE ADDITIONAL TESTS TO COME ONCE MORE FUNCTIONALITY ADDED TO THE GAME
-     */
-
 }
