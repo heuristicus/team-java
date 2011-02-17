@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package GUIComponents;
 
 import Controls.Controls;
@@ -14,13 +10,15 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
- * @author michal
+ * @author Jere
  */
 public class GamePanel extends JPanel {
 
@@ -40,40 +38,10 @@ public class GamePanel extends JPanel {
     Boolean mouse; //if mouse is being used or not
     int width;
     int height;
+    Timer timer;
 
-    public GamePanel() {
-        base = new BasicWeapon();
-        System.out.println("gamepanel constructor");
-        shootGame = new Game();
-        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
-        a = new Controls();
-        setFocusable(true);
-        addMouseListener(a);
-        addKeyListener(a);
-        addMouseMotionListener(a);
-        hideMouse();
-        mouse = a.isMouse();
-
-    }
-
-    /**
-     * Initialises the panel. (not sure what needs to be done here)
-     */
-    private void initPanel() {
-        gPanel = new JPanel();
-//        gPanel.addMouseListener(a);
-//        gPanel.addKeyListener(a);
-//        gPanel.addMouseMotionListener(a);
-    }
-
-    /**
-     * Code that hides the mouse pointer
-     */
-    public void hideMouse() {
-        ImageIcon invisi = new ImageIcon(new byte[0]);
-        Cursor invisible = getToolkit().createCustomCursor(
-                invisi.getImage(), new Point(0, 0), "Hiding");
-        this.setCursor(invisible);
+    public GamePanel() {      
+        initialize();
     }
 
     /**
@@ -82,60 +50,72 @@ public class GamePanel extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        //long time = System.currentTimeMillis();
-        Graphics2D g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
-                RenderingHints.VALUE_ANTIALIAS_ON);
+        logic();
+        render(g);
+    }
+
+
+    // Initialization
+    private void initialize()
+    {
+        timer = new Timer(33, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                repaint();
+            }
+        });
+        timer.start();
+
+        base = new BasicWeapon();
+        shootGame = new Game();
+        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
+        a = new Controls();
+        gPanel = new JPanel();
+
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
         height = this.getHeight();
         width = this.getWidth();
-        // Polygon shipone = one.ship(g2);
-        movement();
-        g2.setColor(Color.green);
+
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         shootGame.addUnitToArray(one);
-        try {
-            shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException ex) {
-            }
-        }
-        drawBackground();
-        drawShips();
+
+        setFocusable(true);
+        addMouseListener(a);
+        addKeyListener(a);
+        addMouseMotionListener(a);
+
+        hideMouse();
+        mouse = a.isMouse();
+    }
+    
+    // Logic methods
+    private void logic()
+    {
+        movement();
+    }
+    
+    // Rendering methods
+    private void render(Graphics g)
+    {
+        super.paintComponent(g);
+        Graphics2D g2 = (Graphics2D) g;
+
+        drawShips(g2);
         drawProjectiles(g2);
-        //System.out.printf("Game loop took %d milliseconds.\n", System.currentTimeMillis() - time);
-        repaint();
-
+        
     }
 
-    /**
-     * Draws the background
-     */
-    private void drawBackground() {
-        // gPanel.setBackground(bgColor);
-        // Background now set in BaseFrame
+    private void drawShips(Graphics g2) { 
+        shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);      
     }
-
-    private void drawShips() {
-        /*
-         * Get the unit array from Game.java
-         * For each unit call it's draw method passing Graphics g
-         *
-         */
-    }
-
     private void drawProjectiles(Graphics2D g2) {
         for (Projectile p : shootGame.getProjectileArray()) {
             p.doMove();
             p.draw(g2);
         }
     }
+
 
     /**
      * used to control the movement
@@ -159,4 +139,11 @@ public class GamePanel extends JPanel {
             }
         }
     }
+    private void hideMouse() {
+        ImageIcon invisi = new ImageIcon(new byte[0]);
+        Cursor invisible = getToolkit().createCustomCursor(
+                invisi.getImage(), new Point(0, 0), "Hiding");
+        this.setCursor(invisible);
+    }
+
 }
