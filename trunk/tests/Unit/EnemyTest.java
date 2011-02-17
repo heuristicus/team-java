@@ -25,7 +25,7 @@ public class EnemyTest {
 
     Enemy e;
     private static final int HEALTH = 100, SPEED = 100, POINTVALUE = 100, X = 200, Y = 200;
-    private static Shape SHAPE = new Rectangle2D.Double(10,10,5,5);
+    private static Shape SHAPE = new Rectangle2D.Double(10, 10, 5, 5);
     private static Color COLOR = Color.white;
     private static Weapon WEAPON = new BasicWeapon();
 
@@ -151,9 +151,9 @@ public class EnemyTest {
      * result to the result from the getShape method.
      */
     @Test
-    public void testSetShape(){
+    public void testSetShape() {
         System.out.println("Test set shape");
-        Shape shape = new Ellipse2D.Double(10,10,5,5);
+        Shape shape = new Ellipse2D.Double(10, 10, 5, 5);
         e.setShape(shape);
         assertEquals(shape, e.getShape());
     }
@@ -163,9 +163,14 @@ public class EnemyTest {
      * comparing the result to the original shape when the object was instantiated.
      */
     @Test
-    public void testGetShape(){
+    public void testGetShape() {
         System.out.println("Test get shape");
         Shape expResult = SHAPE;
         assertEquals(expResult, e.getShape());
     }
+
+    /*
+     * MORE ADDITIONAL TESTS TO COME ONCE MORE FUNCTIONALITY ADDED TO THE GAME
+     */
+
 }

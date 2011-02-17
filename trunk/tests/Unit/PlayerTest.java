@@ -142,4 +142,9 @@ public class PlayerTest {
         Point expResult = new Point(X, Y);
         assertEquals(expResult, p.getLocation());
     }
+
+    /*
+     * MORE ADDITIONAL TESTS TO COME ONCE MORE FUNCTIONALITY ADDED TO THE GAME
+     */
+    
 }
