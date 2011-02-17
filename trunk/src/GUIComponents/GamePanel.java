@@ -83,6 +83,7 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        //long time = System.currentTimeMillis();
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -108,6 +109,7 @@ public class GamePanel extends JPanel {
         drawBackground();
         drawShips();
         drawProjectiles(g2);
+        //System.out.printf("Game loop took %d milliseconds.\n", System.currentTimeMillis() - time);
         repaint();
 
     }
