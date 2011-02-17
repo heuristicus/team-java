@@ -38,6 +38,8 @@ public class GamePanel extends JPanel {
     int player1_y = 500;
     Controls a;
     Boolean mouse; //if mouse is being used or not
+    int width;
+    int height;
 
     public GamePanel() {
         base = new BasicWeapon();
@@ -83,9 +85,11 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-alias!
-        RenderingHints.VALUE_ANTIALIAS_ON);
+                RenderingHints.VALUE_ANTIALIAS_ON);
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
+        height = this.getHeight();
+        width = this.getWidth();
         // Polygon shipone = one.ship(g2);
         movement();
         g2.setColor(Color.green);
@@ -105,6 +109,7 @@ public class GamePanel extends JPanel {
         drawShips();
         drawProjectiles(g2);
         repaint();
+
     }
 
     /**
@@ -130,29 +135,26 @@ public class GamePanel extends JPanel {
         }
     }
 
-/**
- * used to control the movement
- */
+    /**
+     * used to control the movement
+     */
     private void movement() {
-
         if (mouse) {
             player1_x = a.getMouseX();
             player1_y = a.getMouseY();
         } else {
-            if (a.isUp()) {
+            if (a.isUp() && player1_y > 0) {
                 player1_y -= 1;
             }
-            if (a.isDown()) {
+            if (a.isDown() && player1_y < height) {
                 player1_y += 1;
             }
-            if (a.isLeft()) {
+            if (a.isLeft() && player1_x > 0) {
                 player1_x -= 1;
             }
-            if (a.isRight()) {
+            if (a.isRight() && player1_x < width) {
                 player1_x += 1;
             }
         }
     }
-
-    
 }

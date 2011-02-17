@@ -4,8 +4,6 @@
  */
 package GUIComponents;
 
-import Controls.Controls;
-import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -91,4 +89,7 @@ public class BaseFrame extends JFrame{
 //        bFrame.add(repPanel);
     }
 
+    public Dimension getWindowSize() {
+        return windowSize;
+    }
 }
