@@ -30,7 +30,7 @@ import javax.swing.JPanel;
 public class BaseFrame extends JFrame{
 
    // JFrame bFrame;
-    Dimension windowSize;
+    private static Dimension windowSize;
   //  Controls c;
 
     public BaseFrame(Dimension windowSize) {
@@ -89,7 +89,7 @@ public class BaseFrame extends JFrame{
 //        bFrame.add(repPanel);
     }
 
-    public Dimension getWindowSize() {
+    public static Dimension getWindowSize() {
         return windowSize;
     }
 }

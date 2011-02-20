@@ -3,6 +3,8 @@ package GUIComponents;
 import Controls.Controls;
 import Game.Game;
 import Projectile.Projectile;
+import Spawn.Spawn;
+import Unit.Enemy;
 import Unit.Player;
 import Weapon.BasicWeapon;
 import java.awt.Graphics;
@@ -10,6 +12,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.ImageIcon;
@@ -31,6 +34,8 @@ public class GamePanel extends JPanel {
     JPanel gPanel;
     Color bgColor = Color.BLACK;
     Player one;
+    Spawn sp;
+    Enemy staticEnemy;
     BasicWeapon base;
     int player1_x = 500;
     int player1_y = 500;
@@ -65,9 +70,11 @@ public class GamePanel extends JPanel {
         });
         timer.start();
 
+        sp = new Spawn();
         base = new BasicWeapon();
         shootGame = new Game();
         one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
+        staticEnemy = sp.newSpawn();
         a = new Controls();
         gPanel = new JPanel();
 
@@ -79,6 +86,8 @@ public class GamePanel extends JPanel {
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         shootGame.addUnitToArray(one);
+        // TODO: Create automatic call (timer) for new spawns and add to array.
+        shootGame.addUnitToArray(staticEnemy);  // Temporary workaround
 
         setFocusable(true);
         addMouseListener(a);
@@ -107,7 +116,7 @@ public class GamePanel extends JPanel {
     }
 
     private void drawShips(Graphics g2) { 
-        shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);      
+        shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
     }
     private void drawProjectiles(Graphics2D g2) {
         for (Projectile p : shootGame.getProjectileArray()) {

@@ -60,7 +60,6 @@ public class movementTest extends JPanel implements KeyListener, MouseListener, 
     protected void paintComponent(Graphics g) {
         Graphics2D g_ = (Graphics2D) g;
         //g_.setXORMode(frame.getBackground());
-        g_.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g_.setColor(Color.blue);
         g_.fillRect(frame.getX(), frame.getY(), frame.getWidth(), frame.getHeight());
         g_.setColor(Color.red);
