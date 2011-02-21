@@ -56,8 +56,9 @@ public class GamePanel extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
         logic();
-        render(g);
+        render(g2);
     }
 
     // Initialization
@@ -97,25 +98,26 @@ public class GamePanel extends JPanel {
         addMouseMotionListener(a);
 
         hideMouse();
-        mouse = a.isMouse();
+
     }
 
     // Logic methods
     private void logic() {
+        mouse = a.isMouse();
         movement();
     }
 
     // Rendering methods
-    private void render(Graphics g) {
-        super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+    private void render(Graphics2D g2) {
+        super.paintComponent(g2);
+
 
         drawShips(g2);
         drawProjectiles(g2);
 
     }
 
-    private void drawShips(Graphics g2) {
+    private void drawShips(Graphics2D g2) {
         shootGame.removeUnitfromArray(0);
         one.setLocation(new Point(player1_x, player1_y));
         shootGame.addUnitToArray(one);
@@ -141,13 +143,13 @@ public class GamePanel extends JPanel {
             if (a.isUp() && player1_y > 0) {
                 player1_y -= 1;
             }
-            if (a.isDown()){// && player1_y < height) {
+            if (a.isDown()) {// && player1_y < height) {
                 player1_y += 1;
             }
             if (a.isLeft() && player1_x > 0) {
                 player1_x -= 1;
             }
-            if (a.isRight() ){//&& player1_x < width) {
+            if (a.isRight()) {//&& player1_x < width) {
                 player1_x += 1;
             }
             if (a.isSpace()) {
