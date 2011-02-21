@@ -2,6 +2,7 @@ package GUIComponents;
 
 import Controls.Controls;
 import Game.Game;
+import Projectile.BasicProjectile;
 import Projectile.Projectile;
 import Spawn.Spawn;
 import Unit.Enemy;
@@ -45,7 +46,7 @@ public class GamePanel extends JPanel {
     int height;
     Timer timer;
 
-    public GamePanel() {      
+    public GamePanel() {
         initialize();
     }
 
@@ -59,11 +60,10 @@ public class GamePanel extends JPanel {
         render(g);
     }
 
-
     // Initialization
-    private void initialize()
-    {
+    private void initialize() {
         timer = new Timer(33, new ActionListener() {
+
             public void actionPerformed(ActionEvent e) {
                 repaint();
             }
@@ -86,8 +86,10 @@ public class GamePanel extends JPanel {
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         shootGame.addUnitToArray(one);
+        //The way things are spawned needs to be changed since currently adding it to
+        //the end of the unit array breaks the get of the players unit
         // TODO: Create automatic call (timer) for new spawns and add to array.
-        shootGame.addUnitToArray(staticEnemy);  // Temporary workaround
+        //shootGame.addUnitToArray(staticEnemy);  // Temporary workaround
 
         setFocusable(true);
         addMouseListener(a);
@@ -97,34 +99,35 @@ public class GamePanel extends JPanel {
         hideMouse();
         mouse = a.isMouse();
     }
-    
+
     // Logic methods
-    private void logic()
-    {
+    private void logic() {
         movement();
     }
-    
+
     // Rendering methods
-    private void render(Graphics g)
-    {
+    private void render(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
         drawShips(g2);
         drawProjectiles(g2);
-        
+
     }
 
-    private void drawShips(Graphics g2) { 
+    private void drawShips(Graphics g2) {
+        shootGame.removeUnitfromArray(0);
+        one.setLocation(new Point(player1_x, player1_y));
+        shootGame.addUnitToArray(one);
         shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
     }
+
     private void drawProjectiles(Graphics2D g2) {
         for (Projectile p : shootGame.getProjectileArray()) {
             p.doMove();
             p.draw(g2);
         }
     }
-
 
     /**
      * used to control the movement
@@ -146,13 +149,18 @@ public class GamePanel extends JPanel {
             if (a.isRight() && player1_x < width) {
                 player1_x += 1;
             }
+            if (a.isSpace()) {
+                //testPro = new BasicProjectile(one.getX(), one.getY());
+                shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY()));
+            }
+
         }
     }
+
     private void hideMouse() {
         ImageIcon invisi = new ImageIcon(new byte[0]);
         Cursor invisible = getToolkit().createCustomCursor(
                 invisi.getImage(), new Point(0, 0), "Hiding");
         this.setCursor(invisible);
     }
-
 }

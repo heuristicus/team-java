@@ -85,6 +85,13 @@ public class Game {
     public void addUnitToArray(Unit addUnit) {
         units.add(addUnit);
     }
+    /**
+     * Removes a unit from the array at the index specified
+     * @param index
+     */
+    public void removeUnitfromArray(int index){
+        units.remove(index);
+    }
 
     /**
      * Adds a new projectile to the projectiles array.
