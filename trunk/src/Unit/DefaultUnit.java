@@ -7,6 +7,7 @@ package Unit;
 import Weapon.BasicWeapon;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 /**
  *
@@ -30,6 +31,8 @@ public class DefaultUnit extends Unit {
 
     @Override
     public void draw(Graphics g) {
-        g.drawOval(x, y, 20, 40);
+        Graphics2D g_ = (Graphics2D) g;
+        g_.setColor(getColor());
+        g_.fillOval(x, y, 20, 40);
     }
 }

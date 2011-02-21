@@ -26,7 +26,6 @@ public class SpawnTest {
 
     public SpawnTest() {
         sp = new Spawn();
-        en = sp.newSpawn();
 
     }
 

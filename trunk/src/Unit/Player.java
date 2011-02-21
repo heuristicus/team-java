@@ -19,7 +19,7 @@ public class Player extends Unit {
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-        check();
+       // check();
     }
 
     public void check() {

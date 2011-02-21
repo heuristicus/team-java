@@ -4,10 +4,11 @@
  */
 package Game;
 
-
 import Projectile.Projectile;
 import Unit.Unit;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -38,7 +39,7 @@ public class Game {
      * in the field of play.
      * @param frameSize The current size of the game frame.
      */
-    public void pruneArrays(Dimension frameSize){
+    public void pruneArrays(Dimension frameSize) {
         // TODO Decide on some kind of range outside the frame in which we keep objects
         int height = frameSize.height;
         int width = frameSize.width;
@@ -56,7 +57,7 @@ public class Game {
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, width, height);
         ArrayList<Unit> toRemove = new ArrayList<Unit>();
         for (Unit unit : units) {
-            if (!bounds.contains(unit.getLocation())){
+            if (!bounds.contains(unit.getLocation())) {
                 toRemove.add(unit);
             }
         }
@@ -65,11 +66,11 @@ public class Game {
         }
     }
 
-    public void pruneProjectileArray(int height, int width){
+    public void pruneProjectileArray(int height, int width) {
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, width, height);
         ArrayList<Projectile> toRemove = new ArrayList<Projectile>();
         for (Projectile projectile : projectiles) {
-            if (!bounds.contains(projectile.getLocation())){
+            if (!bounds.contains(projectile.getLocation())) {
                 toRemove.add(projectile);
             }
         }
@@ -91,6 +92,10 @@ public class Game {
      */
     public void removeUnitfromArray(int index){
         units.remove(index);
+    }
+
+    public void removeObjectfromUnitArray(Unit unit){
+        units.remove(unit);
     }
 
     /**
@@ -116,11 +121,25 @@ public class Game {
     public ArrayList<Projectile> getProjectileArray() {
         return projectiles;
     }
-/**
- * Returns the unit array size to be used in the game panel class
- * @return
- */
-    public int getUnitArrayLength(){
+
+    /**
+     * Returns the unit array size to be used in the game panel class
+     * @return
+     */
+    public int getUnitArrayLength() {
         return units.size();
+    }
+
+    public void drawUnitArray(Graphics g) {
+        for (int i = 0; i < getUnitArrayLength(); i++) {
+            getUnitArray().get(i).draw(g);
+        }
+    }
+
+    public void drawProjectileArray(Graphics g) {
+        Graphics2D g_ = (Graphics2D) g;
+        for (int i = 0; i < getProjectileArray().size(); i++) {
+            getProjectileArray().get(i).draw(g_);
+        }
     }
 }
