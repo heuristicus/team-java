@@ -123,6 +123,7 @@ public class GamePanel extends JPanel {
     }
 
     private void drawProjectiles(Graphics2D g2) {
+        g2.setColor(Color.WHITE);
         for (Projectile p : shootGame.getProjectileArray()) {
             p.doMove();
             p.draw(g2);
@@ -140,13 +141,13 @@ public class GamePanel extends JPanel {
             if (a.isUp() && player1_y > 0) {
                 player1_y -= 1;
             }
-            if (a.isDown() && player1_y < height) {
+            if (a.isDown()){// && player1_y < height) {
                 player1_y += 1;
             }
             if (a.isLeft() && player1_x > 0) {
                 player1_x -= 1;
             }
-            if (a.isRight() && player1_x < width) {
+            if (a.isRight() ){//&& player1_x < width) {
                 player1_x += 1;
             }
             if (a.isSpace()) {

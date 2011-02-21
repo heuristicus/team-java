@@ -29,6 +29,7 @@ public class BasicProjectile extends Projectile{
 
     @Override
     public void doMove() {
+        move(super.getX(), super.getY() + 10);
         
     }
 }
