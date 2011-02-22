@@ -78,6 +78,13 @@ public abstract class Unit {
 //    }
 
     public abstract void draw(Graphics2D g2);
-        
+
+    @Override
+    public String toString() {
+        return "Unit{" + "health=" + health + "xCoord=" + xCoord + "yCoord=" + yCoord + this.hashCode() + '}';
+    }
+
+
+    
 
 }

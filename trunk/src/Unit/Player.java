@@ -6,7 +6,6 @@ package Unit;
 
 import Weapon.Weapon;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.geom.Area;
 import java.awt.geom.Path2D;
@@ -19,18 +18,8 @@ public class Player extends Unit {
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-       // check();
     }
 
-    public void check() {
-        System.out.println(health);
-//        System.out.println(shape);
-        System.out.println(speed);
-        System.out.println(weaponType);
-        System.out.println(pointValue);
-		System.out.println(xCoord + ", " + yCoord);
-		System.out.println(color);
-    }
 //    public Polygon ship(Graphics g){
 //       Graphics2D g2 = (Graphics2D) g;
 //
@@ -58,4 +47,5 @@ public class Player extends Unit {
 
         g2.fill(a);
     }
+
 }
