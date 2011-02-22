@@ -11,11 +11,13 @@ import Weapon.BasicWeapon;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -47,7 +49,9 @@ public class GamePanel extends JPanel {
     Timer timer;
     ArrayList<Unit> spawns;
 
-    public GamePanel() {
+    public GamePanel(int width, int height) {
+        this.width =width;
+        this.height = height;
         initialize();
     }
 
@@ -58,7 +62,17 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+g2.setColor(Color.white);
+//        g2.draw(new Line2D.Double(30, 30, 500, 500));
+//        try{
+//        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
+//        }catch(Exception e){
+//
+//        }
         logic();
+
         render(g2);
     }
 
@@ -78,12 +92,12 @@ public class GamePanel extends JPanel {
         shootGame = new Game();
         one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
-        gPanel = new JPanel();
+        //gPanel = new JPanel();
 
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
-        height = this.getHeight();
-        width = this.getWidth();
+       // height = this.getSize().height;
+       // width = this.getSize().width;
 
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
@@ -94,9 +108,9 @@ public class GamePanel extends JPanel {
          * Below code generates 5 enemies at random position.
          */
         int type = 1;
-        assert(type >= 0 && type <=2);
+        assert (type >= 0 && type <= 2);
         spawns = sp.spawnN(5, type);
-        for(int i = 0; i < spawns.size(); i++){
+        for (int i = 0; i < spawns.size(); i++) {
             shootGame.addUnitToArray(spawns.get(i));
         }
 
@@ -113,13 +127,22 @@ public class GamePanel extends JPanel {
     private void logic() {
         mouse = a.isMouse();
         movement();
+        shootGame.pruneArrays(new Dimension(width, height));
     }
 
     // Rendering methods
     private void render(Graphics2D g2) {
         super.paintComponent(g2);
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
-            RenderingHints.VALUE_ANTIALIAS_ON);
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        for (Projectile p : shootGame.getProjectileArray()) {
+            p.draw(g2);
+            System.out.println("x= " + p.getX());
+            System.out.println("y= " + p.getY());
+            p.doMove();
+
+        }
+
 
         drawShips(g2);
         drawProjectiles(g2);
@@ -136,10 +159,16 @@ public class GamePanel extends JPanel {
 
     private void drawProjectiles(Graphics2D g2) {
         g2.setColor(Color.WHITE);
-        for (Projectile p : shootGame.getProjectileArray()) {
-            p.doMove();
-            p.draw(g2);
-        }
+//        try{
+//        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
+//        }catch(Exception e){
+//
+//        }
+//        for (Projectile p : shootGame.getProjectileArray()) {
+//            p.draw(g2);
+//            p.doMove();
+//
+//        }
     }
 
     /**
@@ -151,16 +180,16 @@ public class GamePanel extends JPanel {
             player1_y = a.getMouseY();
         } else {
             if (a.isUp() && player1_y > 0) {
-                player1_y -= 1;
+                player1_y -= 4;
             }
             if (a.isDown()) {// && player1_y < height) {
-                player1_y += 1;
+                player1_y += 4;
             }
             if (a.isLeft() && player1_x > 0) {
-                player1_x -= 1;
+                player1_x -= 4;
             }
             if (a.isRight()) {//&& player1_x < width) {
-                player1_x += 1;
+                player1_x += 4;
             }
             if (a.isSpace()) {
                 //testPro = new BasicProjectile(one.getX(), one.getY());

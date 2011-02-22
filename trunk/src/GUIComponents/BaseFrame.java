@@ -35,7 +35,7 @@ public class BaseFrame extends JFrame{
 
     public BaseFrame(Dimension windowSize) {
      this.windowSize = windowSize;
-     add("Center", new GamePanel());
+     add("Center", new GamePanel(windowSize.width, windowSize.height));
      setSize(windowSize);
      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //     c = new Controls();

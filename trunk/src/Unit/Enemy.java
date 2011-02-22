@@ -36,15 +36,15 @@ public class Enemy extends Unit {
         System.out.println(color);
     }
 
-    public void draw(Graphics g) {
-        Graphics2D g_ = (Graphics2D) g;
-        g_.setColor(color);
+    public void draw(Graphics2D g2) {
+       // Graphics2D g_ = (Graphics2D) g;
+        g2.setColor(color);
         Path2D triangle = new Path2D.Double();
         triangle.moveTo(xCoord, yCoord + 20);
         triangle.lineTo(xCoord - 10, yCoord - 10);
         triangle.lineTo(xCoord + 10, yCoord - 10);
         Area a = new Area(triangle);
-        g_.fill(a);
+        g2.fill(a);
     }
 
 }

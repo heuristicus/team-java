@@ -1,22 +1,22 @@
 package Projectile;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 
 /**
  * Basic projectile, as in just a line that will be shot.
  * @author Jere
  */
-public class BasicProjectile extends Projectile{
+public class BasicProjectile extends Projectile {
 
     final int HEIGHT = 5;
     final int WIDTH = 1;
 
-    public BasicProjectile(int x, int y)
-    {
+    public BasicProjectile(int x, int y) {
         // FIXME Need to check the values for speed, damage, etc.
-        super (x,y,10, 100, false,
-                new Line2D.Double(x,y,1,5),
+        super(x, y, 10, 100, false,
+                new Line2D.Double(x, y, 1, 5),
                 Color.RED);
     }
 
@@ -30,6 +30,11 @@ public class BasicProjectile extends Projectile{
     @Override
     public void doMove() {
         move(super.getX(), super.getY() + 10);
-        
+
+    }
+
+    @Override
+    public void draw(Graphics2D g2) {
+        g2.fill(super.getShape());
     }
 }

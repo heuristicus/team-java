@@ -158,8 +158,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         mouse = true;
         mouseX = e.getX();
         mouseY = e.getY();
-        System.out.println("x= " + mouseX);
-        System.out.println("Y= " + mouseY);
+       // System.out.println("x= " + mouseX);
+       // System.out.println("Y= " + mouseY);
     }
 
     /**

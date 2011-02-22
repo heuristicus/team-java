@@ -30,9 +30,9 @@ public class DefaultUnit extends Unit {
     }
 
     @Override
-    public void draw(Graphics g) {
-        Graphics2D g_ = (Graphics2D) g;
-        g_.setColor(getColor());
-        g_.fillOval(x, y, 20, 40);
+    public void draw(Graphics2D g2) {
+       // Graphics2D g_ = (Graphics2D) g;
+        g2.setColor(getColor());
+        g2.fillOval(x, y, 20, 40);
     }
 }

@@ -77,7 +77,7 @@ public abstract class Unit {
 //        return ship;
 //    }
 
-    public abstract void draw(Graphics g);
+    public abstract void draw(Graphics2D g2);
         
 
 }

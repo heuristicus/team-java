@@ -47,6 +47,8 @@ public class Game {
         // TODO Decide on some kind of range outside the frame in which we keep objects
         int height = frameSize.height;
         int width = frameSize.width;
+        System.out.println(height);
+        System.out.println(width);
         pruneUnitArray(height, width);
         pruneProjectileArray(height, width);
     }
@@ -176,13 +178,13 @@ public class Game {
         return units.size();
     }
 
-    public void drawUnitArray(Graphics g) {
+    public void drawUnitArray(Graphics2D g2) {
         for (int i = 0; i < getUnitArrayLength(); i++) {
-            getUnitArray().get(i).draw(g);
+            getUnitArray().get(i).draw(g2);
         }
     }
 
-    public void drawProjectileArray(Graphics g) {
+    public void drawProjectileArray(Graphics2D g) {
         Graphics2D g_ = (Graphics2D) g;
         for (int i = 0; i < getProjectileArray().size(); i++) {
             getProjectileArray().get(i).draw(g_);
