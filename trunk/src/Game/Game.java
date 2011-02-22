@@ -8,7 +8,6 @@ import Projectile.Projectile;
 import Spawn.Spawn;
 import Unit.Unit;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
@@ -84,7 +83,7 @@ public class Game {
     }
 
     /**
-     * Gets a box of 5x5 pixels with the point passsed as the centre.
+     * Gets a box of 5x5 pixels with the point passed as the centre.
      * @param centre
      */
     public Rectangle2D getCenteredBox(Point centre){
@@ -110,6 +109,12 @@ public class Game {
         }
     }
 
+    /**
+     * Prunes the projectile array of projectiles that are no longer within
+     * the bounding box.
+     * @param height
+     * @param width
+     */
     public void pruneProjectileArray(int height, int width) {
         Rectangle2D bounds = new Rectangle2D.Double(0, 0, width, height);
         ArrayList<Projectile> toRemove = new ArrayList<Projectile>();
@@ -177,25 +182,31 @@ public class Game {
     public ArrayList<Projectile> getProjectileArray() {
         return projectiles;
     }
+//
+//    /**
+//     * Returns the unit array size to be used in the game panel class
+//     * @return
+//     */
+//    public int getUnitArrayLength() {
+//        return units.size();
+//    }
+//
+//    public void drawUnitArray(Graphics2D g2) {
+//        for (int i = 0; i < getUnitArrayLength(); i++) {
+//            getUnitArray().get(i).draw(g2);
+//        }
+//    }
+//
+//    public void drawProjectileArray(Graphics2D g) {
+//        Graphics2D g_ = (Graphics2D) g;
+//        for (int i = 0; i < getProjectileArray().size(); i++) {
+//            getProjectileArray().get(i).draw(g_);
+//        }
+//    }
 
-    /**
-     * Returns the unit array size to be used in the game panel class
-     * @return
-     */
-    public int getUnitArrayLength() {
-        return units.size();
-    }
-
-    public void drawUnitArray(Graphics2D g2) {
-        for (int i = 0; i < getUnitArrayLength(); i++) {
-            getUnitArray().get(i).draw(g2);
-        }
-    }
-
-    public void drawProjectileArray(Graphics2D g) {
-        Graphics2D g_ = (Graphics2D) g;
-        for (int i = 0; i < getProjectileArray().size(); i++) {
-            getProjectileArray().get(i).draw(g_);
+    public void moveProjectiles() {
+        for (Projectile proj : projectiles) {
+            proj.doMove();
         }
     }
 }
