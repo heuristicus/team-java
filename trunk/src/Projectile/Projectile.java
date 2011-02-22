@@ -86,4 +86,11 @@ public abstract class Projectile {
     public void draw(Graphics2D g2) {
         g2.fill(shape);
     }
+
+    @Override
+    public String toString() {
+        return "Projectile{" + "damage=" + damage + "isEnemy=" + isEnemy + "x=" + x + "y=" + y + this.hashCode() + '}';
+    }
+
+    
 }
