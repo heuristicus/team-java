@@ -8,7 +8,6 @@ import java.awt.Dimension;
 import java.awt.Color;
 import Unit.DefaultUnit;
 import Unit.Player;
-import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import Projectile.BasicProjectile;
 import Projectile.Projectile;
@@ -16,8 +15,6 @@ import Unit.Enemy;
 import Unit.Unit;
 import Weapon.BasicWeapon;
 import org.junit.*;
-
-
 
 /**
  *
@@ -34,6 +31,10 @@ public class GameTest {
     Projectile outF1;
     Unit inF2;
     Unit outF2;
+    Unit collU;
+    Projectile collP;
+    Unit collU2;
+    Projectile collP2;
 
     public GameTest() {
     }
@@ -65,6 +66,12 @@ public class GameTest {
         inF1 = new BasicProjectile(40, 40);
         // Unit inside normal frame bounds.
         inF2 = new DefaultUnit(60, 60);
+
+        // Units and projectiles for collisions
+        collP = new BasicProjectile(120, 120);
+        collU = new DefaultUnit(118, 118);
+        collP2 = new BasicProjectile(200, 200);
+        collU2 = new DefaultUnit(202, 202);
     }
 
     /**
@@ -185,6 +192,14 @@ public class GameTest {
         g.pruneArrays(new Dimension(800, 600));
         org.junit.Assert.assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
         org.junit.Assert.assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
+    }
 
+    @Test
+    public void testNaiveCollisionDetection() {
+        g.addProjectileToArray(collP);
+        g.addProjectileToArray(collP2);
+        g.addUnitToArray(collU);
+        g.addUnitToArray(collU2);
+        g.doNaiveCollisionDetection();
     }
 }
