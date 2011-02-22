@@ -77,7 +77,7 @@ public class GamePanel extends JPanel {
 
     // Initialization
     private void initialize() {
-        timer = new Timer(60, new ActionListener() {
+        timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
                 System.out.println("action");
@@ -189,22 +189,22 @@ public class GamePanel extends JPanel {
             player1_y = a.getMouseY();
         } else {
             if (a.isUp() && player1_y > 0) {
-                player1_y -= 4;
+                player1_y -= 5;
             }
-            if (a.isDown()) {// && player1_y < height) {
-                player1_y += 4;
+            if (a.isDown() && player1_y < height) {
+                player1_y += 5;
             }
             if (a.isLeft() && player1_x > 0) {
-                player1_x -= 4;
+                player1_x -= 5;
             }
-            if (a.isRight()) {//&& player1_x < width) {
-                player1_x += 4;
+            if (a.isRight()&& player1_x < width) {
+                player1_x += 5;
             }
 
         }
         if (a.isSpace()) {
             //testPro = new BasicProjectile(one.getX(), one.getY());
-            shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY() - 10));
+            shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY() - 15));
         }
     }
 
