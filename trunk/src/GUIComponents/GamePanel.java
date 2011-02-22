@@ -50,7 +50,7 @@ public class GamePanel extends JPanel {
     ArrayList<Unit> spawns;
 
     public GamePanel(int width, int height) {
-        this.width =width;
+        this.width = width;
         this.height = height;
         initialize();
     }
@@ -64,7 +64,7 @@ public class GamePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
-g2.setColor(Color.white);
+        g2.setColor(Color.blue);
 //        g2.draw(new Line2D.Double(30, 30, 500, 500));
 //        try{
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
@@ -78,7 +78,7 @@ g2.setColor(Color.white);
 
     // Initialization
     private void initialize() {
-        timer = new Timer(33, new ActionListener() {
+        timer = new Timer(60, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 repaint();
@@ -94,10 +94,10 @@ g2.setColor(Color.white);
         a = new Controls();
         //gPanel = new JPanel();
 
-        setBackground(bgColor);
+        //setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
-       // height = this.getSize().height;
-       // width = this.getSize().width;
+        // height = this.getSize().height;
+        // width = this.getSize().width;
 
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
@@ -158,7 +158,7 @@ g2.setColor(Color.white);
     }
 
     private void drawProjectiles(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
+        g2.setColor(Color.BLUE);
 //        try{
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
 //        }catch(Exception e){
@@ -191,11 +191,11 @@ g2.setColor(Color.white);
             if (a.isRight()) {//&& player1_x < width) {
                 player1_x += 4;
             }
-            if (a.isSpace()) {
-                //testPro = new BasicProjectile(one.getX(), one.getY());
-                shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY()));
-            }
 
+        }
+        if (a.isSpace()) {
+            //testPro = new BasicProjectile(one.getX(), one.getY());
+            shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY() - 10));
         }
     }
 

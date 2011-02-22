@@ -16,7 +16,7 @@ public class BasicProjectile extends Projectile {
     public BasicProjectile(int x, int y) {
         // FIXME Need to check the values for speed, damage, etc.
         super(x, y, 10, 100, false,
-                new Line2D.Double(x, y, 1, 5),
+                new Line2D.Double(x, y, x, y+10),
                 Color.RED);
     }
 
@@ -24,17 +24,17 @@ public class BasicProjectile extends Projectile {
     public void move(int x, int y) {
         super.setX(x);
         super.setY(y);
-        super.setShape(new Line2D.Double(x, y, WIDTH, HEIGHT));
+        super.setShape(new Line2D.Double(x, y, x, y+10));
     }
 
     @Override
     public void doMove() {
-        move(super.getX(), super.getY() + 10);
+        move(super.getX(), super.getY() - 10);
 
     }
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.fill(super.getShape());
+        g2.draw(super.getShape());
     }
 }

@@ -146,6 +146,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      */
     public void mouseDragged(MouseEvent e) {
         mouse = true;
+        space = true;
         mouseX = e.getX();
         mouseY = e.getY();
     }
