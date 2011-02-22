@@ -150,7 +150,7 @@ g2.setColor(Color.white);
     }
 
     private void drawShips(Graphics2D g2) {
-        shootGame.removeObjectfromUnitArray(one);
+        shootGame.removeUnitFromArray(one);
         one.setLocation(new Point(player1_x, player1_y));
         shootGame.addUnitToArray(one);
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
