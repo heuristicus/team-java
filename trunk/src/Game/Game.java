@@ -5,10 +5,12 @@
 package Game;
 
 import Projectile.Projectile;
+import Spawn.Spawn;
 import Unit.Unit;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -28,10 +30,12 @@ public class Game {
      */
     ArrayList<Unit> units;
     ArrayList<Projectile> projectiles;
+    ArrayList<Spawn> spawns;
 
     public Game() {
         units = new ArrayList<Unit>();
         projectiles = new ArrayList<Projectile>();
+        spawns = new ArrayList<Spawn>();
     }
 
     /**
@@ -45,6 +49,36 @@ public class Game {
         int width = frameSize.width;
         pruneUnitArray(height, width);
         pruneProjectileArray(height, width);
+    }
+
+    public void doNaiveCollisionDetection(){
+        long time = System.currentTimeMillis();
+        Rectangle2D projBound;
+        Rectangle2D unitBound;
+        for (Unit unit : units) {
+            Point uPoint = unit.getLocation();
+            unitBound = getCenteredBox(uPoint);
+            for (Projectile p : projectiles) {
+                Point projPoint  = p.getLocation();
+                projBound = getCenteredBox(projPoint);
+                if (projBound.intersects(unitBound)){
+                    removeUnitFromArray(unit);
+                    removeProjectileFromArray(p);
+                }
+            }
+        }
+        long timeTaken = time - System.currentTimeMillis();
+        if (timeTaken >= 20){
+            System.out.printf("WARNING: COLLISION DETECTION TOOK %d MILLISECONDS!\n", timeTaken);
+        }
+    }
+
+    /**
+     * Gets a box of 5x5 pixels with the point passsed as the centre.
+     * @param centre
+     */
+    public Rectangle2D getCenteredBox(Point centre){
+         return new Rectangle2D.Double(centre.getX() - 2.5, centre.getY() - 2.5, 5, 5);
     }
 
     /**
@@ -94,8 +128,20 @@ public class Game {
         units.remove(index);
     }
 
-    public void removeObjectfromUnitArray(Unit unit){
+    /**
+     * Removes a specified unit from the array.
+     * @param unit
+     */
+    public void removeUnitFromArray(Unit unit){
         units.remove(unit);
+    }
+
+    public void removeProjectileFromArray(Projectile p){
+        projectiles.remove(p);
+    }
+
+    public void removeProjectileFromArray(int index){
+        projectiles.remove(index);
     }
 
     /**
