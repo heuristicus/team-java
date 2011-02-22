@@ -57,6 +57,8 @@ public class Game {
         long time = System.currentTimeMillis();
         Rectangle2D projBound;
         Rectangle2D unitBound;
+        ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
+        ArrayList<Unit> toRemoveUnit = new ArrayList<Unit>();
         for (Unit unit : units) {
             Point uPoint = unit.getLocation();
             unitBound = getCenteredBox(uPoint);
@@ -64,10 +66,16 @@ public class Game {
                 Point projPoint  = p.getLocation();
                 projBound = getCenteredBox(projPoint);
                 if (projBound.intersects(unitBound)){
-                    removeUnitFromArray(unit);
-                    removeProjectileFromArray(p);
+                    toRemoveProj.add(p);
+                    toRemoveUnit.add(unit);
                 }
             }
+        }
+        for (Unit unit : toRemoveUnit) {
+            removeUnitFromArray(unit);
+        }
+        for (Projectile p : toRemoveProj) {
+            removeProjectileFromArray(p);
         }
         long timeTaken = time - System.currentTimeMillis();
         if (timeTaken >= 20){
