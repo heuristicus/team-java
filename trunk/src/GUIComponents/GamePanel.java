@@ -17,7 +17,6 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Line2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -81,6 +80,7 @@ public class GamePanel extends JPanel {
         timer = new Timer(60, new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
+                System.out.println("action");
                 repaint();
             }
         });
@@ -128,21 +128,22 @@ public class GamePanel extends JPanel {
         mouse = a.isMouse();
         movement();
         shootGame.pruneArrays(new Dimension(width, height));
+        shootGame.moveProjectiles();
+        shootGame.doNaiveCollisionDetection();
     }
 
     // Rendering methods
     private void render(Graphics2D g2) {
         super.paintComponent(g2);
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
-                RenderingHints.VALUE_ANTIALIAS_ON);
-        for (Projectile p : shootGame.getProjectileArray()) {
-            p.draw(g2);
-            System.out.println("x= " + p.getX());
-            System.out.println("y= " + p.getY());
-            p.doMove();
-
-        }
-
+//        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
+//                RenderingHints.VALUE_ANTIALIAS_ON);
+//        for (Projectile p : shootGame.getProjectileArray()) {
+//            p.draw(g2);
+////            System.out.println("x= " + p.getX());
+////            System.out.println("y= " + p.getY());
+//            p.doMove();
+//
+//        }
 
         drawShips(g2);
         drawProjectiles(g2);
@@ -150,15 +151,23 @@ public class GamePanel extends JPanel {
     }
 
     private void drawShips(Graphics2D g2) {
-        shootGame.removeUnitFromArray(one);
+//        shootGame.removeUnitFromArray(one);
         one.setLocation(new Point(player1_x, player1_y));
-        shootGame.addUnitToArray(one);
+//        shootGame.addUnitToArray(one);
+        ArrayList<Unit> units = shootGame.getUnitArray();
+        for (Unit unit : units) {
+            unit.draw(g2);
+        }
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
-        shootGame.drawUnitArray(g2);
     }
 
     private void drawProjectiles(Graphics2D g2) {
         g2.setColor(Color.BLUE);
+        ArrayList<Projectile> projectiles = shootGame.getProjectileArray();
+        for (Projectile projectile : projectiles) {
+            projectile.draw(g2);
+        }
+        
 //        try{
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
 //        }catch(Exception e){
