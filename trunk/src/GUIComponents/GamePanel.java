@@ -47,6 +47,7 @@ public class GamePanel extends JPanel {
     int height;
     Timer timer;
     ArrayList<Unit> spawns;
+    int counter;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -60,6 +61,8 @@ public class GamePanel extends JPanel {
      */
     @Override
     protected void paintComponent(Graphics g) {
+        counter++;
+        counter = counter % 400;
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
@@ -68,7 +71,6 @@ public class GamePanel extends JPanel {
 //        try{
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
 //        }catch(Exception e){
-//
 //        }
         logic();
 
@@ -80,12 +82,12 @@ public class GamePanel extends JPanel {
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
+
                 System.out.println("action");
                 repaint();
             }
         });
         timer.start();
-
         sp = new Spawn();
         spawns = new ArrayList();
         base = new BasicWeapon();
@@ -93,34 +95,28 @@ public class GamePanel extends JPanel {
         one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         //gPanel = new JPanel();
-
-        //setBackground(bgColor);
+        setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
         // height = this.getSize().height;
         // width = this.getSize().width;
-
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         shootGame.addUnitToArray(one);
-
-        /*
-         * TODO: Implement automatic calling of spawn classes
-         * Below code generates 5 enemies at random position.
-         */
-        int type = 1;
-        assert (type >= 0 && type <= 2);
-        spawns = sp.spawnN(5, type);
-        for (int i = 0; i < spawns.size(); i++) {
-            shootGame.addUnitToArray(spawns.get(i));
-        }
-
+//        /*
+//         * TODO: Implement automatic calling of spawn classes
+//         * Below code generates 5 enemies at random position.
+//         */
+//        int type = 1;
+//        assert (type >= 0 && type <= 2);
+//        spawns = sp.spawnN(5, type);
+//        for (int i = 0; i < spawns.size(); i++) {
+//            shootGame.addUnitToArray(spawns.get(i));
+//        }
         setFocusable(true);
         addMouseListener(a);
         addKeyListener(a);
         addMouseMotionListener(a);
-
         hideMouse();
-
     }
 
     // Logic methods
@@ -147,7 +143,6 @@ public class GamePanel extends JPanel {
 
         drawShips(g2);
         drawProjectiles(g2);
-
     }
 
     private void drawShips(Graphics2D g2) {
@@ -157,6 +152,19 @@ public class GamePanel extends JPanel {
         ArrayList<Unit> units = shootGame.getUnitArray();
         for (Unit unit : units) {
             unit.draw(g2);
+        }
+        System.out.println(counter);
+        if(counter == 399){
+                    /*
+         * TODO: Implement automatic calling of spawn classes
+         * Below code generates 5 enemies at random position.
+         */
+        int type = 1;
+        assert (type >= 0 && type <= 2);
+        spawns = sp.spawnN(5, type);
+        for (int i = 0; i < spawns.size(); i++) {
+            shootGame.addUnitToArray(spawns.get(i));
+        }
         }
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
     }
