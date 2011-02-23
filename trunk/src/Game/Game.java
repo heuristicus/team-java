@@ -6,6 +6,7 @@ package Game;
 
 import Projectile.Projectile;
 import Spawn.Spawn;
+import Unit.Enemy;
 import Unit.Unit;
 import java.awt.Dimension;
 import java.awt.Point;
@@ -49,6 +50,11 @@ public class Game {
         pruneProjectileArray(height, width);
     }
 
+    /**
+     * Performs simple collision detection by looping through arrays and checking
+     * whether two objects represented by 15x5 rectangles around their centre
+     * intersect each other. If they do, they are removed from the arrays.
+     */
     public void doNaiveCollisionDetection() {
         long time = System.currentTimeMillis();
         Rectangle2D projBound;
@@ -230,6 +236,15 @@ public class Game {
     public void moveProjectiles() {
         for (Projectile proj : projectiles) {
             proj.doMove();
+        }
+    }
+
+    public void moveEnemies() {
+        for (Unit unit : units) {
+            if (unit.getClass().toString().equals("class Unit.Enemy")){
+                Enemy e = (Enemy) unit;
+                e.doMove();
+            }
         }
     }
 }

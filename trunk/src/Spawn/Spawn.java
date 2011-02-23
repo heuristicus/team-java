@@ -6,6 +6,7 @@
 package Spawn;
 
 import GUIComponents.BaseFrame;
+import Path.DiagonalPath;
 import Weapon.*;
 import Unit.*;
 import java.awt.Color;
@@ -60,7 +61,7 @@ public class Spawn {
     }
 
     public Unit newEnemyUnit(){
-        Unit en = new Enemy(100,100, new BasicWeapon(), 100, setRandPosition().x,
+        Unit en = new Enemy(100,100, new BasicWeapon(), new DiagonalPath(), 100, setRandPosition().x,
                 setRandPosition().y, Color.cyan);
         return en;
     }

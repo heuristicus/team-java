@@ -124,6 +124,7 @@ public class GamePanel extends JPanel {
         mouse = a.isMouse();
         movement();
         shootGame.pruneArrays(new Dimension(width, height));
+        shootGame.moveEnemies();
         shootGame.moveProjectiles();
         shootGame.doNaiveCollisionDetection();
     }
