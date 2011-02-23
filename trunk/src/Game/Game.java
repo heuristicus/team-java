@@ -45,13 +45,11 @@ public class Game {
         // TODO Decide on some kind of range outside the frame in which we keep objects
         int height = frameSize.height;
         int width = frameSize.width;
-        System.out.println(height);
-        System.out.println(width);
         pruneUnitArray(height, width);
         pruneProjectileArray(height, width);
     }
 
-    public void doNaiveCollisionDetection(){
+    public void doNaiveCollisionDetection() {
         long time = System.currentTimeMillis();
         Rectangle2D projBound;
         Rectangle2D unitBound;
@@ -61,11 +59,13 @@ public class Game {
             Point uPoint = unit.getLocation();
             unitBound = getCenteredBox(uPoint);
             for (Projectile p : projectiles) {
-                Point projPoint  = p.getLocation();
+                Point projPoint = p.getLocation();
                 projBound = getCenteredBox(projPoint);
-                if (projBound.intersects(unitBound)){
-                    toRemoveProj.add(p);
-                    toRemoveUnit.add(unit);
+                if (projBound.intersects(unitBound)) {
+                    if (removeObjectsQuery(unit, p)) {
+                        toRemoveProj.add(p);
+                        toRemoveUnit.add(unit);
+                    }
                 }
             }
         }
@@ -76,17 +76,40 @@ public class Game {
             removeProjectileFromArray(p);
         }
         long timeTaken = time - System.currentTimeMillis();
-        if (timeTaken >= 20){
+        if (timeTaken >= 20) {
             System.out.printf("WARNING: COLLISION DETECTION TOOK %d MILLISECONDS!\n", timeTaken);
         }
+    }
+
+    /**
+     * Checks the collision between two objects, and returns a value representing
+     * whether they should be removed or not. This is a pretty crude method, and
+     * really should be changed to something better than comparing types using
+     * strings.
+     * @param u
+     * @param p
+     * @return
+     */
+    public boolean removeObjectsQuery(Unit u, Projectile p) {
+        // The collision is between the player bullets and the player, ignore it.
+        if (u.getClass().toString().equals("class Unit.Player") && !p.isEnemy()) {
+            return false;
+        }
+        // Collision between enemy bullets and enemies, ignore it.
+        if (u.getClass().toString().equals("class Unit.Enemy") && p.isEnemy()){
+            return false;
+        }
+
+        return true; // Collision which requires that objects are removed.
+
     }
 
     /**
      * Gets a box of 5x5 pixels with the point passed as the centre.
      * @param centre
      */
-    public Rectangle2D getCenteredBox(Point centre){
-         return new Rectangle2D.Double(centre.getX() - 2.5, centre.getY() - 2.5, 15, 5);
+    public Rectangle2D getCenteredBox(Point centre) {
+        return new Rectangle2D.Double(centre.getX() - 2.5, centre.getY() - 2.5, 15, 5);
     }
 
     /**
@@ -134,11 +157,12 @@ public class Game {
     public void addUnitToArray(Unit addUnit) {
         units.add(addUnit);
     }
+
     /**
      * Removes a unit from the array at the index specified
      * @param index
      */
-    public void removeUnitfromArray(int index){
+    public void removeUnitfromArray(int index) {
         units.remove(index);
     }
 
@@ -146,15 +170,15 @@ public class Game {
      * Removes a specified unit from the array.
      * @param unit
      */
-    public void removeUnitFromArray(Unit unit){
+    public void removeUnitFromArray(Unit unit) {
         units.remove(unit);
     }
 
-    public void removeProjectileFromArray(Projectile p){
+    public void removeProjectileFromArray(Projectile p) {
         projectiles.remove(p);
     }
 
-    public void removeProjectileFromArray(int index){
+    public void removeProjectileFromArray(int index) {
         projectiles.remove(index);
     }
 
