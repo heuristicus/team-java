@@ -11,7 +11,6 @@ import Unit.Player;
 import Unit.Unit;
 import java.awt.Dimension;
 import java.awt.Point;
-import java.awt.Shape;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 
@@ -41,8 +40,6 @@ public class Game {
      */
     public void doNaiveCollisionDetection() {
         long time = System.currentTimeMillis();
-//        collideUnits();
-//        collideUnitsAndProjectiles();
         collideEnemies();
         collidePlayers();
         long timeTaken = time - System.currentTimeMillis();
