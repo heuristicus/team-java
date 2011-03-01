@@ -73,6 +73,10 @@ public abstract class Unit {
         return new Point(xCoord, yCoord);
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     public void giveDamage(int damage){
         health -= damage;
     }
