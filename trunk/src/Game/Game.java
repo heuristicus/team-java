@@ -44,6 +44,7 @@ public class Game {
 //        collideUnits();
 //        collideUnitsAndProjectiles();
         collideEnemies();
+        collidePlayers();
         long timeTaken = time - System.currentTimeMillis();
         if (timeTaken >= 20) {
             System.err.printf("WARNING: COLLISION DETECTION TOOK %d MILLISECONDS!\n", timeTaken);
@@ -55,6 +56,7 @@ public class Game {
      */
     public void collideEnemies() {
         ArrayList<Enemy> toRemove = new ArrayList<Enemy>();
+        ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
         for (Enemy enemy : enemies) {
             for (Projectile projectile : projectiles) {
                 if (colliding(enemy, projectile)) {
@@ -62,11 +64,15 @@ public class Game {
                     if (enemy.getHealth() <= 0) {
                         toRemove.add(enemy);
                     }
+                    toRemoveProj.add(projectile);
                 }
             }
         }
         for (Enemy enemy : toRemove) {
             removeEnemy(enemy);
+        }
+        for (Projectile projectile : toRemoveProj) {
+            removeProjectile(projectile);
         }
     }
 
@@ -74,6 +80,50 @@ public class Game {
      * Collides players with enemies, and projectiles fired by enemies.
      */
     public void collidePlayers() {
+        collidePlayerWithEnemies();
+        collidePlayerWithProjectiles();
+    }
+
+    private void collidePlayerWithEnemies() {
+        ArrayList<Player> toRemoveP = new ArrayList<Player>();
+        ArrayList<Enemy> toRemoveE = new ArrayList<Enemy>();
+        for (Player player : players) {
+            for (Enemy enemy : enemies) {
+                if (colliding(player, enemy)){
+                    toRemoveP.add(player);
+                    toRemoveE.add(enemy);
+                }
+            }
+        }
+        for (Enemy enemy : toRemoveE) {
+            removeEnemy(enemy);
+        }
+        for (Player player : toRemoveP) {
+            removePlayer(player);
+        }
+    }
+
+    // FIXME pretty much the same code as the code to collide enemies.
+    private void collidePlayerWithProjectiles() {
+        ArrayList<Player> toRemove = new ArrayList<Player>();
+        ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
+        for (Player player : players) {
+            for (Projectile projectile : projectiles) {
+                if (colliding(player, projectile)) {
+                    player.giveDamage(projectile.getDamage());
+                    if (player.getHealth() <= 0) {
+                        toRemove.add(player);
+                    }
+                    toRemoveProj.add(projectile);
+                }
+            }
+        }
+        for (Player player : toRemove) {
+            removePlayer(player);
+        }
+        for (Projectile projectile : toRemoveProj) {
+            removeProjectile(projectile);
+        }
     }
 
     /**
@@ -163,16 +213,17 @@ public class Game {
      * @return
      */
     public boolean colliding(Unit u1, Unit u2) {
-        Rectangle2D u1Bound = getCenteredBox(u1.getLocation());
-        Rectangle2D u2Bound = getCenteredBox(u2.getLocation());
         if (u1.getClass().toString().equals("class Unit.Player")
                 && u2.getClass().toString().equals("class Unit.Enemy")
                 || u2.getClass().toString().equals("class Unit.Player")
                 && u1.getClass().toString().equals("class Unit.Enemy")) {
-            return true;
-        } else {
-            return false;
+            Rectangle2D u1Bound = getCenteredBox(u1.getLocation());
+            Rectangle2D u2Bound = getCenteredBox(u2.getLocation());
+            if (u1Bound.intersects(u2Bound)) {
+                return true;
+            }
         }
+        return false;
     }
 
     /**
@@ -254,11 +305,11 @@ public class Game {
 
     //<editor-fold defaultstate="collapsed" desc="Methods for adding and removal from arrays, as well as getters.">
     //<editor-fold defaultstate="collapsed" desc="Projectiles.">
-    public void removeProjectileFromArray(Projectile p) {
+    public void removeProjectile(Projectile p) {
         projectiles.remove(p);
     }
 
-    public void removeProjectileFromArray(int index) {
+    public void removeProjectile(int index) {
         projectiles.remove(index);
     }
 
@@ -315,6 +366,7 @@ public class Game {
     }
 
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Spawns.">
     public void addSpawn(Spawn s) {
         spawns.add(s);
@@ -334,6 +386,7 @@ public class Game {
     //</editor-fold>
 
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Methods to move game objects.">
     /**
      * Executes the doMove method for each projectile in the array.
