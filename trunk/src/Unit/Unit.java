@@ -73,6 +73,10 @@ public abstract class Unit {
         return new Point(xCoord, yCoord);
     }
 
+    public void giveDamage(int damage){
+        health -= damage;
+    }
+
 //    public Polygon getShip() {
 //        return ship;
 //    }
