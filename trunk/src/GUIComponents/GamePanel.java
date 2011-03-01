@@ -83,7 +83,7 @@ public class GamePanel extends JPanel {
 
             public void actionPerformed(ActionEvent e) {
 
-                System.out.println("action");
+//                System.out.println("action");
                 repaint();
             }
         });
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel {
         // width = this.getSize().width;
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
-        shootGame.addUnitToArray(one);
+        shootGame.addPlayer(one);
 //        /*
 //         * TODO: Implement automatic calling of spawn classes
 //         * Below code generates 5 enemies at random position.
@@ -147,15 +147,18 @@ public class GamePanel extends JPanel {
     }
 
     private void drawShips(Graphics2D g2) {
-//        shootGame.removeUnitFromArray(one);
         one.setLocation(new Point(player1_x, player1_y));
-//        shootGame.addUnitToArray(one);
-        ArrayList<Unit> units = shootGame.getUnitArray();
-        for (Unit unit : units) {
-            unit.draw(g2);
+        ArrayList<Enemy> enemies = shootGame.getEnemyArray();
+        ArrayList<Player> players = shootGame.getPlayerArray();
+        for (Player player : players) {
+            player.draw(g2);
         }
-        System.out.println(counter);
-        if(counter == 399){
+        for (Enemy enemy : enemies) {
+            enemy.draw(g2);
+        }
+
+//        System.out.println(counter);
+        if(counter == 100){ // will spawn a wave as soon as the game starts
                     /*
          * TODO: Implement automatic calling of spawn classes
          * Below code generates 5 enemies at random position.
@@ -164,7 +167,8 @@ public class GamePanel extends JPanel {
         assert (type >= 0 && type <= 2);
         spawns = sp.spawnN(5, type);
         for (int i = 0; i < spawns.size(); i++) {
-            shootGame.addUnitToArray(spawns.get(i));
+            // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
+            shootGame.addEnemy((Enemy)spawns.get(i));
         }
         }
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
