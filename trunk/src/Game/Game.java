@@ -32,6 +32,17 @@ public class Game {
         spawns = new ArrayList<Spawn>();
     }
 
+    public GameState getGameState() {
+        return new GameState(players, enemies, projectiles, spawns);
+    }
+
+    public void setGameState(GameState state) {
+        players = state.getPlayers();
+        enemies = state.getEnemies();
+        projectiles = state.getProjectiles();
+        spawns = state.getSpawns();
+    }
+
     //<editor-fold defaultstate="collapsed" desc="Collision detection.">
     /**
      * Performs simple collision detection by looping through arrays and checking
@@ -86,7 +97,7 @@ public class Game {
         ArrayList<Enemy> toRemoveE = new ArrayList<Enemy>();
         for (Player player : players) {
             for (Enemy enemy : enemies) {
-                if (colliding(player, enemy)){
+                if (colliding(player, enemy)) {
                     toRemoveP.add(player);
                     toRemoveE.add(enemy);
                 }
@@ -363,7 +374,6 @@ public class Game {
     }
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Spawns.">
     public void addSpawn(Spawn s) {
         spawns.add(s);
@@ -383,7 +393,6 @@ public class Game {
     //</editor-fold>
 
     //</editor-fold>
-
     //<editor-fold defaultstate="collapsed" desc="Methods to move game objects.">
     /**
      * Executes the doMove method for each projectile in the array.
