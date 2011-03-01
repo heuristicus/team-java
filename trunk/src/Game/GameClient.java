@@ -10,5 +10,17 @@ package Game;
  * @author michal
  */
 public class GameClient {
+    private final String serverIP;
+
+    public GameClient(String serverIP) {
+        this.serverIP = serverIP;
+    }
+
+    public void connectToServer(){
+    }
+
+    
+
+
 
 }
