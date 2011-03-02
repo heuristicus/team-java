@@ -1,5 +1,6 @@
 package GUIComponents;
 
+import Background.Background;
 import Controls.Controls;
 import Game.Game;
 import Projectile.BasicProjectile;
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel {
     Timer timer;
     ArrayList<Unit> spawns;
     int counter;
+    Background background;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -92,6 +94,7 @@ public class GamePanel extends JPanel {
         spawns = new ArrayList();
         base = new BasicWeapon();
         shootGame = new Game();
+        background = new Background(40);
         one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         //gPanel = new JPanel();
@@ -127,6 +130,7 @@ public class GamePanel extends JPanel {
         shootGame.moveEnemies();
         shootGame.moveProjectiles();
         shootGame.doNaiveCollisionDetection();
+        background.tick();
     }
 
     // Rendering methods
@@ -144,6 +148,7 @@ public class GamePanel extends JPanel {
 
         drawShips(g2);
         drawProjectiles(g2);
+        background.draw(g2);
     }
 
     private void drawShips(Graphics2D g2) {
