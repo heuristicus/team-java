@@ -21,6 +21,7 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -102,7 +103,7 @@ public class GamePanel extends JPanel {
         base = new BasicWeapon();
         shootGame = new Game();
         background = new Background(40);
-        one = new Player(200, 200, base, 200, player1_x, player1_y, Color.WHITE);
+        one = new Player(100, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         //gPanel = new JPanel();
         setBackground(bgColor);
@@ -152,10 +153,12 @@ public class GamePanel extends JPanel {
 //            p.doMove();
 //
 //        }
-
+        background.draw(g2);
+        drawHealthBar(g2);
         drawShips(g2);
         drawProjectiles(g2);
-        background.draw(g2);
+        
+        
     }
 
     private void drawShips(Graphics2D g2) {
@@ -247,5 +250,11 @@ public class GamePanel extends JPanel {
         Cursor invisible = getToolkit().createCustomCursor(
                 invisi.getImage(), new Point(0, 0), "Hiding");
         this.setCursor(invisible);
+    }
+
+    private void drawHealthBar(Graphics2D g2) {
+        Rectangle2D healthBar = new Rectangle2D.Double(35,525,one.getHealth(),20);
+        g2.setColor(Color.GREEN);
+        g2.fill(healthBar);
     }
 }

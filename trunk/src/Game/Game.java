@@ -13,6 +13,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -98,6 +99,7 @@ public class Game {
         for (Player player : players) {
             for (Enemy enemy : enemies) {
                 if (colliding(player, enemy)) {
+                    player.giveDamage(player.getHealth());
                     toRemoveP.add(player);
                     toRemoveE.add(enemy);
                 }
@@ -367,6 +369,7 @@ public class Game {
 
     public void removePlayer(int index) {
         players.remove(index);
+
     }
 
     public ArrayList<Player> getPlayerArray() {
@@ -414,4 +417,6 @@ public class Game {
         }
     }
     //</editor-fold>
+
+
 }
