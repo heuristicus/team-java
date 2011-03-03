@@ -136,7 +136,7 @@ public class GamePanel extends JPanel {
     private void logic() {
         mouse = a.isMouse();
         movement();
-        shootGame.pruneArrays(new Dimension(width, height));
+        shootGame.pruneArrays(new Dimension(this.getSize()));
         shootGame.moveEnemies();
         shootGame.moveProjectiles();
         shootGame.doNaiveCollisionDetection();
@@ -184,19 +184,17 @@ public class GamePanel extends JPanel {
 //        System.out.println(counter);
         if (counter == 100) { // will spawn a wave as soon as the game starts
                     /*
-             * TODO: Implement automatic calling of spawn classes
-             * Below code generates 5 enemies at random position.
-             */
-            int type = 1;
-            assert (type >= 0 && type <= 2);
-            spawns = sp.spawnN(5, type);
-            for (int i = 0; i < spawns.size(); i++) {
-                // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
-                shootGame.addEnemy((Enemy) spawns.get(i));
-            }
+         * TODO: Implement automatic calling of spawn classes
+         * Below code generates 5 enemies at random position.
+         */
+
+        spawns = sp.spawnRandom(6);
+        for (int i = 0; i < spawns.size(); i++) {
+            // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
+            shootGame.addEnemy((Enemy) spawns.get(i));
         }
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
-    }
+    }}
 
     private void drawProjectiles(Graphics2D g2) {
 
