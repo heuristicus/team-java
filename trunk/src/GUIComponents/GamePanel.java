@@ -58,6 +58,7 @@ public class GamePanel extends JPanel {
     int speed;
     Shape shape;
     Color color;
+    static Boolean run;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -89,6 +90,7 @@ public class GamePanel extends JPanel {
 
     // Initialization
     private void initialize() {
+        run = true;
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
@@ -143,6 +145,7 @@ public class GamePanel extends JPanel {
 
     // Rendering methods
     private void render(Graphics2D g2) {
+        if(run){
         super.paintComponent(g2);
 //        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
 //                RenderingHints.VALUE_ANTIALIAS_ON);
@@ -157,7 +160,13 @@ public class GamePanel extends JPanel {
         drawHealthBar(g2);
         drawShips(g2);
         drawProjectiles(g2);
-        
+        } else {
+            super.paintComponent(g2);
+            g2.setColor(Color.BLACK);
+            g2.fill(new Rectangle2D.Double(0,0,800,800));
+            g2.setColor(Color.WHITE);
+            g2.drawString("GAME OVER!", 350, 275);
+        }
         
     }
 
@@ -256,5 +265,13 @@ public class GamePanel extends JPanel {
         Rectangle2D healthBar = new Rectangle2D.Double(35,525,one.getHealth(),20);
         g2.setColor(Color.GREEN);
         g2.fill(healthBar);
+    }
+    /**
+     * Method to change the variable run that controls rendering.
+     * @param run
+     */
+    public static void setRun(Boolean run)
+    {
+        GamePanel.run = run;
     }
 }

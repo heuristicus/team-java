@@ -365,11 +365,12 @@ public class Game {
 
     public void removePlayer(Player p) {
         players.remove(p);
+        showGameOverDialog();
     }
 
     public void removePlayer(int index) {
         players.remove(index);
-
+        showGameOverDialog();
     }
 
     public ArrayList<Player> getPlayerArray() {
@@ -418,5 +419,13 @@ public class Game {
     }
     //</editor-fold>
 
-
+    /**
+     * Method that prints out the game over dialog and stops the rendering, then quits as user presses OK
+     */
+    private void showGameOverDialog()
+    {
+        GUIComponents.GamePanel.setRun(false);
+        JOptionPane.showMessageDialog(null,"Game Over!");       
+        System.exit(0);
+    }
 }
