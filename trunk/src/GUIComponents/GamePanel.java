@@ -4,6 +4,7 @@ import Background.Background;
 import Controls.Controls;
 import Game.Game;
 import Projectile.BasicProjectile;
+import Projectile.ComplexProjectile;
 import Projectile.Projectile;
 import Spawn.Spawn;
 import Unit.*;
@@ -16,8 +17,10 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
@@ -50,6 +53,10 @@ public class GamePanel extends JPanel {
     ArrayList<Unit> spawns;
     int counter;
     Background background;
+    int damage;
+    int speed;
+    Shape shape;
+    Color color;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -163,29 +170,37 @@ public class GamePanel extends JPanel {
         }
 
 //        System.out.println(counter);
-        if(counter == 100){ // will spawn a wave as soon as the game starts
+        if (counter == 100) { // will spawn a wave as soon as the game starts
                     /*
-         * TODO: Implement automatic calling of spawn classes
-         * Below code generates 5 enemies at random position.
-         */
-        int type = 1;
-        assert (type >= 0 && type <= 2);
-        spawns = sp.spawnN(5, type);
-        for (int i = 0; i < spawns.size(); i++) {
-            // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
-            shootGame.addEnemy((Enemy)spawns.get(i));
-        }
+             * TODO: Implement automatic calling of spawn classes
+             * Below code generates 5 enemies at random position.
+             */
+            int type = 1;
+            assert (type >= 0 && type <= 2);
+            spawns = sp.spawnN(5, type);
+            for (int i = 0; i < spawns.size(); i++) {
+                // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
+                shootGame.addEnemy((Enemy) spawns.get(i));
+            }
         }
         //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
     }
 
     private void drawProjectiles(Graphics2D g2) {
+
+        if (counter == 120 || counter == 200) {
+            for (int i = 1; i < shootGame.getEnemyArray().size() - 1; i++) {
+                shape = new Ellipse2D.Double(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 5, 5);
+                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, damage, speed, true, shape, color));
+            }
+
+        }
         g2.setColor(Color.BLUE);
         ArrayList<Projectile> projectiles = shootGame.getProjectileArray();
         for (Projectile projectile : projectiles) {
             projectile.draw(g2);
         }
-        
+
 //        try{
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
 //        }catch(Exception e){
@@ -215,14 +230,15 @@ public class GamePanel extends JPanel {
             if (a.isLeft() && player1_x > 0) {
                 player1_x -= 5;
             }
-            if (a.isRight()&& player1_x < width) {
+            if (a.isRight() && player1_x < width) {
                 player1_x += 5;
             }
 
         }
         if (a.isSpace()) {
             //testPro = new BasicProjectile(one.getX(), one.getY());
-            shootGame.addProjectileToArray(new BasicProjectile(one.getX(), one.getY() - 15));
+            shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
+            shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, damage, speed, false, shape, color));
         }
     }
 
