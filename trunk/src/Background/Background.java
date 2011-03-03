@@ -51,10 +51,10 @@ public class Background {
         for (int k = 0; k < stars.size(); k++)
         {
             Star star = (Star)stars.get(k);
-            star.setCoords(new Point2D.Double(star.getCoords().getX(),star.getCoords().getY()-3));
-            if (star.getCoords().getY() < 0)
+            star.setCoords(new Point2D.Double(star.getCoords().getX(),star.getCoords().getY()+5));
+            if (star.getCoords().getY() > height)
             {
-                star.setCoords(new Point2D.Double(getRandom(width),height));
+                star.setCoords(new Point2D.Double(getRandom(width),0));
             }
         }
     }
