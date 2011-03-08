@@ -50,7 +50,7 @@ public class Game {
      * whether two objects represented by 15x5 rectangles around their centre
      * intersect each other. If they do, they are removed from the arrays.
      */
-    public void doNaiveCollisionDetection() {
+    public void doNaiveCollisionDetection() throws PlayerDeathException {
         long time = System.currentTimeMillis();
         collideEnemies();
         collidePlayers();
@@ -88,12 +88,12 @@ public class Game {
     /**
      * Collides players with enemies, and projectiles fired by enemies.
      */
-    public void collidePlayers() {
+    public void collidePlayers() throws PlayerDeathException {
         collidePlayerWithEnemies();
         collidePlayerWithProjectiles();
     }
 
-    private void collidePlayerWithEnemies() {
+    private void collidePlayerWithEnemies() throws PlayerDeathException {
         ArrayList<Player> toRemoveP = new ArrayList<Player>();
         ArrayList<Enemy> toRemoveE = new ArrayList<Enemy>();
         for (Player player : players) {
@@ -114,7 +114,7 @@ public class Game {
     }
 
     // FIXME pretty much the same code as the code to collide enemies.
-    private void collidePlayerWithProjectiles() {
+    private void collidePlayerWithProjectiles() throws PlayerDeathException {
         ArrayList<Player> toRemove = new ArrayList<Player>();
         ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
         for (Player player : players) {
@@ -363,14 +363,15 @@ public class Game {
         players.add(p);
     }
 
-    public void removePlayer(Player p) {
+    public void removePlayer(Player p) throws PlayerDeathException {
+        int player = players.indexOf(p);
         players.remove(p);
-        showGameOverDialog();
+        throw new PlayerDeathException(player);
     }
 
-    public void removePlayer(int index) {
+    public void removePlayer(int index) throws PlayerDeathException {
         players.remove(index);
-        showGameOverDialog();
+        throw new PlayerDeathException(index);
     }
 
     public ArrayList<Player> getPlayerArray() {
@@ -397,6 +398,7 @@ public class Game {
     //</editor-fold>
 
     //</editor-fold>
+    
     //<editor-fold defaultstate="collapsed" desc="Methods to move game objects.">
     /**
      * Executes the doMove method for each projectile in the array.
@@ -418,14 +420,4 @@ public class Game {
         }
     }
     //</editor-fold>
-
-    /**
-     * Method that prints out the game over dialog and stops the rendering, then quits as user presses OK
-     */
-    private void showGameOverDialog()
-    {
-        GUIComponents.GamePanel.setRun(false);
-        JOptionPane.showMessageDialog(null,"Game Over!");       
-        System.exit(0);
-    }
 }

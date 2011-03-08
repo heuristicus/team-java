@@ -3,7 +3,7 @@ package GUIComponents;
 import Background.Background;
 import Controls.Controls;
 import Game.Game;
-import Projectile.BasicProjectile;
+import Game.PlayerDeathException;
 import Projectile.ComplexProjectile;
 import Projectile.Projectile;
 import Spawn.Spawn;
@@ -23,7 +23,10 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -83,23 +86,11 @@ public class GamePanel extends JPanel {
 //        shootGame.getProjectileArray().get(shootGame.getProjectileArray().size()-1).draw(g2);
 //        }catch(Exception e){
 //        }
-        logic();
-
         render(g2);
     }
 
     // Initialization
     private void initialize() {
-        run = true;
-        timer = new Timer(20, new ActionListener() { //60 fps
-
-            public void actionPerformed(ActionEvent e) {
-
-//                System.out.println("action");
-                repaint();
-            }
-        });
-        timer.start();
         sp = new Spawn();
         spawns = new ArrayList();
         base = new BasicWeapon();
@@ -130,16 +121,34 @@ public class GamePanel extends JPanel {
         addKeyListener(a);
         addMouseMotionListener(a);
         hideMouse();
+        run = true;
+        timer = new Timer(20, new ActionListener() { //60 fps
+
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    logic();
+                } catch (PlayerDeathException ex) {
+                    System.out.println("player died.");
+                }
+                repaint();
+            }
+        });
+        timer.start();
     }
 
     // Logic methods
-    private void logic() {
+    private void logic() throws PlayerDeathException {
         mouse = a.isMouse();
         movement();
         shootGame.pruneArrays(new Dimension(this.getSize()));
         shootGame.moveEnemies();
         shootGame.moveProjectiles();
-        shootGame.doNaiveCollisionDetection();
+        try {
+            shootGame.doNaiveCollisionDetection();
+        } catch (PlayerDeathException ex) {
+            setRun(false);
+            JOptionPane.showMessageDialog(this, "You have succumbed to the void.");
+        }
         background.tick();
     }
 
