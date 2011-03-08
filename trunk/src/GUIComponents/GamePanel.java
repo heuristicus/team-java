@@ -23,8 +23,6 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -42,7 +40,6 @@ public class GamePanel extends JPanel {
      * parameter, or have it passed in using another method.
      */
     Game shootGame;
-    JPanel gPanel;
     Color bgColor = Color.BLACK;
     Player one;
     Spawn sp;
@@ -91,6 +88,14 @@ public class GamePanel extends JPanel {
         render(g2);
     }
 
+    /**
+     * Tries to get this panel to regain focus.
+     */
+    public void regainFocus(){
+        this.setFocusable(true);
+        this.requestFocusInWindow();
+    }
+
     // Initialization
     public void initialize() {
         sp = new Spawn();
@@ -100,7 +105,6 @@ public class GamePanel extends JPanel {
         background = new Background(40);
         one = new Player(100, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
-        //gPanel = new JPanel();
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
         // height = this.getSize().height;

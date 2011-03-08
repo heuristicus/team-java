@@ -4,7 +4,10 @@
  */
 package GUIComponents;
 
+import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -22,74 +25,104 @@ import javax.swing.JPanel;
  * 
  * @author michal
  */
-
 /**
  * Constructor sets up the frame by adding the listeners required and creates a new controls object
  * @author Dave
  */
-public class BaseFrame extends JFrame{
+public class BaseFrame extends JFrame {
 
-   // JFrame bFrame;
-    private static Dimension windowSize;
-  //  Controls c;
+    private static Dimension _windowSize;
+    JPanel cardPanel;
+    GamePanel gamePanel;
+    MenuPanel menuPanel;
+
+    enum Panels {
+
+        GAME, MENU
+    }
+    // TODO change this to start from the menu. Will require a change in the init methods as well.
+    Panels currentPanel = Panels.GAME;
 
     public BaseFrame(Dimension windowSize) {
-     this.windowSize = windowSize;
-     setSize(windowSize);
-     add("Center", new GamePanel(this.getWidth(), this.getHeight()));
-     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//     c = new Controls();
-//     addKeyListener(c);
-//     addMouseListener(c);
-//     addMouseMotionListener(c);
-//     setBackground(Color.BLACK);
-     setEnabled(true);
-     setVisible(true);
-     //   initFrame();     
+        _windowSize = windowSize;
+        gamePanel = new GamePanel(this.getWidth(), this.getHeight());
+        menuPanel = new MenuPanel();
+        initCardLayoutPanel();
+        initFrame();
     }
 
-    /*
-     * Initialises the frame. Sets the default close operation to exit.
-     * Sets the width and height of the frame to the value passed in to
-     * the constructor. Sets the frame to be enabled and sets it to be visible.
-     */
-    /**
-     * Redundant for now as moved the initialisation to the constructor
-     */
     private void initFrame() {
-//        bFrame = new JFrame("ShootyThing");
-//        Controls c = new Controls();
-//        bFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//        bFrame.setSize(windowSize);
-//
-//        /*
-//         * Adds a gamepanel to the frame. Better way of doing this needed.
-//         */
-////        bFrame.addKeyListener(c);
-////        bFrame.addMouseListener(c);
-////        bFrame.addMouseMotionListener(c);
-//
-//        bFrame.setEnabled(true);
-//        bFrame.setVisible(true);
+        setSize(_windowSize);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setEnabled(true);
+        add("Center", cardPanel);
+        gamePanel.initialize();
+        setVisible(true);
+        waitForPanelChangeRequest();
+    }
+
+    private void initCardLayoutPanel() {
+        cardPanel = new JPanel(new CardLayout());
+        cardPanel.add(gamePanel, "game");
+        cardPanel.add(menuPanel, "menu");
     }
 
     /**
-     * Adds a panel to the frame.
-     * @param addPanel Panel to add to the frame.
+     * Waits for a boolean in the game to be switched to a state in which it wants
+     * the panel changed.
      */
-    public void addPanel(JPanel addPanel) {
-        //bFrame.add(addPanel);
+    private void waitForPanelChangeRequest() {
+        while (true) {
+            switch (currentPanel) {
+                case GAME:
+                    boolean gTemp = gamePanel.getPanelSwitchRequest();
+                    if (gTemp == true) {
+                        switchPanels();
+                    }
+                    break;
+                case MENU:
+                    boolean mTemp = menuPanel.getPanelSwitchRequest();
+                    if (mTemp == true) {
+                        switchPanels();
+                    }
+                    break;
+            }
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                System.out.printf("Thread interrupted at %s, method %s\n", this.getClass().toString(), "waitforpanelchangerequest");
+                ex.printStackTrace();
+            }
+        }
     }
+
     /**
-     * Replaces the current panel in the frame with a new panel.
-     * @param repPanel Panel to put into the frame.
+     * Switches the panel to the next panel. The frame starts off in the
+     * first panel added to the cardlayout in the initcardlayoutpanel method.
+     *
+     * !!!!!!!!!This method assumes that there are only two panels!!!!!!!!!!!!!!
      */
-    public void replacePanel(JPanel repPanel) {
-//        bFrame.removeAll();
-//        bFrame.add(repPanel);
+    public void switchPanels() {
+        CardLayout l = (CardLayout) cardPanel.getLayout();
+        switch (currentPanel) {
+            case GAME:
+                l.next(cardPanel);
+                currentPanel = Panels.MENU;
+                break;
+            case MENU:
+                /* TODO set any variables that need setting or
+                 * methods that need executing (in the menu) when the menu is quit here.
+                 * !!!!!Also use this to pass things from the menu to the game !!!!
+                 */
+                l.next(cardPanel);
+                gamePanel.regainFocus();
+                gamePanel.setRun(true);
+                currentPanel = Panels.GAME;
+                break;
+        }
     }
 
     public static Dimension getWindowSize() {
-        return windowSize;
+        return _windowSize;
     }
 }
