@@ -61,16 +61,18 @@ public class GamePanel extends JPanel {
     int speed;
     Shape shape;
     Color color;
-    static Boolean run;
+    Boolean run;
+    boolean switchPanel = false;
+    boolean playerDeath = false;
+    boolean paused = false;
 
     public GamePanel(int width, int height) {
         this.width = width;
         this.height = height;
-        initialize();
     }
 
     /**
-     * Most important method here. Draws all objects that need to be drawn.
+     * Draws all objects that need to be drawn.
      * @param g
      */
     @Override
@@ -90,7 +92,7 @@ public class GamePanel extends JPanel {
     }
 
     // Initialization
-    private void initialize() {
+    public void initialize() {
         sp = new Spawn();
         spawns = new ArrayList();
         base = new BasicWeapon();
@@ -121,15 +123,12 @@ public class GamePanel extends JPanel {
         addKeyListener(a);
         addMouseMotionListener(a);
         hideMouse();
+        JOptionPane.showMessageDialog(this, "Ready?");
         run = true;
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
-                try {
-                    logic();
-                } catch (PlayerDeathException ex) {
-                    System.out.println("player died.");
-                }
+                logic();
                 repaint();
             }
         });
@@ -137,25 +136,29 @@ public class GamePanel extends JPanel {
     }
 
     // Logic methods
-    private void logic() throws PlayerDeathException {
-        mouse = a.isMouse();
-        movement();
-        shootGame.pruneArrays(new Dimension(this.getSize()));
-        shootGame.moveEnemies();
-        shootGame.moveProjectiles();
-        try {
-            shootGame.doNaiveCollisionDetection();
-        } catch (PlayerDeathException ex) {
-            setRun(false);
-            JOptionPane.showMessageDialog(this, "You have succumbed to the void.");
+    private void logic() {
+        // FIXME would be nice to put this somewhere else, but don't know where.
+        checkUserMovement();
+        if (run) {
+            mouse = a.isMouse();
+            shootGame.pruneArrays(new Dimension(this.getSize()));
+            shootGame.moveEnemies();
+            shootGame.moveProjectiles();
+            try {
+                shootGame.doNaiveCollisionDetection();
+            } catch (PlayerDeathException ex) {
+                playerDeath = true;
+                setRun(false);
+                JOptionPane.showMessageDialog(this, "You have become one with the void.");
+            }
+            background.tick();
         }
-        background.tick();
     }
 
     // Rendering methods
     private void render(Graphics2D g2) {
-        if(run){
-        super.paintComponent(g2);
+        if (run) {
+            super.paintComponent(g2);
 //        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
 //                RenderingHints.VALUE_ANTIALIAS_ON);
 //        for (Projectile p : shootGame.getProjectileArray()) {
@@ -165,18 +168,21 @@ public class GamePanel extends JPanel {
 //            p.doMove();
 //
 //        }
-        background.draw(g2);
-        drawHealthBar(g2);
-        drawShips(g2);
-        drawProjectiles(g2);
+            background.draw(g2);
+            drawHealthBar(g2);
+            drawShips(g2);
+            drawProjectiles(g2);
         } else {
-            super.paintComponent(g2);
-            g2.setColor(Color.BLACK);
-            g2.fill(new Rectangle2D.Double(0,0,800,800));
-            g2.setColor(Color.WHITE);
-            g2.drawString("GAME OVER!", 350, 275);
+            // If the player has died, then show the game over screen.
+            if (playerDeath) {
+                super.paintComponent(g2);
+                g2.setColor(Color.BLACK);
+                g2.fill(new Rectangle2D.Double(0, 0, 800, 800));
+                g2.setColor(Color.WHITE);
+                g2.drawString("GAME OVER!", 350, 275);
+            }
         }
-        
+
     }
 
     private void drawShips(Graphics2D g2) {
@@ -193,17 +199,18 @@ public class GamePanel extends JPanel {
 //        System.out.println(counter);
         if (counter == 100) { // will spawn a wave as soon as the game starts
                     /*
-         * TODO: Implement automatic calling of spawn classes
-         * Below code generates 5 enemies at random position.
-         */
+             * TODO: Implement automatic calling of spawn classes
+             * Below code generates 5 enemies at random position.
+             */
 
-        spawns = sp.spawnRandom(6);
-        for (int i = 0; i < spawns.size(); i++) {
-            // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
-            shootGame.addEnemy((Enemy) spawns.get(i));
+            spawns = sp.spawnRandom(6);
+            for (int i = 0; i < spawns.size(); i++) {
+                // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
+                shootGame.addEnemy((Enemy) spawns.get(i));
+            }
+            //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
         }
-        //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
-    }}
+    }
 
     private void drawProjectiles(Graphics2D g2) {
 
@@ -235,29 +242,43 @@ public class GamePanel extends JPanel {
     /**
      * used to control the movement
      */
-    private void movement() {
-        if (mouse) {
-            player1_x = a.getMouseX();
-            player1_y = a.getMouseY();
+    private void checkUserMovement() {
+        if (!paused && run) {
+            if (mouse) {
+                player1_x = a.getMouseX();
+                player1_y = a.getMouseY();
+            } else {
+                if (a.isUp() && player1_y > 0) {
+                    player1_y -= 5;
+                }
+                if (a.isDown() && player1_y < height) {
+                    player1_y += 5;
+                }
+                if (a.isLeft() && player1_x > 0) {
+                    player1_x -= 5;
+                }
+                if (a.isRight() && player1_x < width) {
+                    player1_x += 5;
+                }
+            }
+            if (a.isSpace()) {
+                //testPro = new BasicProjectile(one.getX(), one.getY());
+                shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, damage, speed, false, shape, color));
+            }
+            if (a.isEsc()) {
+                switchPanel = true;
+                a.setEscFalse();
+            }
+            if (a.isPause()) {
+                setRun(false);
+                paused = true;
+            }
         } else {
-            if (a.isUp() && player1_y > 0) {
-                player1_y -= 5;
+            if (!a.isPause()) {
+                paused = false;
+                setRun(true);
             }
-            if (a.isDown() && player1_y < height) {
-                player1_y += 5;
-            }
-            if (a.isLeft() && player1_x > 0) {
-                player1_x -= 5;
-            }
-            if (a.isRight() && player1_x < width) {
-                player1_x += 5;
-            }
-
-        }
-        if (a.isSpace()) {
-            //testPro = new BasicProjectile(one.getX(), one.getY());
-            shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
-            shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, damage, speed, false, shape, color));
         }
     }
 
@@ -269,16 +290,32 @@ public class GamePanel extends JPanel {
     }
 
     private void drawHealthBar(Graphics2D g2) {
-        Rectangle2D healthBar = new Rectangle2D.Double(35,525,one.getHealth(),20);
+        Rectangle2D healthBar = new Rectangle2D.Double(35, 525, one.getHealth(), 20);
         g2.setColor(Color.GREEN);
         g2.fill(healthBar);
     }
+
     /**
      * Method to change the variable run that controls rendering.
      * @param run
      */
-    public static void setRun(Boolean run)
-    {
-        GamePanel.run = run;
+    public void setRun(Boolean run) {
+        this.run = run;
+    }
+
+    /**
+     * Checks if the switchpanel variable is true. this indicates that the user
+     * has pressed escape and so the frame should switch to the menu. Also stops the
+     * game from running.
+     * @return
+     */
+    public boolean getPanelSwitchRequest() {
+        boolean req = switchPanel;
+        if (req == true) {
+            setRun(false);
+            switchPanel = false;
+            return true;
+        }
+        return false;
     }
 }

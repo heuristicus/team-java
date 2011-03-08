@@ -28,6 +28,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     int mouseX; // Current mouse X position
     int mouseY; // Currrent Mouse Y position
     boolean mouse = false;//if mouse is being used or not
+    boolean esc = false; // esc has been pressed.
+    boolean pause = false; // p has been pressed.
 
     /**
      * Sout in constructor to inform if the controls are enabled
@@ -44,32 +46,36 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void keyPressed(KeyEvent e) {
-        // System.out.println(e.getKeyCode());
+        System.out.println(e.getKeyCode());
         // System.out.println("press");
         if (e.getKeyCode() == 40) {//down
             down = true;
             currentKey = 40;
-            System.out.println("down");
         }
         if (e.getKeyCode() == 37) {//left
             left = true;
             currentKey = 37;
-            System.out.println("left");
         }
         if (e.getKeyCode() == 38) {//up
             up = true;
             currentKey = 38;
-            System.out.println("up");
         }
         if (e.getKeyCode() == 39) {//right
             right = true;
             currentKey = 39;
-            System.out.println("right");
         }
         if (e.getKeyCode() == 32) {//space
             space = true;
             currentKey = 32;
-            System.out.println("space");
+        }
+        if (e.getKeyCode() == 27) { // escape
+            esc = true;
+            currentKey = 27;
+        }
+        if (e.getKeyCode() == 80) {
+            // if pause is true, set it to false, otherwise set it to true.
+            pause = pause == true ? false : true;
+            currentKey = 80;
         }
     }
 
@@ -95,6 +101,10 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (e.getKeyCode() == 32) {//space
             space = false;
         }
+        if (e.getKeyCode() == 27) { // esc
+            esc = false;
+        }
+
     }
 
     /**
@@ -111,7 +121,6 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      */
     public void mousePressed(MouseEvent e) {
         space = true;
-        System.out.println("space");
     }
 
     /**
@@ -151,7 +160,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         mouseY = e.getY();
     }
 
-        /**
+    /**
      * Part of mouse listener that will get the co-ordinate of the mouse pointer while the mouse is moved around in the frame
      * @param e
      */
@@ -159,8 +168,8 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         mouse = true;
         mouseX = e.getX();
         mouseY = e.getY();
-       // System.out.println("x= " + mouseX);
-       // System.out.println("Y= " + mouseY);
+        // System.out.println("x= " + mouseX);
+        // System.out.println("Y= " + mouseY);
     }
 
     /**
@@ -208,5 +217,17 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
 
     public boolean isMouse() {
         return mouse;
+    }
+
+    public boolean isEsc() {
+        return esc;
+    }
+
+    public void setEscFalse() {
+        esc = false;
+    }
+
+    public boolean isPause() {
+        return pause;
     }
 }
