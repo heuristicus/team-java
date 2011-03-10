@@ -17,6 +17,11 @@ public class GameServer {
 
     ArrayList<Socket> clients;
 
+    public static void main(String[] args) {
+        GameServer g = new GameServer();
+        g.findUsablePort(2000, 3000);
+    }
+
     public GameServer() {
     }
 

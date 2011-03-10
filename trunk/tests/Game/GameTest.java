@@ -4,6 +4,7 @@
  */
 package Game;
 
+import Path.DiagonalPath;
 import java.awt.Dimension;
 import java.awt.Color;
 import Unit.DefaultUnit;
@@ -31,10 +32,21 @@ public class GameTest {
     Projectile outF1;
     Unit inF2;
     Unit outF2;
+    // the next 2 should be initialised so they overlap
     Unit collU;
     Projectile collP;
+    // the next 2 should be initialised so they overlap
     Unit collU2;
     Projectile collP2;
+    // initialised to overlap
+    Unit crashUnit;
+    Unit crashUnit2;
+    // player to collide with an enemy
+    Player crashPlayer;
+    Enemy crashEnemy;
+    // unit separate from colliding units
+    Unit noColl;
+    Projectile noHit;
 
     public GameTest() {
     }
@@ -53,7 +65,7 @@ public class GameTest {
     public void setUp() {
         g = new Game(); // game object
         // Enemy
-        enemy = new Enemy(300, 100, new BasicWeapon(), 20, 10, 10, Color.red);
+        enemy = new Enemy(300, 100, new BasicWeapon(), new DiagonalPath(), 20, 10, 10, Color.red);
         // Player
         player = new Player(300, 200, new BasicWeapon(), 0, 40, 40, Color.green);
         // Projectile
@@ -72,6 +84,13 @@ public class GameTest {
         collU = new DefaultUnit(118, 118);
         collP2 = new BasicProjectile(200, 200);
         collU2 = new DefaultUnit(202, 202);
+        crashUnit = new DefaultUnit(400, 400);
+        crashUnit2 = new DefaultUnit(401, 401);
+        crashPlayer = new Player(10, 10, new BasicWeapon(), 10, 50, 50, Color.yellow);
+        crashEnemy = new Enemy(10, 10, new BasicWeapon(), new DiagonalPath(), 40, 50, 50, Color.yellow);
+        // shouldn't collide with anything
+        noColl = new DefaultUnit(600, 600);
+        noHit = new BasicProjectile(580, 580);
     }
 
     /**
@@ -154,7 +173,7 @@ public class GameTest {
         expUnit.add(inF2);
         g.addUnitToArray(outF2); // adds a unit outside the bounds
         g.addUnitToArray(inF2); // adds a unit inside the bounds
-        g.pruneUnitArray(800, 600);
+        g.pruneEnemyArray(800, 600);
         org.junit.Assert.assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 
@@ -196,10 +215,21 @@ public class GameTest {
 
     @Test
     public void testNaiveCollisionDetection() {
+        ArrayList<Unit> expUnit = new ArrayList<Unit>();
+        ArrayList<Projectile> expProj = new ArrayList<Projectile>();
+        expProj.add(noHit);
+        expUnit.add(noColl);
         g.addProjectileToArray(collP);
         g.addProjectileToArray(collP2);
+        g.addProjectileToArray(noHit);
         g.addUnitToArray(collU);
         g.addUnitToArray(collU2);
+        g.addUnitToArray(crashEnemy);
+        g.addUnitToArray(crashPlayer);
+//        g.addUnitToArray(crashUnit);
+//        g.addUnitToArray(crashUnit2);
         g.doNaiveCollisionDetection();
+        org.junit.Assert.assertArrayEquals(expProj.toArray(), g.getProjectileArray().toArray());
+        org.junit.Assert.assertArrayEquals(expUnit.toArray(), g.getUnitArray().toArray());
     }
 }
