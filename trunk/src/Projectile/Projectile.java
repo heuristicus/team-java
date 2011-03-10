@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 
 /**
  *
@@ -84,6 +85,8 @@ public abstract class Projectile {
 
     // Rendering methods.
     public void draw(Graphics2D g2) {
+      //  System.out.println(shape.getClass().toString());
+
         g2.fill(shape);
     }
 

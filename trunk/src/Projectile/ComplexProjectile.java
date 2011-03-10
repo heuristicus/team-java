@@ -6,6 +6,9 @@ package Projectile;
 
 import java.awt.Color;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -20,13 +23,29 @@ public class ComplexProjectile extends Projectile {
 
     @Override
     public void move(int x, int y) {
+        System.out.println(super.getShape().getClass().getName());
         if (isEnemy()) {
             super.setX(x);
             super.setY(y);
-        } else {
+            if (super.getShape().getClass().getName().contains("Ellipse2D")) {
+                super.setShape(new Ellipse2D.Double(x, y, 5, 5));
+            } else if (super.getShape().getClass().getName().contains("Rectangle2D")) {
+                super.setShape(new Rectangle2D.Double(x, y, 5, 5));
+            } else if (super.getShape().getClass().getName().contains("Line")) {
+                super.setShape(new Line2D.Double(x, y, x, y + 10));
+            }
 
+        } else {
             super.setX(x);
             super.setY(y);
+            if (super.getShape().getClass().getName().contains("Ellipse2D")) {
+                super.setShape(new Ellipse2D.Double(x, y, 5, 5));
+            } else if (super.getShape().getClass().getName().contains("Rectangle2D")) {
+                super.setShape(new Rectangle2D.Double(x, y, 5, 5));
+            } else if (super.getShape().getClass().getName().contains("Line2D")) {
+                super.setShape(new Line2D.Double(x, y, x, y + 10));
+            }
+
             // super.setShape(shape);
         }
     }

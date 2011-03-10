@@ -21,6 +21,7 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -91,7 +92,7 @@ public class GamePanel extends JPanel {
     /**
      * Tries to get this panel to regain focus.
      */
-    public void regainFocus(){
+    public void regainFocus() {
         this.setFocusable(true);
         this.requestFocusInWindow();
     }
@@ -268,6 +269,8 @@ public class GamePanel extends JPanel {
             if (a.isSpace()) {
                 //testPro = new BasicProjectile(one.getX(), one.getY());
                 shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
+               // shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
+               // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
                 shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, damage, speed, false, shape, color));
             }
             if (a.isEsc()) {
