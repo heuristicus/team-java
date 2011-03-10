@@ -22,7 +22,6 @@ import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
@@ -60,7 +59,7 @@ public class GamePanel extends JPanel {
     int speed;
     Shape shape;
     Color color;
-    Boolean run;
+    boolean run;
     boolean switchPanel = false;
     boolean playerDeath = false;
     boolean paused = false;
@@ -155,6 +154,8 @@ public class GamePanel extends JPanel {
             } catch (PlayerDeathException ex) {
                 playerDeath = true;
                 setRun(false);
+                run = false;
+                System.out.println("LOGICRUN " + run);
                 JOptionPane.showMessageDialog(this, "You have become one with the void.");
             }
             background.tick();
@@ -163,8 +164,15 @@ public class GamePanel extends JPanel {
 
     // Rendering methods
     private void render(Graphics2D g2) {
-        if (run) {
+        if (playerDeath) {
             super.paintComponent(g2);
+            g2.setColor(Color.BLACK);
+            g2.fill(new Rectangle2D.Double(0, 0, 800, 800));
+            g2.setColor(Color.WHITE);
+            g2.drawString("GAME OVER!", 350, 275);
+        } else {
+            if (run) {
+                super.paintComponent(g2);
 //        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
 //                RenderingHints.VALUE_ANTIALIAS_ON);
 //        for (Projectile p : shootGame.getProjectileArray()) {
@@ -174,18 +182,10 @@ public class GamePanel extends JPanel {
 //            p.doMove();
 //
 //        }
-            background.draw(g2);
-            drawHealthBar(g2);
-            drawShips(g2);
-            drawProjectiles(g2);
-        } else {
-            // If the player has died, then show the game over screen.
-            if (playerDeath) {
-                super.paintComponent(g2);
-                g2.setColor(Color.BLACK);
-                g2.fill(new Rectangle2D.Double(0, 0, 800, 800));
-                g2.setColor(Color.WHITE);
-                g2.drawString("GAME OVER!", 350, 275);
+                background.draw(g2);
+                drawHealthBar(g2);
+                drawShips(g2);
+                drawProjectiles(g2);
             }
         }
 
@@ -271,8 +271,8 @@ public class GamePanel extends JPanel {
                 //testPro = new BasicProjectile(one.getX(), one.getY());
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
                 shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
-               // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 100, speed, false, shape, color,new StraightPath(StraightPath.Direction.DOWN)));
+                // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN)));
             }
             if (a.isEsc()) {
                 switchPanel = true;
@@ -307,7 +307,7 @@ public class GamePanel extends JPanel {
      * Method to change the variable run that controls rendering.
      * @param run
      */
-    public void setRun(Boolean run) {
+    public void setRun(boolean run) {
         this.run = run;
     }
 
