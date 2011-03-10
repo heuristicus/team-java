@@ -4,7 +4,9 @@
  */
 package Projectile;
 
+import Path.Path;
 import java.awt.Color;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
@@ -17,19 +19,23 @@ import java.awt.geom.Rectangle2D;
 public class ComplexProjectile extends Projectile {
     //Shape shape;
 
-    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color) {
+    Path movePath;
+
+    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath) {
         super(x, y, damage, speed, isEnemy, shape, color);
+        this.movePath = movePath;
+
     }
 
     @Override
     public void move(int x, int y) {
-        System.out.println(super.getShape().getClass().getName());
+       // System.out.println(super.getShape().getClass().getName());
         if (isEnemy()) {
             super.setX(x);
             super.setY(y);
-            if (super.getShape().getClass().getName().contains("Ellipse2D")) {
+            if (super.getShape().getClass().getName().contains("Ellipse")) {
                 super.setShape(new Ellipse2D.Double(x, y, 5, 5));
-            } else if (super.getShape().getClass().getName().contains("Rectangle2D")) {
+            } else if (super.getShape().getClass().getName().contains("Rectangle")) {
                 super.setShape(new Rectangle2D.Double(x, y, 5, 5));
             } else if (super.getShape().getClass().getName().contains("Line")) {
                 super.setShape(new Line2D.Double(x, y, x, y + 10));
@@ -38,11 +44,11 @@ public class ComplexProjectile extends Projectile {
         } else {
             super.setX(x);
             super.setY(y);
-            if (super.getShape().getClass().getName().contains("Ellipse2D")) {
+            if (super.getShape().getClass().getName().contains("Ellipse")) {
                 super.setShape(new Ellipse2D.Double(x, y, 5, 5));
-            } else if (super.getShape().getClass().getName().contains("Rectangle2D")) {
+            } else if (super.getShape().getClass().getName().contains("Rectangle")) {
                 super.setShape(new Rectangle2D.Double(x, y, 5, 5));
-            } else if (super.getShape().getClass().getName().contains("Line2D")) {
+            } else if (super.getShape().getClass().getName().contains("Line")) {
                 super.setShape(new Line2D.Double(x, y, x, y + 10));
             }
 
@@ -53,9 +59,12 @@ public class ComplexProjectile extends Projectile {
     @Override
     public void doMove() {
         if (isEnemy()) {
-            move(super.getX(), super.getY() + 10);
+
+            Point nextLoc = movePath.getNextLocation(super.getX(), super.getY());
+            move((int) nextLoc.getX(), (int) nextLoc.getY());
         } else {
-            move(super.getX(), super.getY() - 10);
+            Point nextLoc = movePath.getNextLocation(super.getX(), super.getY());
+            move((int) nextLoc.getX(), (int) nextLoc.getY());
         }
     }
 }

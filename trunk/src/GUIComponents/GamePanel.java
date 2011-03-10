@@ -4,6 +4,7 @@ import Background.Background;
 import Controls.Controls;
 import Game.Game;
 import Game.PlayerDeathException;
+import Path.StraightPath;
 import Projectile.ComplexProjectile;
 import Projectile.Projectile;
 import Spawn.Spawn;
@@ -104,7 +105,7 @@ public class GamePanel extends JPanel {
         base = new BasicWeapon();
         shootGame = new Game();
         background = new Background(40);
-        one = new Player(100, 200, base, 200, player1_x, player1_y, Color.WHITE);
+        one = new Player(300, 200, base, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
@@ -222,7 +223,7 @@ public class GamePanel extends JPanel {
         if (counter == 120 || counter == 200) {
             for (int i = 1; i < shootGame.getEnemyArray().size() - 1; i++) {
                 shape = new Ellipse2D.Double(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 5, 5);
-                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, damage, speed, true, shape, color));
+                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP)));
             }
 
         }
@@ -268,10 +269,10 @@ public class GamePanel extends JPanel {
             }
             if (a.isSpace()) {
                 //testPro = new BasicProjectile(one.getX(), one.getY());
-                shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
-               // shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
+                //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
+                shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, damage, speed, false, shape, color));
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 100, speed, false, shape, color,new StraightPath(StraightPath.Direction.DOWN)));
             }
             if (a.isEsc()) {
                 switchPanel = true;
