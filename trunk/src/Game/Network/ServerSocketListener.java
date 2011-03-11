@@ -2,10 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Game.Network;
 
-import java.net.Socket;
+import java.io.IOException;
 
 /**
  *
@@ -13,12 +12,24 @@ import java.net.Socket;
  */
 public class ServerSocketListener {
 
-    Socket servSock;
+    GServerSocket sock;
 
-    public ServerSocketListener(Socket s){
-        servSock = s;
+    public ServerSocketListener(GServerSocket sock) {
+        this.sock = sock;
     }
 
-
-
+    public void listen() {
+        while (!sock.sock.isInputShutdown()) {
+            try {
+                String s = (String) sock.readObject();
+                sock.printString(s);
+            } catch (IOException ex) {
+                System.out.println("IO exception while getting a string from the stream.");
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Could not find the class definition while converting object.");
+                ex.printStackTrace();
+            }
+        }
+    }
 }

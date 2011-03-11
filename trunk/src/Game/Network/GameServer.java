@@ -19,29 +19,40 @@ public class GameServer {
     Map clients;
     int maxConnections;
     int port;
-    GServerSocket servSock;
-    Socket sock;
+    ServerSocket servSock; // server socket
+    ConnectionHandler connHandler;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
-        g.findUsablePort(2000, 3000);
     }
 
     public GameServer(int port, int maxConnections) {
         this.port = port;
+        this.maxConnections = maxConnections;
         clients = new HashMap<String, Socket>();
+        listenForConnections();
     }
 
     public GameServer() {
         this(findUsablePort(2000, 4000), 4);
-        System.out.printf("Server listening on port %d\n", port);
-        Thread t = new Thread();
+    }
+
+    private void listenForConnections(){
+        try {
+            servSock = new ServerSocket(port);
+            System.out.printf("Server listening on port %d\n", port);
+            connHandler = new ConnectionHandler(this, maxConnections);
+            Thread t = new Thread(connHandler);
+            t.start();
+        } catch (IOException ex) {
+            System.out.println("Error while attempting to listen for connections.");
+            ex.printStackTrace();
+        }
     }
 
     public void addClient(String name, GServerSocket clientSocket){
         clients.put(name, clientSocket);
     }
-
 
     // <editor-fold defaultstate="collapsed" desc="port utils">
 
