@@ -6,7 +6,6 @@ package Game.Network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -60,6 +59,24 @@ public class GameServer {
         handlerThread.interrupt();
     }
 
+    public void broadcastGameState(GameState state){
+        Set clientKeys = clients.keySet();
+        for (Object client : clientKeys) {
+            try {
+                GServerSocket s = (GServerSocket) clients.get(client);
+                s.sendObject("gamestate");
+                s.sendObject(state);
+            } catch (IOException ex) {
+                System.out.println("Error while broadcasting the game state");
+                ex.printStackTrace();
+            }
+        }
+    }
+
+    public void getGameState(){
+        
+    }
+
     /**
      * Gets connections to the server from the connection handler. Runs in a separate thread.
      * the handler should also deal with when clients disconnect.
@@ -78,7 +95,17 @@ public class GameServer {
     }
 
     public void addClient(String name, GServerSocket clientSocket) {
-        clients.put(name, clientSocket);
+        try {
+            clients.put(name, clientSocket);
+            System.out.println("added client");
+            clientSocket.sendObject("sockname");
+            System.out.println("sent name req");
+            clientSocket.sendObject(name);
+            System.out.println("sent name object");
+        } catch (IOException ex) {
+            System.out.println("Error while sending the socket name.");
+            ex.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="port utils">

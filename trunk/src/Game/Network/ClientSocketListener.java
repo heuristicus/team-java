@@ -10,22 +10,28 @@ import java.io.IOException;
  *
  * @author michal
  */
-public class ClientSocketListener {
+public class ClientSocketListener implements Runnable {
 
     GClientSocket sock;
+    GameClient client;
 
-    public ClientSocketListener(GClientSocket sock) {
+    public ClientSocketListener(GClientSocket sock, GameClient client) {
         this.sock = sock;
+        this.client = client;
     }
 
     public void listen() {
-        while (!sock.sock.isInputShutdown()) {
+        while (!Thread.interrupted()) {
+            System.out.println("listening");
             try {
                 String s = (String) sock.readObject();
-                if (s.equals("disconnect")){
+                System.out.println(s);
+                if (s.equals("disconnect")) {
                     sock.disconnect(false);
                 }
-                System.out.println(s);
+                if (s.equals("sockname")) {
+                    client.setName();
+                }
             } catch (IOException ex) {
                 System.out.println("IO exception while getting a string from the stream.");
                 ex.printStackTrace();
@@ -34,5 +40,10 @@ public class ClientSocketListener {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public void run() {
+        System.out.println("running listener thread");
+        listen();
     }
 }

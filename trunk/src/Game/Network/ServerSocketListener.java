@@ -10,16 +10,19 @@ import java.io.IOException;
  *
  * @author michal
  */
-public class ServerSocketListener {
+public class ServerSocketListener implements Runnable{
 
     GServerSocket sock;
+    GameServer server;
 
-    public ServerSocketListener(GServerSocket sock) {
+    public ServerSocketListener(GServerSocket sock, GameServer server) {
         this.sock = sock;
+        this.server = server;
     }
 
     public void listen() {
         while (!Thread.interrupted()) {
+            System.out.println("listening");
             try {
                 String s = (String) sock.readObject();
                 if (s.equals("disconnect")){
@@ -36,5 +39,9 @@ public class ServerSocketListener {
             }
         }
         System.out.println("Listener thread interrupted " + this.hashCode());
+    }
+
+    public void run() {
+        listen();
     }
 }

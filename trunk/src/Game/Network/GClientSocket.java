@@ -23,10 +23,11 @@ public class GClientSocket {
     ObjectInputStream objIn;
     ClientSocketListener listener;
 
-    public GClientSocket(String host, int port) {
+    public GClientSocket(String host, int port, GameClient client) {
         this.host = host;
         this.port = port;
         initSock();
+        initListener(client);
     }
 
     private void initSock() {
@@ -42,6 +43,12 @@ public class GClientSocket {
             System.out.println("Error while initialising the client socket.");
             ex.printStackTrace();
         }
+    }
+
+    private void initListener(GameClient client) {
+        listener = new ClientSocketListener(this, client);
+        Thread t = new Thread(listener);
+        t.start();
     }
 
     public void disconnect(boolean sendMessage) {

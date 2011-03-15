@@ -8,14 +8,12 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author michal
  */
-public class GServerSocket implements Runnable {
+public class GServerSocket {
 
     Socket sock;
     ObjectOutputStream objOut;
@@ -23,10 +21,17 @@ public class GServerSocket implements Runnable {
     ServerSocketListener listener;
     boolean killed;
 
-    public GServerSocket(Socket sock) {
+    public GServerSocket(Socket sock, GameServer server) {
         this.sock = sock;
         killed = false;
         getStreams();
+        initListener(server);
+    }
+
+    private void initListener(GameServer server){
+        listener = new ServerSocketListener(this, server);
+        Thread t = new Thread(listener);
+        t.start();
     }
 
     private void getStreams() {
@@ -68,8 +73,4 @@ public class GServerSocket implements Runnable {
         return objIn.readObject();
     }
 
-    public void run() {
-        listener = new ServerSocketListener(this);
-        listener.listen();
-    }
 }

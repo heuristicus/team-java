@@ -16,11 +16,11 @@ public class GameClient {
     private final String serverHost;
     private final int serverPort;
     GClientSocket sock;
+    String name;
 
     public static void main(String[] args) {
         GameClient c = new GameClient("localhost", 2000);
         c.connectToServer();
-        c.disconnect();
     }
 
     public GameClient(String serverHost, int serverPort) {
@@ -29,11 +29,26 @@ public class GameClient {
     }
 
     public void connectToServer(){
-        sock = new GClientSocket(serverHost, serverPort);
+        sock = new GClientSocket(serverHost, serverPort, this);
     }
 
     public void disconnect(){
         sock.disconnect(true);
+        Thread.currentThread().interrupt();
+    }
+
+    public void setName(){
+        try {
+            String clName = (String) sock.readObject();
+            System.out.println(clName);
+            this.name = clName;
+        } catch (IOException ex) {
+            System.out.println("IO exception while attempting to set the name of the client.");
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Class not found while setting client name.");
+            ex.printStackTrace();
+        }
     }
 
     public void sendOwnGameState(GameState currentState){
