@@ -19,16 +19,20 @@ public class ServerSocketListener {
     }
 
     public void listen() {
-        while (!sock.sock.isInputShutdown()) {
+        while (!Thread.interrupted()) {
             try {
                 String s = (String) sock.readObject();
-                sock.printString(s);
+                if (s.equals("disconnect")){
+                    sock.disconnect();
+                } else {
+                    sock.printString(s);
+                }
             } catch (IOException ex) {
                 System.out.println("IO exception while getting a string from the stream.");
-                ex.printStackTrace();
+//                ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 System.out.println("Could not find the class definition while converting object.");
-                ex.printStackTrace();
+//                ex.printStackTrace();
             }
         }
     }

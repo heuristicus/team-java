@@ -35,7 +35,20 @@ public class GServerSocket implements Runnable {
         }
     }
 
-    public void printString(String s){
+    public void disconnect() {
+        try {
+            objOut.close();
+            objIn.close();
+            sock.close();
+            Thread.currentThread().interrupt();
+            System.out.println("Client disconnected.");
+        } catch (IOException ex) {
+            System.out.println("Error while disconnecting socket." + this.hashCode());
+            ex.printStackTrace();
+        }
+    }
+
+    public void printString(String s) {
         System.out.println(s + this.hashCode());
     }
 

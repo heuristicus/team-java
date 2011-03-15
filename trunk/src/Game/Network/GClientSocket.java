@@ -16,22 +16,52 @@ import java.net.UnknownHostException;
  */
 public class GClientSocket {
 
-    public static void main(String[] args) {
-        GClientSocket s = new GClientSocket();
+    String host;
+    int port;
+    Socket sock;
+    ObjectOutputStream objOut;
+    ObjectInputStream objIn;
+    ClientSocketListener listener;
+
+    public GClientSocket(String host, int port) {
+        this.host = host;
+        this.port = port;
+        initSock();
     }
 
-    public GClientSocket() {
+    private void initSock() {
         try {
-            Socket s = new Socket("localhost", 2000);
-            ObjectOutputStream t = new ObjectOutputStream(s.getOutputStream());
-            ObjectInputStream n = new ObjectInputStream(s.getInputStream());
-            while (true){
-                t.writeObject("TEEST");
-            }
+            sock = new Socket(host, port);
+            objOut = new ObjectOutputStream(sock.getOutputStream());
+            objIn = new ObjectInputStream(sock.getInputStream());
+            System.out.println("Socket successfully initialised.");
         } catch (UnknownHostException ex) {
+            System.out.println("Error while initialising the client socket.");
             ex.printStackTrace();
         } catch (IOException ex) {
+            System.out.println("Error while initialising the client socket.");
             ex.printStackTrace();
         }
+    }
+
+    public void disconnect(){
+        try {
+            sendObject("disconnect");
+            objOut.close();
+            objIn.close();
+            sock.close();
+            System.out.println("Disconnected from server.");
+        } catch (IOException ex) {
+            System.out.println("Error while disconnecting socket.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void sendObject(Object o) throws IOException {
+        objOut.writeObject(o);
+    }
+
+    public Object readObject() throws IOException, ClassNotFoundException {
+        return objIn.readObject();
     }
 }

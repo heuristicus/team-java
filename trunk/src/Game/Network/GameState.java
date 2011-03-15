@@ -17,6 +17,9 @@ import java.util.ArrayList;
  */
 public class GameState implements Serializable {
 
+    boolean playerDeath;
+    boolean paused;
+    boolean running;
     private final ArrayList<Projectile> projectiles;
     private final ArrayList<Enemy> enemies;
     private final ArrayList<Player> players;
@@ -27,7 +30,18 @@ public class GameState implements Serializable {
         this.enemies = enemies;
         this.projectiles = projectiles;
         this.spawns = spawns;
+    }
 
+    public boolean isPaused() {
+        return paused;
+    }
+
+    public boolean isPlayerDeath() {
+        return playerDeath;
+    }
+
+    public boolean isRunning() {
+        return running;
     }
 
     public ArrayList<Enemy> getEnemies() {
@@ -45,4 +59,11 @@ public class GameState implements Serializable {
     public ArrayList<Spawn> getSpawns() {
         return spawns;
     }
+
+    @Override
+    public String toString() {
+        return "GameState{" + "playerDeath=" + playerDeath + "\npaused=" + paused + "\nrunning=" + running + "\nprojectiles=" + projectiles + "\nenemies=" + enemies + "\nplayers=" + players + "\nspawns=" + spawns + '}';
+    }
+
+
 }

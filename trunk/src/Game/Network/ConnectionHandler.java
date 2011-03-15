@@ -40,8 +40,8 @@ public class ConnectionHandler implements Runnable {
                 ex.printStackTrace();
             }
         }
-
     }
+
 
     public void run() {
         connectSockets();

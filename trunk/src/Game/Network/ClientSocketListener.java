@@ -1,27 +1,35 @@
-/*
+    /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Game.Network;
 
-import java.net.Socket;
+import java.io.IOException;
 
 /**
  *
  * @author michal
  */
-public class ClientSocketListener extends Thread{
+public class ClientSocketListener {
 
-    Socket sock;
+    GClientSocket sock;
 
-    public ClientSocketListener(Socket s){
-        sock = s;
+    public ClientSocketListener(GClientSocket sock) {
+        this.sock = sock;
     }
 
-    @Override
-    public void run() {
+    public void listen() {
+        while (!sock.sock.isInputShutdown()) {
+            try {
+                String s = (String) sock.readObject();
+                System.out.println(s);
+            } catch (IOException ex) {
+                System.out.println("IO exception while getting a string from the stream.");
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Could not find the class definition while converting object.");
+                ex.printStackTrace();
+            }
+        }
     }
-
-
 }

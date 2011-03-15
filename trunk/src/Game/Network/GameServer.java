@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -21,6 +22,7 @@ public class GameServer {
     int port;
     ServerSocket servSock; // server socket
     ConnectionHandler connHandler;
+    GameState currentState;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -30,32 +32,34 @@ public class GameServer {
         this.port = port;
         this.maxConnections = maxConnections;
         clients = new HashMap<String, Socket>();
-        listenForConnections();
+        manageConnections();
     }
 
     public GameServer() {
         this(findUsablePort(2000, 4000), 4);
     }
 
-    private void listenForConnections(){
+    private void manageConnections() {
         try {
             servSock = new ServerSocket(port);
             System.out.printf("Server listening on port %d\n", port);
             connHandler = new ConnectionHandler(this, maxConnections);
-            Thread t = new Thread(connHandler);
-            t.start();
+            Thread handler = new Thread(connHandler);
+            handler.start();
+//            ConnectionMonitor connMonitor = new ConnectionMonitor(this);
+//            Thread monitor = new Thread(connMonitor);
+//            monitor.start();
         } catch (IOException ex) {
             System.out.println("Error while attempting to listen for connections.");
             ex.printStackTrace();
         }
     }
 
-    public void addClient(String name, GServerSocket clientSocket){
+    public void addClient(String name, GServerSocket clientSocket) {
         clients.put(name, clientSocket);
     }
 
     // <editor-fold defaultstate="collapsed" desc="port utils">
-
     /**
      * Try and find a port that is not in use within the specified range of ports.
      * @param rangeStart
