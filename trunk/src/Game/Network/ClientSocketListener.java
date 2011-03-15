@@ -22,6 +22,9 @@ public class ClientSocketListener {
         while (!sock.sock.isInputShutdown()) {
             try {
                 String s = (String) sock.readObject();
+                if (s.equals("disconnect")){
+                    sock.disconnect(false);
+                }
                 System.out.println(s);
             } catch (IOException ex) {
                 System.out.println("IO exception while getting a string from the stream.");

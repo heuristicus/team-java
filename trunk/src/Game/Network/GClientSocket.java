@@ -44,9 +44,11 @@ public class GClientSocket {
         }
     }
 
-    public void disconnect(){
+    public void disconnect(boolean sendMessage) {
         try {
-            sendObject("disconnect");
+            if (sendMessage) {
+                sendObject("disconnect");
+            }
             objOut.close();
             objIn.close();
             sock.close();

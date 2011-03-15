@@ -23,32 +23,54 @@ public class GameServer {
     ServerSocket servSock; // server socket
     ConnectionHandler connHandler;
     GameState currentState;
+    Thread handlerThread;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
     }
 
+    /**
+     * Initialises with a specific port and number of connections
+     * @param port
+     * @param maxConnections
+     */
     public GameServer(int port, int maxConnections) {
         this.port = port;
         this.maxConnections = maxConnections;
-        clients = new HashMap<String, Socket>();
+        clients = new HashMap<String, GServerSocket>();
         manageConnections();
     }
 
+    /*
+     * Connects to a default port range and initalises with a default player number.
+     */
     public GameServer() {
         this(findUsablePort(2000, 4000), 4);
     }
 
+    /**
+     * Disconnects the server completely.
+     */
+    public void killServer(){
+        Set clientKeys = clients.keySet();
+        for (Object client : clientKeys) {
+            GServerSocket s = (GServerSocket) clients.get(client);
+            s.disconnect(true);
+        }
+        handlerThread.interrupt();
+    }
+
+    /**
+     * Gets connections to the server from the connection handler. Runs in a separate thread.
+     * the handler should also deal with when clients disconnect.
+     */
     private void manageConnections() {
         try {
             servSock = new ServerSocket(port);
             System.out.printf("Server listening on port %d\n", port);
             connHandler = new ConnectionHandler(this, maxConnections);
-            Thread handler = new Thread(connHandler);
-            handler.start();
-//            ConnectionMonitor connMonitor = new ConnectionMonitor(this);
-//            Thread monitor = new Thread(connMonitor);
-//            monitor.start();
+            handlerThread = new Thread(connHandler);
+            handlerThread.start();
         } catch (IOException ex) {
             System.out.println("Error while attempting to listen for connections.");
             ex.printStackTrace();

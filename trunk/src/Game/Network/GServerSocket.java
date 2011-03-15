@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -19,9 +21,11 @@ public class GServerSocket implements Runnable {
     ObjectOutputStream objOut;
     ObjectInputStream objIn;
     ServerSocketListener listener;
+    boolean killed;
 
     public GServerSocket(Socket sock) {
         this.sock = sock;
+        killed = false;
         getStreams();
     }
 
@@ -35,11 +39,15 @@ public class GServerSocket implements Runnable {
         }
     }
 
-    public void disconnect() {
+    public void disconnect(boolean sendMessage) {
         try {
+            if (sendMessage) {
+                sendObject("disconnect");
+            }
             objOut.close();
             objIn.close();
             sock.close();
+            killed = true;
             Thread.currentThread().interrupt();
             System.out.println("Client disconnected.");
         } catch (IOException ex) {

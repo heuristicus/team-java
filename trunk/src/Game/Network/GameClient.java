@@ -33,7 +33,7 @@ public class GameClient {
     }
 
     public void disconnect(){
-        sock.disconnect();
+        sock.disconnect(true);
     }
 
     public void sendOwnGameState(GameState currentState){

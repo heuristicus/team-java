@@ -23,7 +23,7 @@ public class ServerSocketListener {
             try {
                 String s = (String) sock.readObject();
                 if (s.equals("disconnect")){
-                    sock.disconnect();
+                    sock.disconnect(false);
                 } else {
                     sock.printString(s);
                 }
@@ -35,5 +35,6 @@ public class ServerSocketListener {
 //                ex.printStackTrace();
             }
         }
+        System.out.println("Listener thread interrupted " + this.hashCode());
     }
 }
