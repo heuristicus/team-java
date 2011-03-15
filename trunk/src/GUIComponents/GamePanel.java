@@ -59,7 +59,7 @@ public class GamePanel extends JPanel {
     int speed;
     Shape shape;
     Color color;
-    boolean run;
+    boolean running;
     boolean switchPanel = false;
     boolean playerDeath = false;
     boolean paused = false;
@@ -129,7 +129,7 @@ public class GamePanel extends JPanel {
         addMouseMotionListener(a);
         hideMouse();
         JOptionPane.showMessageDialog(this, "Ready?");
-        run = true;
+        running = true;
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
@@ -144,7 +144,7 @@ public class GamePanel extends JPanel {
     private void logic() {
         // FIXME would be nice to put this somewhere else, but don't know where.
         checkUserMovement();
-        if (run) {
+        if (running) {
             mouse = a.isMouse();
             shootGame.pruneArrays(new Dimension(this.getSize()));
             shootGame.moveEnemies();
@@ -154,8 +154,6 @@ public class GamePanel extends JPanel {
             } catch (PlayerDeathException ex) {
                 playerDeath = true;
                 setRun(false);
-                run = false;
-                System.out.println("LOGICRUN " + run);
                 JOptionPane.showMessageDialog(this, "You have become one with the void.");
             }
             background.tick();
@@ -171,7 +169,7 @@ public class GamePanel extends JPanel {
             g2.setColor(Color.WHITE);
             g2.drawString("GAME OVER!", 350, 275);
         } else {
-            if (run) {
+            if (running) {
                 super.paintComponent(g2);
 //        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, // Anti-aliasing
 //                RenderingHints.VALUE_ANTIALIAS_ON);
@@ -249,7 +247,7 @@ public class GamePanel extends JPanel {
      * used to control the movement
      */
     private void checkUserMovement() {
-        if (!paused && run) {
+        if (!paused && running) {
             if (mouse) {
                 player1_x = a.getMouseX();
                 player1_y = a.getMouseY();
@@ -308,7 +306,16 @@ public class GamePanel extends JPanel {
      * @param run
      */
     public void setRun(boolean run) {
-        this.run = run;
+//        if (run) {
+//            if (!timer.isRunning()) {
+//                timer.start();
+//            }
+//        } else {
+//            if (timer.isRunning()) {
+//                timer.stop();
+//            }
+//        }
+        this.running = run;
     }
 
     /**
