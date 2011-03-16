@@ -6,6 +6,7 @@ package Game.Network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -23,6 +24,7 @@ public class GameServer {
     ConnectionHandler connHandler;
     GameState currentState;
     Thread handlerThread;
+    ArrayList<GameState> clientStates;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -59,7 +61,27 @@ public class GameServer {
         handlerThread.interrupt();
     }
 
+    /**
+     * Processes the game states in the arraylist to create an amalgamation of them.
+     * returns the resulting game state. This method should only be called by the
+     * game panel in order to do logic processing.
+     * @return
+     */
+    public GameState processGameStates(){
+        GameState updateState = currentState;
+        for (GameState gameState : clientStates) {
+            updateState.joinState(gameState);
+        }
+        return updateState;
+    }
+
+
+    /**
+     * Send the updated game state to each client.
+     * @param state
+     */
     public void broadcastGameState(GameState state){
+        currentState = state;
         Set clientKeys = clients.keySet();
         for (Object client : clientKeys) {
             try {
@@ -71,10 +93,26 @@ public class GameServer {
                 ex.printStackTrace();
             }
         }
+        // remove all the old game states so that we can receive new ones.
+        clientStates.clear();
     }
 
-    public void getGameState(){
-        
+    public void readState(String sockName){
+        try {
+            GServerSocket interactor = (GServerSocket) clients.get(sockName);
+            GameState newState = (GameState) interactor.readObject();
+            addGameState(newState);
+        } catch (IOException ex) {
+            System.out.println("Exception while reading a game state from " + sockName);
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            System.out.println(" class not found exception when attempting to read object from " + sockName);
+            ex.printStackTrace();
+        }
+    }
+
+    public void addGameState(GameState state){
+        clientStates.add(state);
     }
 
     /**

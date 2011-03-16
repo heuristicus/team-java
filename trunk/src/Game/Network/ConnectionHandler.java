@@ -39,8 +39,9 @@ public class ConnectionHandler implements Runnable {
                 System.out.printf("Client at %s connected.\n", s.getInetAddress());
                 numConnections++;
                 System.out.println("added socket.");
-                GServerSocket sock = new GServerSocket(s, server);
-                server.addClient("Client" + numConnections, sock);
+                String sockName = "Client"+numConnections;
+                GServerSocket sock = new GServerSocket(s, server, sockName);
+                server.addClient(sockName, sock);
             } catch (IOException ex) {
                 System.out.println("IO Exception while attempting to connect a socket.");
                 ex.printStackTrace();

@@ -25,6 +25,13 @@ public class GameState implements Serializable {
     private final ArrayList<Player> players;
     private final ArrayList<Spawn> spawns;
 
+    public GameState(){
+        projectiles = new ArrayList<Projectile>();
+        enemies = new ArrayList<Enemy>();
+        players = new ArrayList<Player>();
+        spawns = new ArrayList<Spawn>();
+    }
+
     public GameState(ArrayList<Player> players, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, ArrayList<Spawn> spawns) {
         this.players = players;
         this.enemies = enemies;
@@ -59,6 +66,31 @@ public class GameState implements Serializable {
     public ArrayList<Spawn> getSpawns() {
         return spawns;
     }
+
+    /**
+     * removes objects from this state's arrays which are also present in the state
+     * passed to the method.
+     * !!!!Not sure if this works if passing object over a network!!!!
+     * @param state
+     */
+    public void removeDuplicates(GameState state){
+        projectiles.removeAll(state.getProjectiles());
+        enemies.removeAll(state.getEnemies());
+        players.removeAll(state.getPlayers());
+        spawns.removeAll(state.getSpawns());
+    }
+
+    /**
+     * Puts the objects that are in the given state into this state.
+     * @param state
+     */
+    public void joinState(GameState state){
+        enemies.addAll(state.getEnemies());
+        players.addAll(state.getPlayers());
+        projectiles.addAll(state.getProjectiles());
+        spawns.addAll(state.getSpawns());
+    }
+    
 
     @Override
     public String toString() {

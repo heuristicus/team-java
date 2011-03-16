@@ -26,9 +26,14 @@ public class ServerSocketListener implements Runnable{
             try {
                 String s = (String) sock.readObject();
                 if (s.equals("disconnect")){
+                    System.out.println("disconnect request from client");
                     sock.disconnect(false);
-                } else {
-                    sock.printString(s);
+                }
+                if (s.equals("clientstate")){
+                    System.out.println("client sending state");
+                    // read the state from the client. need to give the name
+                    // due to the way the server stores stuff.
+                    server.readState(sock.sockName);
                 }
             } catch (IOException ex) {
                 System.out.println("IO exception while getting a string from the stream.");

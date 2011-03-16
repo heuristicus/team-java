@@ -20,12 +20,15 @@ public class GServerSocket {
     ObjectInputStream objIn;
     ServerSocketListener listener;
     boolean killed;
+    String sockName;
 
-    public GServerSocket(Socket sock, GameServer server) {
+    public GServerSocket(Socket sock, GameServer server, String sockName) {
         this.sock = sock;
+        this.sockName = sockName;
         killed = false;
         getStreams();
         initListener(server);
+        
     }
 
     private void initListener(GameServer server){
