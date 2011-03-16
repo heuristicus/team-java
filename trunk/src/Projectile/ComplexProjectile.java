@@ -11,6 +11,7 @@ import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -21,8 +22,8 @@ public class ComplexProjectile extends Projectile {
 
     Path movePath;
 
-    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath) {
-        super(x, y, damage, speed, isEnemy, shape, color);
+    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath, BufferedImage texture) {
+        super(x, y, damage, speed, isEnemy, shape, color, texture);
         this.movePath = movePath;
 
     }

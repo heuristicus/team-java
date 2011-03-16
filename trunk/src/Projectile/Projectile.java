@@ -5,6 +5,7 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -19,8 +20,9 @@ public abstract class Projectile {
     private Color color;
     private int x;
     private int y;
+    protected BufferedImage texture;
 
-    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color) {
+    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, BufferedImage texture) {
         this.x = x;
         this.y = y;
         this.damage = damage;
@@ -28,11 +30,20 @@ public abstract class Projectile {
         this.speed = speed;
         this.shape = shape;
         this.color = color;
+        this.texture = texture;
     }
 
     // Accessory methods.
     public int getDamage() {
         return damage;
+    }
+
+    public BufferedImage getTexture() {
+        return texture;
+    }
+
+    public void setTexture(BufferedImage texture) {
+        this.texture = texture;
     }
 
     public Shape getShape() {
@@ -73,6 +84,7 @@ public abstract class Projectile {
     public void setShape(Shape shape) {
         this.shape = shape;
     }
+    
 
     // Abstract methods.
     public abstract void move(int x, int y);
@@ -87,7 +99,7 @@ public abstract class Projectile {
     public void draw(Graphics2D g2) {
       //  System.out.println(shape.getClass().toString());
 
-        g2.fill(shape);
+        g2.drawImage(texture, x, y, null);
     }
 
     @Override

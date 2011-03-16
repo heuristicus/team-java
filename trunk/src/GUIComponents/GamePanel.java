@@ -11,6 +11,8 @@ import Spawn.Spawn;
 import Unit.*;
 import Unit.Player;
 import Weapon.BasicWeapon;
+import Weapon.LaserWeapon;
+import Weapon.ProtonWeapon;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -44,7 +46,8 @@ public class GamePanel extends JPanel {
     Color bgColor = Color.BLACK;
     Player one;
     Spawn sp;
-    BasicWeapon base;
+    LaserWeapon laser;
+    ProtonWeapon proton;
     int player1_x = 500;
     int player1_y = 500;
     Controls a;
@@ -101,10 +104,11 @@ public class GamePanel extends JPanel {
     public void initialize() {
         sp = new Spawn();
         spawns = new ArrayList();
-        base = new BasicWeapon();
+        laser = new LaserWeapon();
+        proton = new ProtonWeapon();
         shootGame = new Game();
         background = new Background(40);
-        one = new Player(300, 200, base, 200, player1_x, player1_y, Color.WHITE);
+        one = new Player(300, 200, laser, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         setBackground(bgColor);
         shootGame.pruneArrays(this.getSize());
@@ -221,7 +225,10 @@ public class GamePanel extends JPanel {
         if (counter == 120 || counter == 200) {
             for (int i = 1; i < shootGame.getEnemyArray().size() - 1; i++) {
                 shape = new Ellipse2D.Double(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 5, 5);
-                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP)));
+                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(),
+                        shootGame.getEnemyArray().get(i).getY() - 15,
+                        100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP),
+                        shootGame.getEnemyArray().get(i).getWeapon().getTexture()));
             }
 
         }
@@ -270,7 +277,9 @@ public class GamePanel extends JPanel {
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
                 shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN)));
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 
+                        100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
+                        one.getWeapon().getTexture()));
             }
             if (a.isEsc()) {
                 switchPanel = true;

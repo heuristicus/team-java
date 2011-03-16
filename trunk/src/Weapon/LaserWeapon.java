@@ -7,12 +7,12 @@ import java.awt.Graphics2D;
  *
  * @author Jere
  */
-public class BasicWeapon extends Weapon {
+public class LaserWeapon extends Weapon {
 
-    public BasicWeapon()
+    public LaserWeapon()
     {
         super(10);
-        super.setTextureFromFile(".//src//Weapon//proton.png");
+        super.setTextureFromFile(".//src//Weapon//laser.png");
         super.setProjectile(new BasicProjectile(10,10,texture));
     }
 
@@ -20,8 +20,8 @@ public class BasicWeapon extends Weapon {
     public void fire(Graphics2D g, int x, int y) {
         for(int i = 0; i < super.range*10;i++)
         {
-            projectile.move(x,y-i);
-            projectile.draw(g); // Not working
+            projectile.move(x+15,y-i);
+            projectile.draw(g);
         }
     }
     // Mostly for testing purposes.

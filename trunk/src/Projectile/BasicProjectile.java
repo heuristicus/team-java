@@ -3,6 +3,7 @@ package Projectile;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 
 /**
  * Basic projectile, as in just a line that will be shot.
@@ -13,11 +14,11 @@ public class BasicProjectile extends Projectile {
     final int HEIGHT = 5;
     final int WIDTH = 1;
 
-    public BasicProjectile(int x, int y) {
+    public BasicProjectile(int x, int y, BufferedImage texture) {
         // FIXME Need to check the values for speed, damage, etc.
         super(x, y, 20, 100, false,
                 new Line2D.Double(x, y, x, y+10),
-                Color.RED);
+                Color.RED, texture);
     }
 
     @Override
@@ -35,6 +36,6 @@ public class BasicProjectile extends Projectile {
 
     @Override
     public void draw(Graphics2D g2) {
-        g2.draw(super.getShape());
+       g2.drawImage(texture,getX(),getY(),null);
     }
 }

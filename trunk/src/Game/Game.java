@@ -241,7 +241,7 @@ public class Game {
      * @param centre
      */
     public Rectangle2D getCenteredBox(Point centre) {
-        return new Rectangle2D.Double(centre.getX() - 2.5, centre.getY() - 2.5, 15, 5);
+        return new Rectangle2D.Double(centre.getX() + 2, centre.getY() + 2, 27, 27);
     }
 
     /**
