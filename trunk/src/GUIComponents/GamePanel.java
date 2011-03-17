@@ -136,7 +136,6 @@ public class GamePanel extends JPanel {
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
-                checkUserMovement();
                 logic();
                 repaint();
             }
@@ -147,7 +146,7 @@ public class GamePanel extends JPanel {
     // Logic methods
     private void logic() {
         // FIXME would be nice to put this somewhere else, but don't know where.
-
+        checkUserMovement();
         if (running) {
             mouse = a.isMouse();
             shootGame.pruneArrays(new Dimension(this.getSize()));
@@ -166,7 +165,6 @@ public class GamePanel extends JPanel {
 
     // Rendering methods
     private void render(Graphics2D g2) {
-
         if (playerDeath) {
             super.paintComponent(g2);
             g2.setColor(Color.BLACK);
@@ -200,11 +198,15 @@ public class GamePanel extends JPanel {
         ArrayList<Player> players = shootGame.getPlayerArray();
         for (Player player : players) {
             player.draw(g2);
-            drawHitBox(player.getLocation(), g2);
+            g2.setColor(Color.red);
+            g2.draw(shootGame.getCenteredBox(player.getLocation()));
+            g2.setColor(Color.black);
         }
         for (Enemy enemy : enemies) {
             enemy.draw(g2);
-            drawHitBox(enemy.getLocation(), g2);
+            g2.setColor(Color.red);
+            g2.draw(shootGame.getCenteredBox(enemy.getLocation()));
+            g2.setColor(Color.black);
         }
 
 //        System.out.println(counter);
@@ -214,19 +216,13 @@ public class GamePanel extends JPanel {
              * Below code generates 5 enemies at random position.
              */
 
-            spawns = sp.spawnRandom(30);
+            spawns = sp.spawnRandom(6);
             for (int i = 0; i < spawns.size(); i++) {
                 // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
                 shootGame.addEnemy((Enemy) spawns.get(i));
             }
             //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
         }
-    }
-
-    private void drawHitBox(Point location, Graphics2D g2) {
-        g2.setColor(Color.red);
-        g2.draw(shootGame.getCenteredBox(location));
-        g2.setColor(Color.black);
     }
 
     private void drawProjectiles(Graphics2D g2) {
@@ -286,7 +282,7 @@ public class GamePanel extends JPanel {
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
                 shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 
                         100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
                         one.getWeapon().getTexture()));
             }
