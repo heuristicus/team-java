@@ -10,7 +10,6 @@ import Projectile.Projectile;
 import Spawn.Spawn;
 import Unit.*;
 import Unit.Player;
-import Weapon.BasicWeapon;
 import Weapon.LaserWeapon;
 import Weapon.ProtonWeapon;
 import java.awt.Graphics;
@@ -199,9 +198,15 @@ public class GamePanel extends JPanel {
         ArrayList<Player> players = shootGame.getPlayerArray();
         for (Player player : players) {
             player.draw(g2);
+            g2.setColor(Color.red);
+            g2.draw(shootGame.getCenteredBox(player.getLocation()));
+            g2.setColor(Color.black);
         }
         for (Enemy enemy : enemies) {
             enemy.draw(g2);
+            g2.setColor(Color.red);
+            g2.draw(shootGame.getCenteredBox(enemy.getLocation()));
+            g2.setColor(Color.black);
         }
 
 //        System.out.println(counter);
