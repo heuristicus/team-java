@@ -200,15 +200,11 @@ public class GamePanel extends JPanel {
         ArrayList<Player> players = shootGame.getPlayerArray();
         for (Player player : players) {
             player.draw(g2);
-            g2.setColor(Color.red);
-            g2.draw(shootGame.getCenteredBox(player.getLocation()));
-            g2.setColor(Color.black);
+            drawHitBox(player.getLocation(), g2);
         }
         for (Enemy enemy : enemies) {
             enemy.draw(g2);
-            g2.setColor(Color.red);
-            g2.draw(shootGame.getCenteredBox(enemy.getLocation()));
-            g2.setColor(Color.black);
+            drawHitBox(enemy.getLocation(), g2);
         }
 
 //        System.out.println(counter);
@@ -225,6 +221,12 @@ public class GamePanel extends JPanel {
             }
             //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
         }
+    }
+
+    private void drawHitBox(Point location, Graphics2D g2) {
+        g2.setColor(Color.red);
+        g2.draw(shootGame.getCenteredBox(location));
+        g2.setColor(Color.black);
     }
 
     private void drawProjectiles(Graphics2D g2) {
@@ -284,7 +286,7 @@ public class GamePanel extends JPanel {
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
                 shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 
+                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
                         100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
                         one.getWeapon().getTexture()));
             }
