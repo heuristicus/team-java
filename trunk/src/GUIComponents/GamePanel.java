@@ -136,6 +136,7 @@ public class GamePanel extends JPanel {
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
+                checkUserMovement();
                 logic();
                 repaint();
             }
@@ -146,7 +147,7 @@ public class GamePanel extends JPanel {
     // Logic methods
     private void logic() {
         // FIXME would be nice to put this somewhere else, but don't know where.
-        checkUserMovement();
+
         if (running) {
             mouse = a.isMouse();
             shootGame.pruneArrays(new Dimension(this.getSize()));
@@ -165,6 +166,7 @@ public class GamePanel extends JPanel {
 
     // Rendering methods
     private void render(Graphics2D g2) {
+
         if (playerDeath) {
             super.paintComponent(g2);
             g2.setColor(Color.BLACK);
@@ -313,7 +315,7 @@ public class GamePanel extends JPanel {
         Rectangle2D healthBar = new Rectangle2D.Double(35, 525, one.getHealth(), 20);
         g2.setColor(Color.GREEN);
         g2.fill(healthBar);
-    }
+        }
 
     /**
      * Method to change the variable run that controls rendering.

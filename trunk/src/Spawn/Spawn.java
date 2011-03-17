@@ -6,6 +6,7 @@ package Spawn;
 
 import GUIComponents.BaseFrame;
 import Path.DiagonalPath;
+import Path.ZigZagPath;
 import Weapon.*;
 import Unit.*;
 import java.awt.Color;
@@ -67,7 +68,7 @@ public class Spawn {
     }
 
     public Unit newEnemyUnit(Point spPoint) {
-        Unit en = new Enemy(100, 100, new BasicWeapon(), new DiagonalPath(), 100, spPoint.x, spPoint.y, Color.cyan);
+        Unit en = new Enemy(100, 100, new BasicWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, spPoint.x, spPoint.y, Color.cyan);
         return en;
     }
 
