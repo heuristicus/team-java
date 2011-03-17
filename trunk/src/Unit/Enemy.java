@@ -9,10 +9,6 @@ import Weapon.Weapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
-import java.awt.Polygon;
-import java.awt.geom.Area;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -24,7 +20,7 @@ public class Enemy extends Unit {
 
     public Enemy(int health, int speed,  Weapon weaponType, Path movePath, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-        setTextureFromFile(".\\src\\Unit\\enemy.png");
+        setTextureFromFile(".//src//Unit//enemy.png");
         this.movePath = movePath;
     }
 

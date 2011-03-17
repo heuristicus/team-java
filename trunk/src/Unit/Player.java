@@ -7,9 +7,6 @@ package Unit;
 import Weapon.Weapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.geom.Area;
-import java.awt.geom.Path2D;
-import java.awt.geom.Rectangle2D;
 
 /**
  *
@@ -19,7 +16,7 @@ public class Player extends Unit {
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-        setTextureFromFile(".\\src\\Unit\\player.png");
+        setTextureFromFile(".//src//Unit//player.png");
     }
 
 //    public Polygon ship(Graphics g){
