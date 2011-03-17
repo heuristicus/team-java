@@ -1,0 +1,102 @@
+\chapter{Requirements}
+\label{cha:requirements}
+\section{Functional User Requirements}
+\label{sec: functional}
+
+This section outlines the functional requirements which the system will be tested against. Functional requirements are what the system is expected to do and how to user interacts with the software. Each requirement is split into sub-requirements for ease of understanding and clarity.
+
+\begin{enumerate}
+
+\large{ \item \textbf{The human player is able to play the game}}
+\\*This requirement ensures that the user can actually use the game in single player mode without any crashes or bugs
+
+\begin {enumerate}
+\item The user's spaceship is to move freely along the x and y coordinates but remain within the game's boundary (edges of window)
+\item The user's spaceship will be able to 'shoot' 
+\item Input for the user's controls will be keyboard or mouse
+\item Each player will have a health value as a percentage (represented as an integer).
+\end{enumerate}
+
+\large{ \item \textbf{Enemies will be created}}
+\\*This requirement produces enemies on the screen which will 'attack' the user's spacecraft.
+
+\begin{enumerate}
+\item Enemies will be created at 7 set spawn points on the screen at regular intervals of the game cycle.
+\item Enemies will move in a random path
+\item Enemies will be able to 'shoot' back towards the players damaging the user's health
+\item Enemies will be distinguished by a different shape and colour
+\item Enemies will be able to be 'shot' by the players
+\item Enemies will have a set health value as a percentage (represented as an integer)
+\end{enumerate}
+
+\large{ \item \textbf{Other players will be able to play across a network}}
+\\*This allows for one or more human players to play along side each other using networks and sockets.
+
+\begin{enumerate}
+\item The first player is to act as a server which controls the game state
+\item Other players (clients) will be able to connect to the game by entering or selecting the server's IP address.
+\item Both screens are to be identical and refreshed immediately with each change that occurs in the game state.
+\item Packets of data containing user and enemy position, projectiles and scores will be sent across the network by the use of sockets.
+\end{enumerate}
+
+\large{ \item \textbf{The game is to run properly and increment scores}}
+\\*This requirement ensures that the game ends properly and progresses naturally with each player gaining a sense of achievement.
+
+\begin{enumerate}
+\item Players will 'die' when the health is depleted from enemy fire only (not friendly)
+\item Players can also die if a collision with an enemy is detected.
+\item The game should end when ALL players have 'died' to allow for multiplayer capabilities.
+\item The player's score should be incremented when an enemy is 'killed' by that player.
+\item The game will continue to spawn enemies until the game ends.
+\end{enumerate}
+
+\large{ \item \textbf{The game is to have a graphical interface}}
+\\*This requirement allows the game to be played. Input devices will interact with the game as produce a graphical output to play the game.
+
+\begin{enumerate}
+\item Initially the players, enemies and projectiles are to be represented by Java Shape objects.
+\item Graphical sprites (images) are to be added later in the development stages
+\item The game should have a scrolling background to give a sense of flying through space.
+\item A menu should be implemented to choose from single player and multi-player modes.
+\item The game should be able to be paused
+\item The menu should be accessible during game play.
+\item Enemies and projectiles should be removed from the game state when they leave the frame
+\end{enumerate}
+
+\large{ \item \textbf{The game is to have a graphical interface}}
+\\*This requirement allows the game to be played. Input devices will interact with the game as produce a graphical output to play the game.
+
+\begin{enumerate}
+\item Initially the players, enemies and projectiles are to be represented by Java Shape objects.
+\item Graphical sprites (images) are to be added later in the development stages
+\item The game should have a scrolling background to give a sense of flying through space.
+\item A menu should be implemented to choose from single player and multi-player modes.
+\item The game should be able to be paused
+\item The menu should be accessible during game play.
+\end{enumerate}
+
+\end{enumerate}
+
+
+\section{Non-functional User Requirements}
+\label{sec: non-functional}
+
+Things like ease of use, adaptability, accessibility etc.
+
+\section{System Requirements}
+\label {sec: system_requirements}
+This section details the requirements and physical devices needed to play the game successfully.
+
+\begin{enumerate}
+\item The game is to be written in the Java programming language.
+\item All user PCs will need to follow the system requirements for Java 6
+\begin{enumerate}
+\item Windows 7, Vista, XP, 2000, Server 2008, Server 2003. All 32 and 64-bit operating systems
+\item Mac OS X
+\item Most Linux distributions
+\item Solaris
+\end{enumerate}
+\item Keyboard and Mouse are required (with Western layout)
+\item For multiplayer, all users will need to be connected to a local area network (LAN) at least
+\item Monitor and graphics card with at least a resolution of 800 x 600 
+\end{enumerate}
