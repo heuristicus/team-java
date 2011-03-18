@@ -157,27 +157,25 @@ public class GamePanel extends JPanel {
 
             public void actionPerformed(ActionEvent e) {
                 checkUserMovement();
-                if (!networked) {
+                if (gameServer != null && gameServer.getNumConnections() != 0) {
+                    currentState = gameServer.processGameStates();
+                    if (currentState != null) {
+                        gameLogic.setGameState(currentState);
+                    }
+                    logic();
+                    gameServer.broadcastGameState(gameLogic.getGameState());
+                    repaint();
+                } else if (gameClient != null) {
+                    currentState = gameClient.getCurrentServerState();
+                    if (currentState != null) {
+                        gameLogic.setGameState(currentState);
+                    }
                     logic();
                     repaint();
+                    gameClient.sendGameState(currentState);
                 } else {
-                    if (gameServer != null) {
-                        currentState = gameServer.processGameStates();
-                        if (currentState != null) {
-                            gameLogic.setGameState(currentState);
-                        }
-                        logic();
-                        gameServer.broadcastGameState(gameLogic.getGameState());
-                        repaint();
-                    } else if (gameClient != null) {
-                        currentState = gameClient.getCurrentServerState();
-                        if (currentState != null) {
-                            gameLogic.setGameState(currentState);
-                        }
-                        logic();
-                        repaint();
-                        gameClient.sendGameState(currentState);
-                    }
+                    logic();
+                    repaint();
                 }
             }
         });

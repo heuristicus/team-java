@@ -101,6 +101,7 @@ public class ConnectionHandler implements Runnable {
                     System.out.println("socket was closed." + client.hashCode());
                     toRemove.add(key.toString());
                     numConnections--;
+                    server.decrementConnections();
                     sockRemoved = true;
                 }
             }

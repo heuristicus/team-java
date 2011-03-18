@@ -19,6 +19,7 @@ public class GameServer {
 
     Map clients;
     int maxConnections;
+    int numConnections;
     int port;
     ServerSocket servSock; // server socket
     ConnectionHandler connHandler;
@@ -38,6 +39,7 @@ public class GameServer {
     public GameServer(int port, int maxConnections) {
         this.port = port;
         this.maxConnections = maxConnections;
+        numConnections = 0;
         clients = new HashMap<String, GServerSocket>();
         manageConnections();
     }
@@ -52,7 +54,7 @@ public class GameServer {
     /**
      * Disconnects the server completely.
      */
-    public void killServer(){
+    public void killServer() {
         Set clientKeys = clients.keySet();
         for (Object client : clientKeys) {
             GServerSocket s = (GServerSocket) clients.get(client);
@@ -67,7 +69,7 @@ public class GameServer {
      * game panel in order to do logic processing.
      * @return
      */
-    public GameState processGameStates(){
+    public GameState processGameStates() {
         GameState updateState = currentState;
         for (GameState gameState : clientStates) {
             updateState.joinState(gameState);
@@ -75,12 +77,11 @@ public class GameServer {
         return updateState;
     }
 
-
     /**
      * Send the updated game state to each client.
      * @param state
      */
-    public void broadcastGameState(GameState state){
+    public void broadcastGameState(GameState state) {
         currentState = state;
         Set clientKeys = clients.keySet();
         for (Object client : clientKeys) {
@@ -97,7 +98,7 @@ public class GameServer {
         clientStates.clear();
     }
 
-    public void readState(String sockName){
+    public void readState(String sockName) {
         try {
             GServerSocket interactor = (GServerSocket) clients.get(sockName);
             GameState newState = (GameState) interactor.readObject();
@@ -111,7 +112,7 @@ public class GameServer {
         }
     }
 
-    public void addGameState(GameState state){
+    public void addGameState(GameState state) {
         clientStates.add(state);
     }
 
@@ -140,10 +141,20 @@ public class GameServer {
             System.out.println("sent name req");
             clientSocket.sendObject(name);
             System.out.println("sent name object");
+            numConnections++;
         } catch (IOException ex) {
             System.out.println("Error while sending the socket name.");
             ex.printStackTrace();
         }
+    }
+
+    public int getNumConnections() {
+        return numConnections;
+    }
+
+    // for use when a client is disconnected by the connection handler.
+    protected void decrementConnections(){
+        numConnections--;
     }
 
     // <editor-fold defaultstate="collapsed" desc="port utils">
