@@ -3,6 +3,9 @@ package GUIComponents;
 import Background.Background;
 import Controls.Controls;
 import Game.Game;
+import Game.Network.GameClient;
+import Game.Network.GameServer;
+import Game.Network.GameState;
 import Game.PlayerDeathException;
 import Path.StraightPath;
 import Projectile.ComplexProjectile;
@@ -41,7 +44,7 @@ public class GamePanel extends JPanel {
      * the game that is currently taking place. Perhaps have this as a constructor
      * parameter, or have it passed in using another method.
      */
-    Game shootGame;
+    Game gameLogic;
     Color bgColor = Color.BLACK;
     Player one;
     Spawn sp;
@@ -65,10 +68,28 @@ public class GamePanel extends JPanel {
     boolean switchPanel = false;
     boolean playerDeath = false;
     boolean paused = false;
+    GameState currentState;
+    GameServer gameServer;
+    GameClient gameClient;
+    boolean networked;
 
     public GamePanel(int width, int height) {
         this.width = width;
         this.height = height;
+    }
+
+    public GamePanel(int width, int height, int port, int maxConnections) {
+        this(width, height);
+        gameServer = new GameServer(port, maxConnections);
+        gameClient = null;
+        networked = true;
+    }
+
+    public GamePanel(int width, int height, String host, int port) {
+        this(width, height);
+        gameClient = new GameClient(host, port);
+        gameServer = null;
+        networked = true;
     }
 
     /**
@@ -105,17 +126,17 @@ public class GamePanel extends JPanel {
         spawns = new ArrayList();
         laser = new LaserWeapon();
         proton = new ProtonWeapon();
-        shootGame = new Game();
+        gameLogic = new Game();
         background = new Background(40);
         one = new Player(300, 200, laser, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
         setBackground(bgColor);
-        shootGame.pruneArrays(this.getSize());
+        gameLogic.pruneArrays(this.getSize());
         // height = this.getSize().height;
         // width = this.getSize().width;
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
-        shootGame.addPlayer(one);
+        gameLogic.addPlayer(one);
 //        /*
 //         * TODO: Implement automatic calling of spawn classes
 //         * Below code generates 5 enemies at random position.
@@ -136,9 +157,9 @@ public class GamePanel extends JPanel {
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
-                checkUserMovement();
-                logic();
-                repaint();
+                    checkUserMovement();
+                    logic();
+                    repaint();
             }
         });
         timer.start();
@@ -150,11 +171,11 @@ public class GamePanel extends JPanel {
 
         if (running) {
             mouse = a.isMouse();
-            shootGame.pruneArrays(new Dimension(this.getSize()));
-            shootGame.moveEnemies();
-            shootGame.moveProjectiles();
+            gameLogic.pruneArrays(new Dimension(this.getSize()));
+            gameLogic.moveEnemies();
+            gameLogic.moveProjectiles();
             try {
-                shootGame.doNaiveCollisionDetection();
+                gameLogic.doNaiveCollisionDetection();
             } catch (PlayerDeathException ex) {
                 playerDeath = true;
                 setRun(false);
@@ -196,18 +217,18 @@ public class GamePanel extends JPanel {
 
     private void drawShips(Graphics2D g2) {
         one.setLocation(new Point(player1_x, player1_y));
-        ArrayList<Enemy> enemies = shootGame.getEnemyArray();
-        ArrayList<Player> players = shootGame.getPlayerArray();
+        ArrayList<Enemy> enemies = gameLogic.getEnemyArray();
+        ArrayList<Player> players = gameLogic.getPlayerArray();
         for (Player player : players) {
             player.draw(g2);
             g2.setColor(Color.red);
-            g2.draw(shootGame.getCenteredBox(player.getLocation()));
+            g2.draw(gameLogic.getCenteredBox(player.getLocation()));
             g2.setColor(Color.black);
         }
         for (Enemy enemy : enemies) {
             enemy.draw(g2);
             g2.setColor(Color.red);
-            g2.draw(shootGame.getCenteredBox(enemy.getLocation()));
+            g2.draw(gameLogic.getCenteredBox(enemy.getLocation()));
             g2.setColor(Color.black);
         }
 
@@ -221,7 +242,7 @@ public class GamePanel extends JPanel {
             spawns = sp.spawnRandom(6);
             for (int i = 0; i < spawns.size(); i++) {
                 // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
-                shootGame.addEnemy((Enemy) spawns.get(i));
+                gameLogic.addEnemy((Enemy) spawns.get(i));
             }
             //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
         }
@@ -230,17 +251,17 @@ public class GamePanel extends JPanel {
     private void drawProjectiles(Graphics2D g2) {
 
         if (counter == 120 || counter == 200) {
-            for (int i = 1; i < shootGame.getEnemyArray().size() - 1; i++) {
-                shape = new Ellipse2D.Double(shootGame.getEnemyArray().get(i).getX(), shootGame.getEnemyArray().get(i).getY() - 15, 5, 5);
-                shootGame.addProjectileToArray(new ComplexProjectile(shootGame.getEnemyArray().get(i).getX(),
-                        shootGame.getEnemyArray().get(i).getY() - 15,
+            for (int i = 1; i < gameLogic.getEnemyArray().size() - 1; i++) {
+                shape = new Ellipse2D.Double(gameLogic.getEnemyArray().get(i).getX(), gameLogic.getEnemyArray().get(i).getY() - 15, 5, 5);
+                gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
+                        gameLogic.getEnemyArray().get(i).getY() - 15,
                         100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP),
-                        shootGame.getEnemyArray().get(i).getWeapon().getTexture()));
+                        gameLogic.getEnemyArray().get(i).getWeapon().getTexture()));
             }
 
         }
         g2.setColor(Color.BLUE);
-        ArrayList<Projectile> projectiles = shootGame.getProjectileArray();
+        ArrayList<Projectile> projectiles = gameLogic.getProjectileArray();
         for (Projectile projectile : projectiles) {
             projectile.draw(g2);
         }
@@ -284,7 +305,7 @@ public class GamePanel extends JPanel {
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
                 shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                shootGame.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15, 
+                gameLogic.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
                         100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
                         one.getWeapon().getTexture()));
             }
@@ -315,7 +336,7 @@ public class GamePanel extends JPanel {
         Rectangle2D healthBar = new Rectangle2D.Double(35, 525, one.getHealth(), 20);
         g2.setColor(Color.GREEN);
         g2.fill(healthBar);
-        }
+    }
 
     /**
      * Method to change the variable run that controls rendering.
