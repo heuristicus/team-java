@@ -36,7 +36,7 @@ public class ClientSocketListener implements Runnable {
                 }
                 if (s.equals("gamestate")){
                     System.out.println("got sending game state message");
-                    client.readGameState();
+                    client.readServerGameState();
                 }
             } catch (IOException ex) {
                 System.out.println("IO exception while getting a string from the stream.");

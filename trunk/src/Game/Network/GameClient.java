@@ -16,7 +16,8 @@ public class GameClient {
     private final int serverPort;
     GClientSocket sock;
     String name;
-    GameState latestState;
+    GameState serverState;
+    GameState ownState;
 
     public static void main(String[] args) {
         GameClient c = new GameClient("localhost", 2000);
@@ -26,7 +27,8 @@ public class GameClient {
     public GameClient(String serverHost, int serverPort) {
         this.serverHost = serverHost;
         this.serverPort = serverPort;
-        latestState = new GameState(); // init state with nothing in it to avoid null pointers.
+        ownState = new GameState(); // init state with nothing in it to avoid null pointers.
+        serverState = new GameState();
     }
 
     public void connectToServer() {
@@ -36,6 +38,14 @@ public class GameClient {
     public void disconnect() {
         sock.disconnect(true);
         Thread.currentThread().interrupt();
+    }
+
+    public void setOwnState(GameState state){
+        ownState = state;
+    }
+
+    public GameState getCurrentServerState() {
+        return serverState;
     }
 
     public void readName() {
@@ -56,10 +66,10 @@ public class GameClient {
      * Sets the game state inside this object to the state most recently received
      * from the server.
      */
-    public void readGameState() {
+    public void readServerGameState() {
         try {
             GameState nG = (GameState) sock.readObject();
-            latestState = nG;
+            serverState = nG;
         } catch (IOException ex) {
             System.out.println("IO exception while attempting to get server game state.");
         } catch (ClassNotFoundException ex) {
@@ -77,6 +87,7 @@ public class GameClient {
      */
     public void sendGameState(GameState currentState) {
         try {
+            ownState = currentState;
             GameState trimmedState = getStateChanges(currentState);
             sock.sendObject("clientstate");
             sock.sendObject(trimmedState);
@@ -95,7 +106,7 @@ public class GameClient {
      */
     public GameState getStateChanges(GameState state) {
         GameState updateState = state;
-        updateState.removeDuplicates(latestState);
+        updateState.removeDuplicates(serverState);
         return updateState;
     }
 }

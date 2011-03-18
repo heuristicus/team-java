@@ -4,6 +4,7 @@
  */
 package Game;
 
+import Game.Network.GameState;
 import Projectile.Projectile;
 import Spawn.Spawn;
 import Unit.Enemy;
@@ -13,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 
 /**
  *

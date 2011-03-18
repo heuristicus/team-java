@@ -71,7 +71,7 @@ public class GamePanel extends JPanel {
     GameState currentState;
     GameServer gameServer;
     GameClient gameClient;
-    boolean networked;
+    boolean networked = false;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -152,14 +152,33 @@ public class GamePanel extends JPanel {
         addKeyListener(a);
         addMouseMotionListener(a);
         hideMouse();
-        JOptionPane.showMessageDialog(this, "Ready?");
         running = true;
         timer = new Timer(20, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
-                    checkUserMovement();
+                checkUserMovement();
+                if (!networked) {
                     logic();
                     repaint();
+                } else {
+                    if (gameServer != null) {
+                        currentState = gameServer.processGameStates();
+                        if (currentState != null) {
+                            gameLogic.setGameState(currentState);
+                        }
+                        logic();
+                        gameServer.broadcastGameState(gameLogic.getGameState());
+                        repaint();
+                    } else if (gameClient != null) {
+                        currentState = gameClient.getCurrentServerState();
+                        if (currentState != null) {
+                            gameLogic.setGameState(currentState);
+                        }
+                        logic();
+                        repaint();
+                        gameClient.sendGameState(currentState);
+                    }
+                }
             }
         });
         timer.start();
