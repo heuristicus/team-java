@@ -23,8 +23,8 @@ public class ComplexProjectile extends Projectile implements Serializable{
 
     Path movePath;
 
-    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath, BufferedImage texture) {
-        super(x, y, damage, speed, isEnemy, shape, color, texture);
+    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath, String textureLoc) {
+        super(x, y, damage, speed, isEnemy, shape, color, textureLoc);
         this.movePath = movePath;
 
     }

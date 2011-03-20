@@ -28,10 +28,10 @@ public class GServerSocket {
         killed = false;
         getStreams();
         initListener(server);
-        
+
     }
 
-    private void initListener(GameServer server){
+    private void initListener(GameServer server) {
         listener = new ServerSocketListener(this, server);
         Thread t = new Thread(listener);
         t.start();
@@ -73,13 +73,12 @@ public class GServerSocket {
         System.out.println("Sending :");
         System.out.println(o);
         System.out.println("{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}");
+        objOut.reset();
         objOut.writeObject(o);
         objOut.flush();
-//        objOut.reset();
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
         return objIn.readObject();
     }
-
 }

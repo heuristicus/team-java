@@ -13,8 +13,9 @@ public class LaserWeapon extends Weapon implements Serializable{
     public LaserWeapon()
     {
         super(10);
-        super.setTextureFromFile(".//src//Weapon//laser.png");
-        super.setProjectile(new BasicProjectile(10,10,texture));
+//        super.setTextureFromFile(".//src//Weapon//laser.png");
+        setTextureLoc(".//src//Weapon//laser.png");
+        super.setProjectile(new BasicProjectile(10,10,".//src//Weapon//laser.png"));
     }
 
     @Override

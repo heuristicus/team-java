@@ -138,6 +138,7 @@ public class GamePanel extends JPanel {
         one.setLocation(new Point(player1_x, player1_y));
         mouse = a.isMouse();
         gameLogic.addPlayer(one);
+        System.out.println("added player");
 //        /*
 //         * TODO: Implement automatic calling of spawn classes
 //         * Below code generates 5 enemies at random position.
@@ -290,10 +291,11 @@ public class GamePanel extends JPanel {
                 gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
                         gameLogic.getEnemyArray().get(i).getY() - 15,
                         100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP),
-                        gameLogic.getEnemyArray().get(i).getWeapon().getTexture()));
+                        gameLogic.getEnemyArray().get(i).getWeapon().getTextureLoc()));
             }
 
         }
+        
         g2.setColor(Color.BLUE);
         ArrayList<Projectile> projectiles = gameLogic.getProjectileArray();
         for (Projectile projectile : projectiles) {
@@ -341,7 +343,7 @@ public class GamePanel extends JPanel {
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
                 gameLogic.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
                         100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
-                        one.getWeapon().getTexture()));
+                        one.getWeapon().getTextureLoc()));
             }
             if (a.isEsc()) {
                 switchPanel = true;

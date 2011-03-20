@@ -13,8 +13,8 @@ public class BasicWeapon extends Weapon implements Serializable{
     public BasicWeapon()
     {
         super(10);
-        super.setTextureFromFile(".//src//Weapon//proton.png");
-        super.setProjectile(new BasicProjectile(10,10,texture));
+//        super.setTextureFromFile(".//src//Weapon//proton.png");
+        super.setProjectile(new BasicProjectile(10,10,".//src//Weapon//proton.png"));
     }
 
     @Override
