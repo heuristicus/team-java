@@ -54,6 +54,35 @@ public class GameServer {
         }
     }
 
+    public void ServerStuff(ArrayList list) throws UnknownHostException {
+        InetAddress ownIP = InetAddress.getLocalHost();
+        System.out.println("ServerIP: " + ownIP);
+        BaseFrame baseFrame = new BaseFrame(DEFAULT_WINDOW_SIZE);
+        BufferedReader in = null;
+        PrintStream out = null;
+
+
+
+
+        GameServer g = new GameServer();
+        int port = g.findUsablePort(2000, 3000);
+
+
+        try {
+            Socket s;
+
+            s = new Socket(ownIP, port);
+
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintStream(s.getOutputStream());
+
+
+
+
+        } catch (Exception e) {
+        }
+    }
+
     public GameServer() {
     }
 

@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import javax.sound.sampled.Port;
 
 /**
@@ -56,5 +57,28 @@ public class GameClient {
         //Set methods below here
 
 
+    }
+
+    public void clientStuff(ArrayList list) throws UnknownHostException {
+        InetAddress ownIP = InetAddress.getLocalHost();
+        System.out.println("ClientIP: " + ownIP);
+        BaseFrame baseFrame = new BaseFrame(DEFAULT_WINDOW_SIZE);
+        BufferedReader in = null;
+        PrintStream out = null;
+
+        int testPort = 2000;
+
+
+        try {
+            Socket s;
+
+            s = new Socket(ownIP, testPort);
+
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintStream(s.getOutputStream());
+
+
+        } catch (Exception e) {
+        }
     }
 }
