@@ -7,6 +7,7 @@ package Path;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import javax.swing.Timer;
 
 
@@ -14,7 +15,7 @@ import javax.swing.Timer;
  *
  * @author Dave
  */
-public class ZigZagPath extends Path {
+public class ZigZagPath extends Path implements Serializable{
 
     public Direction direction;
 Timer t;

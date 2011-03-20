@@ -5,12 +5,13 @@
 package Path;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class DiagonalPath extends Path {
+public class DiagonalPath extends Path implements Serializable{
 
     public enum Direction {
 
