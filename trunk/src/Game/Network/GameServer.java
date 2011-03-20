@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.ReentrantLock;
+import java.util.concurrent.locks.Lock;
 
 /**
  *
@@ -29,7 +29,7 @@ public class GameServer {
     Thread handlerThread;
     ArrayList<GameState> clientStates;
     Condition broadcastCond;
-    ReentrantLock lock;
+    Lock lock;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -43,7 +43,6 @@ public class GameServer {
     public GameServer(int port, int maxConnections) {
         this.port = port;
         this.maxConnections = maxConnections;
-        lock = new ReentrantLock();
         currentState = new GameState();
         clientStates = new ArrayList<GameState>();
         numConnections = 0;

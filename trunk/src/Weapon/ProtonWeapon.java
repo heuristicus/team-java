@@ -13,9 +13,8 @@ public class ProtonWeapon extends Weapon implements Serializable{
     public ProtonWeapon()
     {
         super(10);
-//        setTextureLoc(".//src//Weapon//proton.png");
-        setTextureLoc(".//src//Weapon//laser.png");
-        super.setProjectile(new BasicProjectile(10,10,".//src//Weapon//proton.png"));
+        setTextureFromFile(".//src//Weapon//proton.png");
+        super.setProjectile(new BasicProjectile(10,10,texture));
     }
 
     @Override

@@ -17,8 +17,7 @@ public class Player extends Unit implements Serializable{
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-//        setTextureFromFile(".//src//Unit//player.png");
-        setTextureLoc(".//src//Unit//player.png");
+        setTextureFromFile(".//src//Unit//player.png");
     }
 
 //    public Polygon ship(Graphics g){

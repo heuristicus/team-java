@@ -4,11 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Shape;
+import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import javax.imageio.ImageIO;
 
 /**
  *
@@ -23,10 +21,9 @@ public abstract class Projectile implements Serializable{
     private Color color;
     private int x;
     private int y;
-    String textureLoc;
-//    protected BufferedImage texture;
+    protected BufferedImage texture;
 
-    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, String textureLoc) {
+    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, BufferedImage texture) {
         this.x = x;
         this.y = y;
         this.damage = damage;
@@ -34,8 +31,7 @@ public abstract class Projectile implements Serializable{
         this.speed = speed;
         this.shape = shape;
         this.color = color;
-        this.textureLoc = textureLoc;
-//        this.texture = texture;
+        this.texture = texture;
     }
 
     // Accessory methods.
@@ -43,27 +39,12 @@ public abstract class Projectile implements Serializable{
         return damage;
     }
 
-//    public BufferedImage getTexture() {
-//        return texture;
-//    }
-//
-//    public void setTexture(BufferedImage texture) {
-//        this.texture = texture;
-//    }
-
-    public void setTexture(String loc){
-        textureLoc = loc;
+    public BufferedImage getTexture() {
+        return texture;
     }
 
-    public BufferedImage getTexture(){
-        try {
-            return ImageIO.read(new File(textureLoc));
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Error with loading texture to unit.");
-        }
-        System.err.println("Get texture error, null is being returned.");
-        return null;
+    public void setTexture(BufferedImage texture) {
+        this.texture = texture;
     }
 
     public Shape getShape() {
@@ -118,7 +99,8 @@ public abstract class Projectile implements Serializable{
     // Rendering methods.
     public void draw(Graphics2D g2) {
       //  System.out.println(shape.getClass().toString());
-        g2.drawImage(getTexture(), x, y, null);
+
+        g2.drawImage(texture, x, y, null);
     }
 
     @Override

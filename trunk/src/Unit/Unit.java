@@ -17,7 +17,7 @@ import javax.imageio.ImageIO;
  *
  * @author michal
  */
-public abstract class Unit implements Serializable {
+public abstract class Unit implements Serializable{
 
     protected int health;
     protected int speed;
@@ -27,8 +27,7 @@ public abstract class Unit implements Serializable {
     protected int pointValue;
     protected int xCoord, yCoord;
     protected Color color;
-    String textureLoc;
-//    protected BufferedImage texture;
+    protected BufferedImage texture;
 //    protected Polygon ship;
 
     public Unit(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
@@ -82,40 +81,24 @@ public abstract class Unit implements Serializable {
     public Weapon getWeapon() {
         return weaponType;
     }
-
     public int getHealth() {
         return health;
     }
 
-//    public BufferedImage getTexture() {
-//        return texture;
-//    }
-//    public void setTexture(BufferedImage texture) {
-//        this.texture = texture;
-//
-//    }
-//    public void setTextureFromFile(String filename) {
-//        try {
-//            texture = ImageIO.read(new File(filename));
-//        } catch (IOException e) {
-//            System.err.println(e.getMessage());
-//            System.err.println("Error with loading texture to unit.");
-//        }
-//    }
-
     public BufferedImage getTexture() {
+        return texture;
+    }
+    public void setTexture(BufferedImage texture) {
+        this.texture = texture;
+
+    }
+    public void setTextureFromFile(String filename) {
         try {
-            return ImageIO.read(new File(textureLoc));
+            texture = ImageIO.read(new File(filename));
         } catch (IOException e) {
             System.err.println(e.getMessage());
             System.err.println("Error with loading texture to unit.");
         }
-        System.err.println("Get texture error, null is being returned.");
-        return null;
-    }
-
-    public void setTextureLoc(String loc) {
-        textureLoc = loc;
     }
 
     public void giveDamage(int damage) {

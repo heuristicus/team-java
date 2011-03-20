@@ -21,8 +21,7 @@ public class Enemy extends Unit implements Serializable{
 
     public Enemy(int health, int speed,  Weapon weaponType, Path movePath, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);
-//        setTextureFromFile(".//src//Unit//enemy.png");
-        setTextureLoc(".//src//Unit//enemy.png");
+        setTextureFromFile(".//src//Unit//enemy.png");
         this.movePath = movePath;
     }
 
