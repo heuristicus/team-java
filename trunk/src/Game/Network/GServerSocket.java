@@ -75,7 +75,7 @@ public class GServerSocket {
         System.out.println("{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}");
         objOut.writeObject(o);
         objOut.flush();
-//        objOut.reset();
+        objOut.reset();
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {

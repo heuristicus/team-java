@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  *
@@ -43,6 +44,7 @@ public class GameServer {
     public GameServer(int port, int maxConnections) {
         this.port = port;
         this.maxConnections = maxConnections;
+        lock = new ReentrantLock();
         currentState = new GameState();
         clientStates = new ArrayList<GameState>();
         numConnections = 0;
