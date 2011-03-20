@@ -46,7 +46,6 @@ public class BaseFrame extends JFrame {
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         gamePanel = new GamePanel(_windowSize.width, _windowSize.height, 2000, 4);
-        System.out.println(this.getWidth() + ", " + this.getHeight());
         menuPanel = new MenuPanel();
         initCardLayoutPanel();
         initFrame();
