@@ -21,6 +21,7 @@ import java.util.ArrayList;
  */
 public class Game {
 
+    
     ArrayList<Player> players;
     ArrayList<Enemy> enemies;
     ArrayList<Projectile> projectiles;
@@ -33,8 +34,8 @@ public class Game {
         spawns = new ArrayList<Spawn>();
     }
 
-    public GameState getGameState() {
-        return new GameState(players, enemies, projectiles, spawns);
+    public GameState getGameState(boolean playerDeath, boolean paused, boolean running) {
+        return new GameState(players, enemies, projectiles, spawns, playerDeath, paused, running);
     }
 
     public void setGameState(GameState state) {

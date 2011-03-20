@@ -18,6 +18,7 @@ public class GameClient {
     String name;
     GameState serverState;
     GameState ownState;
+    boolean connected;
 
     public static void main(String[] args) {
         GameClient c = new GameClient("localhost", 2000);
@@ -33,10 +34,12 @@ public class GameClient {
 
     public void connectToServer() {
         sock = new GClientSocket(serverHost, serverPort, this);
+        connected = true;
     }
 
     public void disconnect() {
         sock.disconnect(true);
+        connected = false;
         Thread.currentThread().interrupt();
     }
 
@@ -69,6 +72,7 @@ public class GameClient {
     public void readServerGameState() {
         try {
             GameState nG = (GameState) sock.readObject();
+            System.out.println(nG);
             serverState = nG;
         } catch (IOException ex) {
             System.out.println("IO exception while attempting to get server game state.");
@@ -108,5 +112,9 @@ public class GameClient {
         GameState updateState = state;
         updateState.removeDuplicates(serverState);
         return updateState;
+    }
+
+    public boolean isConnected() {
+        return connected;
     }
 }

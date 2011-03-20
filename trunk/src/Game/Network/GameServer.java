@@ -39,6 +39,8 @@ public class GameServer {
     public GameServer(int port, int maxConnections) {
         this.port = port;
         this.maxConnections = maxConnections;
+        currentState = new GameState();
+        clientStates = new ArrayList<GameState>();
         numConnections = 0;
         clients = new HashMap<String, GServerSocket>();
         manageConnections();
@@ -71,7 +73,9 @@ public class GameServer {
      */
     public GameState processGameStates() {
         GameState updateState = currentState;
+        System.out.println(updateState);
         for (GameState gameState : clientStates) {
+            System.out.println("state processed");
             updateState.joinState(gameState);
         }
         return updateState;

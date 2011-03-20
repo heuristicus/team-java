@@ -30,13 +30,19 @@ public class GameState implements Serializable {
         enemies = new ArrayList<Enemy>();
         players = new ArrayList<Player>();
         spawns = new ArrayList<Spawn>();
+        playerDeath = false;
+        paused = false;
+        running = true;
     }
 
-    public GameState(ArrayList<Player> players, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, ArrayList<Spawn> spawns) {
+    public GameState(ArrayList<Player> players, ArrayList<Enemy> enemies, ArrayList<Projectile> projectiles, ArrayList<Spawn> spawns, boolean playerDeath, boolean paused, boolean running) {
         this.players = players;
         this.enemies = enemies;
         this.projectiles = projectiles;
         this.spawns = spawns;
+        this.playerDeath = playerDeath;
+        this.paused = paused;
+        this.running = running;
     }
 
     public boolean isPaused() {

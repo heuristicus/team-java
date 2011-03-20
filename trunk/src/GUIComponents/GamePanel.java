@@ -88,6 +88,7 @@ public class GamePanel extends JPanel {
     public GamePanel(int width, int height, String host, int port) {
         this(width, height);
         gameClient = new GameClient(host, port);
+        gameClient.connectToServer();
         gameServer = null;
         networked = true;
     }
@@ -163,9 +164,9 @@ public class GamePanel extends JPanel {
                         gameLogic.setGameState(currentState);
                     }
                     logic();
-                    gameServer.broadcastGameState(gameLogic.getGameState());
+                    gameServer.broadcastGameState(gameLogic.getGameState(playerDeath, paused, running));
                     repaint();
-                } else if (gameClient != null) {
+                } else if (gameClient != null && gameClient.isConnected()) {
                     currentState = gameClient.getCurrentServerState();
                     if (currentState != null) {
                         gameLogic.setGameState(currentState);
