@@ -308,13 +308,13 @@ public class GamePanel extends JPanel {
                 if (a.isUp() && player1_y > 0) {
                     player1_y -= 5;
                 }
-                if (a.isDown() && player1_y < height) {
+                if (a.isDown() && player1_y < height - 32) { // -32 so can still see some of unit
                     player1_y += 5;
                 }
                 if (a.isLeft() && player1_x > 0) {
                     player1_x -= 5;
                 }
-                if (a.isRight() && player1_x < width) {
+                if (a.isRight() && player1_x < width - 16) { // -16 so can still see some of unit
                     player1_x += 5;
                 }
             }
