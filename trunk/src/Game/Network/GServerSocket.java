@@ -69,7 +69,13 @@ public class GServerSocket {
     }
 
     public void sendObject(Object o) throws IOException {
+        System.out.println("{{{{{{{{{{{{{{{{{{{{{sending object}}}}}}}}}}}}}");
+        System.out.println("Sending :");
+        System.out.println(o);
+        System.out.println("{{{{{{{{{{{{{{{{{{}}}}}}}}}}}}}}}}");
         objOut.writeObject(o);
+        objOut.flush();
+//        objOut.reset();
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {

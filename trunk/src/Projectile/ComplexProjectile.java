@@ -12,12 +12,13 @@ import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class ComplexProjectile extends Projectile {
+public class ComplexProjectile extends Projectile implements Serializable{
     //Shape shape;
 
     Path movePath;

@@ -7,12 +7,13 @@ package Unit;
 import Weapon.Weapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class Player extends Unit {
+public class Player extends Unit implements Serializable{
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color);

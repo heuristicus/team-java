@@ -5,12 +5,12 @@
 package Spawn;
 
 import GUIComponents.BaseFrame;
-import Path.DiagonalPath;
 import Path.ZigZagPath;
 import Weapon.*;
 import Unit.*;
 import java.awt.Color;
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -18,7 +18,7 @@ import java.util.Random;
  *
  * @author danielcecil
  */
-public class Spawn {
+public class Spawn implements Serializable{
 
     private static int width = 800;
     private static int height = 600;

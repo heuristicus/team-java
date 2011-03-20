@@ -7,12 +7,13 @@ package Unit;
 import Weapon.BasicWeapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class DefaultUnit extends Unit {
+public class DefaultUnit extends Unit implements Serializable{
 
     // Can't pass values in the subclass as parameters to the super constructor.
 //    final int HEALTH = 100;

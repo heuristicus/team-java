@@ -6,12 +6,13 @@ import java.awt.Point;
 import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  *
  * @author Jere
  */
-public abstract class Projectile {
+public abstract class Projectile implements Serializable{
 
     private int damage;
     private Shape shape;

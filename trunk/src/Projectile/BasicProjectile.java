@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
+import java.io.Serializable;
 
 /**
  * Basic projectile, as in just a line that will be shot.
  * @author Jere
  */
-public class BasicProjectile extends Projectile {
+public class BasicProjectile extends Projectile implements Serializable{
 
     final int HEIGHT = 5;
     final int WIDTH = 1;

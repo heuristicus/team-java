@@ -2,12 +2,13 @@ package Weapon;
 
 import Projectile.*;
 import java.awt.Graphics2D;
+import java.io.Serializable;
 
 /**
  *
  * @author Jere
  */
-public class ProtonWeapon extends Weapon {
+public class ProtonWeapon extends Weapon implements Serializable{
 
     public ProtonWeapon()
     {

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
 
 /**
  *
@@ -26,6 +28,8 @@ public class GameServer {
     GameState currentState;
     Thread handlerThread;
     ArrayList<GameState> clientStates;
+    Condition broadcastCond;
+    Lock lock;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -69,15 +73,28 @@ public class GameServer {
      * Processes the game states in the arraylist to create an amalgamation of them.
      * returns the resulting game state. This method should only be called by the
      * game panel in order to do logic processing.
-     * @return
+     * @returnGameServer.java:81
      */
     public GameState processGameStates() {
         GameState updateState = currentState;
-        System.out.println(updateState);
-        for (GameState gameState : clientStates) {
-            System.out.println("state processed");
-            updateState.joinState(gameState);
+        System.out.println("^^^^^^^^^^^processing states received from clients^^^^^^^^^^^^^^");
+        System.out.println("current server state:\n" + updateState);
+        lock.lock();
+        try {
+            broadcastCond = lock.newCondition();
+            for (GameState gameState : clientStates) {
+                System.out.println("processing client state:\n" + gameState);
+                updateState.joinState(gameState);
+                System.out.println("client state joined to the server state:");
+                System.out.println(updateState);
+                System.out.println("state processed");
+            }
+            broadcastCond.signalAll();
+        } finally {
+            lock.unlock();
         }
+        System.out.println("finished processing");
+        System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
         return updateState;
     }
 
@@ -87,6 +104,9 @@ public class GameServer {
      */
     public void broadcastGameState(GameState state) {
         currentState = state;
+        System.out.println("$$$$$$$$$$$state to send$$$$$$$$$$$$");
+        System.out.println(currentState);
+        System.out.println("$$$$$$$$$$$$$$$$$$$");
         Set clientKeys = clients.keySet();
         for (Object client : clientKeys) {
             try {
@@ -157,7 +177,7 @@ public class GameServer {
     }
 
     // for use when a client is disconnected by the connection handler.
-    protected void decrementConnections(){
+    protected void decrementConnections() {
         numConnections--;
     }
 

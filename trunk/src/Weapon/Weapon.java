@@ -5,13 +5,14 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 /**
  *
  * @author Jere
  */
-public abstract class Weapon {
+public abstract class Weapon implements Serializable{
 
     // range = pixels*10. So 1 range is 10 pixels moved up.
     protected int range;

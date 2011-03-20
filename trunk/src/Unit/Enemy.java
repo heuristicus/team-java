@@ -9,12 +9,13 @@ import Weapon.Weapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class Enemy extends Unit {
+public class Enemy extends Unit implements Serializable{
 
     Path movePath;
 

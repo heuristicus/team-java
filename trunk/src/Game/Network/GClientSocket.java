@@ -68,9 +68,16 @@ public class GClientSocket {
 
     public void sendObject(Object o) throws IOException {
         objOut.writeObject(o);
+        objOut.flush();
+//        objOut.reset();
     }
 
     public Object readObject() throws IOException, ClassNotFoundException {
-        return objIn.readObject();
+        Object in = objIn.readObject();
+        System.out.println("%%%%%%%%%%%%%%%%%%% RECEIVED FROM SERVER %%%%%%%%%%");
+        System.out.println("Read: ");
+        System.out.println(in);
+        System.out.println("%%%%%%%%%%%%%%%%%");
+        return in;
     }
 }

@@ -7,17 +7,17 @@ package Unit;
 import Weapon.Weapon;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import javax.imageio.ImageIO;
 
 /**
  *
  * @author michal
  */
-public abstract class Unit {
+public abstract class Unit implements Serializable{
 
     protected int health;
     protected int speed;
@@ -112,6 +112,6 @@ public abstract class Unit {
 
     @Override
     public String toString() {
-        return "Unit{" + "health=" + health + "xCoord=" + xCoord + "yCoord=" + yCoord + this.hashCode() + '}';
+        return "Unit{" + "health=" + health + "xCoord=" + xCoord + "yCoord=" + yCoord + "hash: " + this.hashCode() + '}';
     }
 }
