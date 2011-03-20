@@ -6,8 +6,6 @@ package GUIComponents;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -45,6 +43,7 @@ public class BaseFrame extends JFrame {
 
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
+        setSize(windowSize);
 //        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
 //        this.setTitle("client");
         gamePanel = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
@@ -52,11 +51,9 @@ public class BaseFrame extends JFrame {
         menuPanel = new MenuPanel();
         initCardLayoutPanel();
         initFrame();
-        
     }
 
     private void initFrame() {
-        setSize(_windowSize);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setEnabled(true);
         add("Center", cardPanel);
