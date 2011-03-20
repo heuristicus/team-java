@@ -4,9 +4,16 @@
  */
 package Game;
 
+import GUIComponents.BaseFrame;
+import java.awt.Dimension;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 /**
@@ -16,10 +23,35 @@ import java.util.ArrayList;
 public class GameServer {
 
     ArrayList<Socket> clients;
+    private static final Dimension DEFAULT_WINDOW_SIZE = new Dimension(800, 600);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnknownHostException {
+        InetAddress ownIP = InetAddress.getLocalHost();
+        System.out.println("ServerIP: " + ownIP);
+        BaseFrame baseFrame = new BaseFrame(DEFAULT_WINDOW_SIZE);
+        BufferedReader in = null;
+        PrintStream out = null;
+
+
+
+
         GameServer g = new GameServer();
-        g.findUsablePort(2000, 3000);
+        int port = g.findUsablePort(2000, 3000);
+
+
+        try {
+            Socket s;
+
+            s = new Socket(ownIP, port);
+
+            in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            out = new PrintStream(s.getOutputStream());
+
+
+
+
+        } catch (Exception e) {
+        }
     }
 
     public GameServer() {
