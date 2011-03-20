@@ -8,6 +8,7 @@ import Weapon.BasicWeapon;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  *
@@ -24,15 +25,13 @@ public class DefaultUnit extends Unit implements Serializable{
     int x, y;
 
     public DefaultUnit(int x, int y) {
-        super(100, 20, new BasicWeapon(), 0, x, y, Color.magenta);
+        super(100, 20, new BasicWeapon(), 0, x, y, Color.magenta, "default");
         this.x = x;
         this.y = y;
     }
 
-    @Override
-    public void draw(Graphics2D g2) {
-       // Graphics2D g_ = (Graphics2D) g;
-        g2.setColor(getColor());
-        g2.fillOval(x, y, 20, 40);
-    }
+//    @Override
+//    public void draw(Graphics2D g2, Map m) {
+//        g2.drawImage(null, null, null);
+//    }
 }

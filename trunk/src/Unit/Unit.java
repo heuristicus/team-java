@@ -7,11 +7,8 @@ package Unit;
 import Weapon.Weapon;
 import java.awt.*;
 import java.awt.Color;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.io.Serializable;
-import javax.imageio.ImageIO;
+import java.util.Map;
 
 /**
  *
@@ -27,10 +24,11 @@ public abstract class Unit implements Serializable{
     protected int pointValue;
     protected int xCoord, yCoord;
     protected Color color;
-    protected BufferedImage texture;
+    String imageReference;
+//    protected BufferedImage texture;
 //    protected Polygon ship;
 
-    public Unit(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
+    public Unit(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color, String imageReference) {
         this.health = health;
         this.speed = speed;
         //      this.shape = shape;
@@ -39,6 +37,7 @@ public abstract class Unit implements Serializable{
         this.xCoord = xCoord;
         this.yCoord = yCoord;
         this.color = color;
+        this.imageReference = imageReference;
     }
 
     /**
@@ -85,21 +84,29 @@ public abstract class Unit implements Serializable{
         return health;
     }
 
-    public BufferedImage getTexture() {
-        return texture;
+    public String getImageReference() {
+        return imageReference;
     }
-    public void setTexture(BufferedImage texture) {
-        this.texture = texture;
 
+    public void setImageReference(String imageReference) {
+        this.imageReference = imageReference;
     }
-    public void setTextureFromFile(String filename) {
-        try {
-            texture = ImageIO.read(new File(filename));
-        } catch (IOException e) {
-            System.err.println(e.getMessage());
-            System.err.println("Error with loading texture to unit.");
-        }
-    }
+
+//    public BufferedImage getTexture() {
+//        return texture;
+//    }
+//    public void setTexture(BufferedImage texture) {
+//        this.texture = texture;
+//
+//    }
+//    public void setTextureFromFile(String filename) {
+//        try {
+//            texture = ImageIO.read(new File(filename));
+//        } catch (IOException e) {
+//            System.err.println(e.getMessage());
+//            System.err.println("Error with loading texture to unit.");
+//        }
+//    }
 
     public void giveDamage(int damage) {
         health -= damage;
@@ -108,7 +115,12 @@ public abstract class Unit implements Serializable{
 //    public Polygon getShip() {
 //        return ship;
 //    }
-    public abstract void draw(Graphics2D g2);
+    
+//    public abstract void draw(Graphics2D g2, Map m);
+
+    public void draw(Graphics2D g2, Map m){
+        g2.drawImage((Image) m.get(imageReference),xCoord,yCoord,null);
+    }
 
     @Override
     public String toString() {

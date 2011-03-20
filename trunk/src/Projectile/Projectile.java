@@ -2,11 +2,13 @@ package Projectile;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
+import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
+import java.util.Map;
 
 /**
  *
@@ -21,9 +23,10 @@ public abstract class Projectile implements Serializable{
     private Color color;
     private int x;
     private int y;
-    protected BufferedImage texture;
+    public String projectileType;
+//    protected BufferedImage texture;
 
-    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, BufferedImage texture) {
+    public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, String projectileType) {
         this.x = x;
         this.y = y;
         this.damage = damage;
@@ -31,7 +34,8 @@ public abstract class Projectile implements Serializable{
         this.speed = speed;
         this.shape = shape;
         this.color = color;
-        this.texture = texture;
+        this.projectileType = projectileType;
+//        this.texture = texture;
     }
 
     // Accessory methods.
@@ -39,13 +43,21 @@ public abstract class Projectile implements Serializable{
         return damage;
     }
 
-    public BufferedImage getTexture() {
-        return texture;
+    public String getProjectileType() {
+        return projectileType;
     }
 
-    public void setTexture(BufferedImage texture) {
-        this.texture = texture;
+    public void setProjectileType(String projectileType) {
+        this.projectileType = projectileType;
     }
+
+//    public BufferedImage getTexture() {
+//        return texture;
+//    }
+//
+//    public void setTexture(BufferedImage texture) {
+//        this.texture = texture;
+//    }
 
     public Shape getShape() {
         return shape;
@@ -97,10 +109,8 @@ public abstract class Projectile implements Serializable{
     public abstract void doMove();
 
     // Rendering methods.
-    public void draw(Graphics2D g2) {
-      //  System.out.println(shape.getClass().toString());
-
-        g2.drawImage(texture, x, y, null);
+    public void draw(Graphics2D g2, Map m) {
+        g2.drawImage((BufferedImage) m.get(projectileType), x, y, null);
     }
 
     @Override

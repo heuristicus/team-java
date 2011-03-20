@@ -27,7 +27,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -72,6 +80,7 @@ public class GamePanel extends JPanel {
     GameServer gameServer;
     GameClient gameClient;
     boolean networked = false;
+    public Map imageMap;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -121,6 +130,19 @@ public class GamePanel extends JPanel {
         this.requestFocusInWindow();
     }
 
+    public void initImageMap() {
+        try {
+            imageMap = new HashMap();
+            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
+            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
+            imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
+            imageMap.put("laser", ImageIO.read(new File(".//src//Weapon//laser.png")));
+        } catch (IOException ex) {
+            System.out.println("Error while reading in image data.");
+            ex.printStackTrace();
+        }
+    }
+
     // Initialization
     public void initialize() {
         sp = new Spawn();
@@ -131,6 +153,7 @@ public class GamePanel extends JPanel {
         background = new Background(40);
         one = new Player(300, 200, laser, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
+        initImageMap();
         setBackground(bgColor);
         gameLogic.pruneArrays(this.getSize());
         // height = this.getSize().height;
@@ -213,7 +236,7 @@ public class GamePanel extends JPanel {
             } catch (PlayerDeathException ex) {
                 playerDeath = true;
                 setRun(false);
-                JOptionPane.showMessageDialog(this, "You have become one with the void.");
+                JOptionPane.showMessageDialog(this, "You died...");
             }
             background.tick();
         }
@@ -254,13 +277,13 @@ public class GamePanel extends JPanel {
         ArrayList<Enemy> enemies = gameLogic.getEnemyArray();
         ArrayList<Player> players = gameLogic.getPlayerArray();
         for (Player player : players) {
-            player.draw(g2);
+            player.draw(g2, imageMap);
             g2.setColor(Color.red);
             g2.draw(gameLogic.getCenteredBox(player.getLocation()));
             g2.setColor(Color.black);
         }
         for (Enemy enemy : enemies) {
-            enemy.draw(g2);
+            enemy.draw(g2, imageMap);
             g2.setColor(Color.red);
             g2.draw(gameLogic.getCenteredBox(enemy.getLocation()));
             g2.setColor(Color.black);
@@ -284,20 +307,18 @@ public class GamePanel extends JPanel {
 
     private void drawProjectiles(Graphics2D g2) {
 
-        if (counter == 120 || counter == 200) {
+        if (counter >= 120 && counter <= 300) {
             for (int i = 1; i < gameLogic.getEnemyArray().size() - 1; i++) {
                 shape = new Ellipse2D.Double(gameLogic.getEnemyArray().get(i).getX(), gameLogic.getEnemyArray().get(i).getY() - 15, 5, 5);
                 gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
                         gameLogic.getEnemyArray().get(i).getY() - 15,
-                        100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP),
-                        gameLogic.getEnemyArray().get(i).getWeapon().getTexture()));
+                        100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP), gameLogic.getEnemyArray().get(i).getWeapon().getProjectile().getProjectileType()));
             }
-
         }
         g2.setColor(Color.BLUE);
         ArrayList<Projectile> projectiles = gameLogic.getProjectileArray();
         for (Projectile projectile : projectiles) {
-            projectile.draw(g2);
+            projectile.draw(g2, imageMap);
         }
 
 //        try{
@@ -341,7 +362,7 @@ public class GamePanel extends JPanel {
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
                 gameLogic.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
                         100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
-                        one.getWeapon().getTexture()));
+                        one.getWeapon().getProjectile().getProjectileType()));
             }
             if (a.isEsc()) {
                 switchPanel = true;
