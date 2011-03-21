@@ -68,7 +68,7 @@ public class Spawn implements Serializable{
     }
 
     public Unit newEnemyUnit(Point spPoint) {
-        Unit en = new Enemy(100, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, spPoint.x, spPoint.y, Color.cyan);
+        Unit en = new Enemy(500, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, spPoint.x, spPoint.y, Color.cyan);
         return en;
     }
 

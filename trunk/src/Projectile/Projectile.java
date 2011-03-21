@@ -110,7 +110,7 @@ public abstract class Projectile implements Serializable{
 
     // Rendering methods.
     public void draw(Graphics2D g2, Map m) {
-        g2.drawImage((BufferedImage) m.get(projectileType), x, y, null);
+        g2.drawImage((Image) m.get(projectileType), x, y, null);
     }
 
     @Override

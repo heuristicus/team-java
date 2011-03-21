@@ -23,18 +23,18 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -132,7 +132,16 @@ public class GamePanel extends JPanel {
 
     public void initImageMap() {
         try {
+
             imageMap = new HashMap();
+
+//            Image i = Toolkit.getDefaultToolkit().getImage(getClass().getResource(".//src//Unit//player.png"));
+//            
+//            imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
+//            imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
+//            imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
+//            imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
+
             imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
             imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
             imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
@@ -214,6 +223,7 @@ public class GamePanel extends JPanel {
                     repaint();
                     gameClient.sendGameState(currentState);
                 } else {
+//                    System.out.println("normal");
                     logic();
                     repaint();
                 }
@@ -290,7 +300,7 @@ public class GamePanel extends JPanel {
         }
 
 //        System.out.println(counter);
-        if (counter == 100) { // will spawn a wave as soon as the game starts
+        if (counter == 100 | counter == 200 || counter == 300 || counter == 399) { // will spawn a wave as soon as the game starts
                     /*
              * TODO: Implement automatic calling of spawn classes
              * Below code generates 5 enemies at random position.
