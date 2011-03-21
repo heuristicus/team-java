@@ -8,7 +8,6 @@ import Game.Network.GameServer;
 import Game.Network.GameState;
 import Game.PlayerDeathException;
 import Path.StraightPath;
-import Path.ZigZagPath;
 import Projectile.ComplexProjectile;
 import Projectile.Projectile;
 import Spawn.Spawn;
@@ -29,9 +28,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,6 +55,7 @@ public class GamePanel extends JPanel {
     Game gameLogic;
     Color bgColor = Color.BLACK;
     Player one;
+    Spawn sp;
     LaserWeapon laser;
     ProtonWeapon proton;
     int player1_x = 500;
@@ -126,37 +131,34 @@ public class GamePanel extends JPanel {
     }
 
     public void initImageMap() {
-//        try {
+        try {
 
-        imageMap = new HashMap();
+            imageMap = new HashMap();
 
 //            Image i = Toolkit.getDefaultToolkit().getImage(getClass().getResource(".//src//Unit//player.png"));
 //            
-        imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
-        imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
-        imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
-        imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
+//            imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
+//            imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
+//            imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
+//            imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
 
-//            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
-//            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
-//            imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
-//            imageMap.put("laser", ImageIO.read(new File(".//src//Weapon//laser.png")));
-//        } catch (IOException ex) {
-//            System.out.println("Error while reading in image data.");
-//            ex.printStackTrace();
-//        }
+            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
+            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
+            imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
+            imageMap.put("laser", ImageIO.read(new File(".//src//Weapon//laser.png")));
+        } catch (IOException ex) {
+            System.out.println("Error while reading in image data.");
+            ex.printStackTrace();
+        }
     }
 
     // Initialization
     public void initialize() {
+        sp = new Spawn();
+        spawns = new ArrayList();
         laser = new LaserWeapon();
         proton = new ProtonWeapon();
         gameLogic = new Game();
-        gameLogic.addSpawn(new Spawn(300, 0, new Enemy(400, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, 0, 0, Color.blue)));
-        gameLogic.addSpawn(new Spawn(0, 0, new Enemy(400, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, 0, 0, Color.blue)));
-        gameLogic.addSpawn(new Spawn(600, 0, new Enemy(400, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, 0, 0, Color.blue)));
-        gameLogic.addSpawn(new Spawn(150, 0, new Enemy(400, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, 0, 0, Color.blue)));
-        gameLogic.addSpawn(new Spawn(450, 0, new Enemy(400, 100, new ProtonWeapon(), new ZigZagPath(ZigZagPath.Direction.LEFT), 100, 0, 0, Color.blue)));
         background = new Background(40);
         one = new Player(300, 200, laser, 200, player1_x, player1_y, Color.WHITE);
         a = new Controls();
@@ -184,7 +186,7 @@ public class GamePanel extends JPanel {
         addMouseMotionListener(a);
         hideMouse();
         running = true;
-        timer = new Timer(20, new ActionListener() { //60 fps
+        timer = new Timer(10, new ActionListener() { //60 fps
 
             public void actionPerformed(ActionEvent e) {
                 checkUserMovement();
@@ -296,16 +298,20 @@ public class GamePanel extends JPanel {
             g2.draw(gameLogic.getCenteredBox(enemy.getLocation()));
             g2.setColor(Color.black);
         }
-        ArrayList<Enemy> newEnemies;
 
+//        System.out.println(counter);
         if (counter == 100 | counter == 200 || counter == 300 || counter == 399) { // will spawn a wave as soon as the game starts
-            // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
-            for (Spawn spawn : gameLogic.getSpawnArray()) {
-                newEnemies = spawn.spawnUnits(1);
-                for (Unit unit : newEnemies) {
-                    gameLogic.addEnemy((Enemy) unit);
-                }
+                    /*
+             * TODO: Implement automatic calling of spawn classes
+             * Below code generates 5 enemies at random position.
+             */
+
+            spawns = sp.spawnRandom(6);
+            for (int i = 0; i < spawns.size(); i++) {
+                // FIXME this needs to be done better, although you shouldn't be spawning players in these spawns.
+                gameLogic.addEnemy((Enemy) spawns.get(i));
             }
+            //shootGame.getUnitArray().get(shootGame.getUnitArrayLength() - 1).draw(g2);
         }
     }
 
@@ -322,7 +328,6 @@ public class GamePanel extends JPanel {
         g2.setColor(Color.BLUE);
         ArrayList<Projectile> projectiles = gameLogic.getProjectileArray();
         for (Projectile projectile : projectiles) {
-            g2.draw(gameLogic.getCenteredBoxProjectile(projectile.getLocation()));
             projectile.draw(g2, imageMap);
         }
 
@@ -350,13 +355,13 @@ public class GamePanel extends JPanel {
                 if (a.isUp() && player1_y > 0) {
                     player1_y -= 5;
                 }
-                if (a.isDown() && player1_y < height - 32) { // -32 so can still see some of unit
+                if (a.isDown() && player1_y < height - 42) { // -32 so can still see some of unit
                     player1_y += 5;
                 }
                 if (a.isLeft() && player1_x > 0) {
                     player1_x -= 5;
                 }
-                if (a.isRight() && player1_x < width - 16) { // -16 so can still see some of unit
+                if (a.isRight() && player1_x < width - 36) { // -16 so can still see some of unit
                     player1_x += 5;
                 }
             }

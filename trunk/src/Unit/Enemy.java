@@ -7,6 +7,7 @@ package Unit;
 import Path.Path;
 import Weapon.Weapon;
 import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.io.Serializable;
 
@@ -38,10 +39,6 @@ public class Enemy extends Unit implements Serializable{
 //      //  g2.draw(new Rectangle2D.Double(xCoord + 2, yCoord + 2, 27, 27));
 //        g2.drawImage(getTexture(),xCoord,yCoord,null);
 //    }
-
-    public Enemy copy(){
-        return new Enemy(health, speed, weaponType, movePath, pointValue, xCoord, yCoord, color);
-    }
 
     /**
      * Moves the enemy to its next location along its path.
