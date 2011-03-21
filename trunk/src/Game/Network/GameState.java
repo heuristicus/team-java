@@ -6,6 +6,7 @@ package Game.Network;
 
 import Projectile.Projectile;
 import Spawn.Spawn;
+import Spawn.SpawnOld;
 import Unit.Enemy;
 import Unit.Player;
 import java.io.Serializable;

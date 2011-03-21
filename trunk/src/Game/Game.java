@@ -200,7 +200,7 @@ public class Game {
      * @return
      */
     public boolean colliding(Unit u, Projectile p) {
-        Rectangle2D projBounds = getCenteredBox(p.getLocation());
+        Rectangle2D projBounds = getCenteredBoxProjectile(p.getLocation());
         Rectangle2D unitBounds = getCenteredBox(u.getLocation());
         if (unitBounds.intersects(projBounds)) {
             // The collision is between the player bullets and the player, ignore it.
@@ -243,6 +243,10 @@ public class Game {
      */
     public Rectangle2D getCenteredBox(Point centre) {
         return new Rectangle2D.Double(centre.getX() + 2, centre.getY() + 2, 27, 27);
+    }
+
+    public Rectangle2D getCenteredBoxProjectile(Point centre){
+        return new Rectangle2D.Double(centre.getX() + 2, centre.getY() + 2, 5, 5);
     }
 
     /**
@@ -380,6 +384,7 @@ public class Game {
     }
 
     //</editor-fold>
+
     //<editor-fold defaultstate="collapsed" desc="Spawns.">
     public void addSpawn(Spawn s) {
         spawns.add(s);
@@ -420,5 +425,7 @@ public class Game {
             enemy.doMove();
         }
     }
+
+
     //</editor-fold>
 }
