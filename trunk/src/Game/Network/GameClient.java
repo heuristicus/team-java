@@ -4,6 +4,7 @@
  */
 package Game.Network;
 
+import Projectile.Projectile;
 import java.io.IOException;
 
 /**
@@ -71,9 +72,9 @@ public class GameClient {
      */
     public void readServerGameState() {
         try {
-            GameState nG = (GameState) sock.readObject();
+            GameState readState = (GameState) sock.readObject();
 //            System.out.println(nG);
-            serverState = nG;
+            serverState = readState;
         } catch (IOException ex) {
             System.out.println("IO exception while attempting to get server game state.");
         } catch (ClassNotFoundException ex) {
@@ -109,8 +110,13 @@ public class GameClient {
      * @return
      */
     public GameState getStateChanges(GameState state) {
-        GameState updateState = state;
+        GameState updateState = state.clone();
+//        System.out.println(ownState);
+//        System.out.println(serverState);
         updateState.removeDuplicates(serverState);
+//        for (Projectile p : updateState.getProjectiles()) {
+//            System.out.println(serverState.getProjectiles().contains(p));
+//        }
         return updateState;
     }
 

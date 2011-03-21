@@ -25,7 +25,7 @@ public class GameState implements Serializable {
     private final ArrayList<Player> players;
     private final ArrayList<Spawn> spawns;
 
-    public GameState(){
+    public GameState() {
         projectiles = new ArrayList<Projectile>();
         enemies = new ArrayList<Enemy>();
         players = new ArrayList<Player>();
@@ -73,35 +73,89 @@ public class GameState implements Serializable {
         return spawns;
     }
 
-    /**
-     * removes objects from this state's arrays which are also present in the state
-     * passed to the method.
-     * !!!!Not sure if this works if passing object over a network!!!!
-     * @param state
-     */
-    public void removeDuplicates(GameState state){
-        projectiles.removeAll(state.getProjectiles());
-        enemies.removeAll(state.getEnemies());
-        players.removeAll(state.getPlayers());
-        spawns.removeAll(state.getSpawns());
-    }
+    @Override
+    public GameState clone() {
+    ArrayList<Projectile> cloneProjectiles = (ArrayList<Projectile>) projectiles.clone();
+    ArrayList<Enemy> cloneEnemies= (ArrayList<Enemy>) enemies.clone();
+    ArrayList<Player> clonePlayers= (ArrayList<Player>) players.clone();
+    ArrayList<Spawn> cloneSpawns= (ArrayList<Spawn>) spawns.clone();
+    return new GameState(clonePlayers, cloneEnemies, cloneProjectiles, cloneSpawns, playerDeath, paused, running);
+}
+
+/**
+ * removes objects from this state's arrays which are also present in the state
+ * passed to the method.
+ * !!!!Not sure if this works if passing object over a network!!!!
+ * @param state
+ */
+public void
+
+removeDuplicates(GameState state){
+        ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
+
+
+for (Projectile projectile : projectiles) {
+            for (Projectile otherProjectile : state.getProjectiles()) {
+                if (projectile.objectReference == otherProjectile.objectReference){
+                    toRemoveProj.add(projectile);
+
+
+}
+            }
+        }
+
+        ArrayList<Enemy> toRemoveEnemy = new ArrayList<Enemy>();
+
+
+for (Enemy enemy : enemies) {
+            for (Enemy otherEnemy: state.getEnemies()) {
+                if (enemy.objectReference == otherEnemy.objectReference){
+                    toRemoveEnemy.add(enemy);
+
+
+}
+            }
+        }
+
+        projectiles.removeAll(toRemoveProj);
+        enemies.
+
+removeAll(toRemoveEnemy);
+
+
+
+}
 
     /**
      * Puts the objects that are in the given state into this state.
      * @param state
      */
-    public void joinState(GameState state){
+    public void
+
+joinState(GameState state){
         enemies.addAll(state.getEnemies());
-        players.addAll(state.getPlayers());
-        projectiles.addAll(state.getProjectiles());
-        spawns.addAll(state.getSpawns());
-    }
+        players.
+
+addAll(state.getPlayers());
+        projectiles.
+
+addAll(state.getProjectiles());
+        spawns.
+
+addAll(state.getSpawns());
+
+
+}
     
 
-    @Override
-    public String toString() {
+
+        @Override
+        public String
+
+toString() {
         return "GameState{" + "playerDeath=" + playerDeath + "\npaused=" + paused + "\nrunning=" + running + "\nprojectiles=" + projectiles + "\nenemies=" + enemies + "\nplayers=" + players + "\nspawns=" + spawns + '}';
-    }
+
+}
 
 
 }

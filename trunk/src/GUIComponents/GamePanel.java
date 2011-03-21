@@ -214,7 +214,8 @@ public class GamePanel extends JPanel {
                     currentState = gameClient.getCurrentServerState();
 
                     if (currentState != null) {
-                        gameLogic.setGameState(currentState);
+                        GameState temp = currentState;
+                        gameLogic.setGameState(temp);
 //                        System.out.println("~~~~~~~~~~~Server updated state~~~~~~~~~~");
 //                        System.out.println(currentState);
 //                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");

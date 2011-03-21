@@ -5,8 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Shape;
-import java.awt.geom.Line2D;
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -24,6 +22,7 @@ public abstract class Projectile implements Serializable{
     private int x;
     private int y;
     public String projectileType;
+    public final int objectReference;
 //    protected BufferedImage texture;
 
     public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, String projectileType) {
@@ -35,6 +34,7 @@ public abstract class Projectile implements Serializable{
         this.shape = shape;
         this.color = color;
         this.projectileType = projectileType;
+        objectReference = this.hashCode();
 //        this.texture = texture;
     }
 

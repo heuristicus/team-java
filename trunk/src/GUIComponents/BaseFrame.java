@@ -44,12 +44,12 @@ public class BaseFrame extends JFrame {
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         setSize(windowSize);
-//        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
-//        this.setTitle("client");
+        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
+        this.setTitle("client");
 //        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
 //        this.setTitle("server");
-        gamePanel = new GamePanel(this.getWidth(), this.getHeight());
-        this.setTitle("singlePlayer");
+//        gamePanel = new GamePanel(this.getWidth(), this.getHeight());
+//        this.setTitle("singlePlayer");
         menuPanel = new MenuPanel();
         initCardLayoutPanel();
         initFrame();

@@ -25,6 +25,7 @@ public abstract class Unit implements Serializable{
     protected int xCoord, yCoord;
     protected Color color;
     String imageReference;
+    public final int objectReference;
 //    protected BufferedImage texture;
 //    protected Polygon ship;
 
@@ -38,6 +39,7 @@ public abstract class Unit implements Serializable{
         this.yCoord = yCoord;
         this.color = color;
         this.imageReference = imageReference;
+        objectReference = this.hashCode();
     }
 
     /**
