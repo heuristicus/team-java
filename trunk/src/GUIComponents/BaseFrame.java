@@ -6,7 +6,6 @@ package GUIComponents;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -32,27 +31,25 @@ public class BaseFrame extends JFrame {
 
     private static Dimension _windowSize;
     JPanel cardPanel;
-    GamePanel Single;
-    GamePanel Server;
-    GamePanel Client;
+    GamePanel gamePanel;
     MenuPanel menuPanel;
 
     enum Panels {
 
-        SINGLE, MENU, MULTIS, MULTIC
+        GAME, MENU
     }
     // TODO change this to start from the menu. Will require a change in the init methods as well.
-    Panels currentPanel = Panels.SINGLE;
+    Panels currentPanel = Panels.GAME;
 
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         setSize(windowSize);
-//        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
-////        this.setTitle("client");
-//        Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
-////        this.setTitle("server");
-        Single = new GamePanel(this.getWidth(), this.getHeight());
-        this.setTitle("Single Player");
+//        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
+//        this.setTitle("client");
+//        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
+//        this.setTitle("server");
+        gamePanel = new GamePanel(this.getWidth(), this.getHeight());
+        this.setTitle("singlePlayer");
         menuPanel = new MenuPanel();
         initCardLayoutPanel();
         initFrame();
@@ -62,17 +59,15 @@ public class BaseFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setEnabled(true);
         add("Center", cardPanel);
-        Single.initialize();
+        gamePanel.initialize();
         setVisible(true);
         waitForPanelChangeRequest();
     }
 
     private void initCardLayoutPanel() {
         cardPanel = new JPanel(new CardLayout());
-        cardPanel.add(Single, "Single");
-        cardPanel.add(Server, "Server");
-        cardPanel.add(Client, "Client");
-        cardPanel.add(menuPanel, "Menu");
+        cardPanel.add(gamePanel, "game");
+        cardPanel.add(menuPanel, "menu");
     }
 
     /**
@@ -82,15 +77,15 @@ public class BaseFrame extends JFrame {
     private void waitForPanelChangeRequest() {
         while (true) {
             switch (currentPanel) {
-                case SINGLE:
-                    boolean Temp1 = Single.getPanelSwitchRequest();
-                    if (Temp1 == true) {
+                case GAME:
+                    boolean gTemp = gamePanel.getPanelSwitchRequest();
+                    if (gTemp == true) {
                         switchPanels();
                     }
                     break;
-                case MULTIC:
-                    boolean Temp2 = Client.getPanelSwitchRequest();
-                    if (Temp2 == true) {
+                case MENU:
+                    boolean mTemp = menuPanel.getPanelSwitchRequest();
+                    if (mTemp == true) {
                         switchPanels();
                     }
                     break;
@@ -110,10 +105,10 @@ public class BaseFrame extends JFrame {
      *
      * !!!!!!!!!This method assumes that there are only two panels!!!!!!!!!!!!!!
      */
-     public void switchPanels() {
+    public void switchPanels() {
         CardLayout l = (CardLayout) cardPanel.getLayout();
         switch (currentPanel) {
-            case SINGLE:
+            case GAME:
                 l.next(cardPanel);
                 currentPanel = Panels.MENU;
                 break;
@@ -123,9 +118,9 @@ public class BaseFrame extends JFrame {
                  * !!!!!Also use this to pass things from the menu to the game !!!!
                  */
                 l.next(cardPanel);
-                Single.regainFocus();
-                Single.setRun(true);
-                currentPanel = Panels.SINGLE;
+                gamePanel.regainFocus();
+                gamePanel.setRun(true);
+                currentPanel = Panels.GAME;
                 break;
         }
     }
