@@ -22,7 +22,7 @@ public class ServerSocketListener implements Runnable{
 
     public void listen() {
         while (!Thread.interrupted()) {
-            System.out.println("listening");
+//            System.out.println("listening");
             try {
                 String s = (String) sock.readObject();
                 if (s.equals("disconnect")){
@@ -30,7 +30,7 @@ public class ServerSocketListener implements Runnable{
                     sock.disconnect(false);
                 }
                 if (s.equals("clientstate")){
-                    System.out.println("client sending state");
+//                    System.out.println("client sending state");
                     // read the state from the client. need to give the name
                     // due to the way the server stores stuff.
                     server.readState(sock.sockName);

@@ -31,6 +31,7 @@ public class GameServer {
     ArrayList<GameState> clientStates;
     Condition broadcastCond;
     Lock lock;
+    boolean broadcasting;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -79,24 +80,26 @@ public class GameServer {
      */
     public GameState processGameStates() {
         GameState updateState = currentState;
-        System.out.println("^^^^^^^^^^^processing states received from clients^^^^^^^^^^^^^^");
-        System.out.println("current server state:\n" + updateState);
+//        System.out.println("^^^^^^^^^^^processing states received from clients^^^^^^^^^^^^^^");
+//        System.out.println("current server state:\n" + updateState);
         lock.lock();
+        broadcasting = true;
         try {
             broadcastCond = lock.newCondition();
             for (GameState gameState : clientStates) {
-                System.out.println("processing client state:\n" + gameState);
+//                System.out.println("processing client state:\n" + gameState);
                 updateState.joinState(gameState);
-                System.out.println("client state joined to the server state:");
-                System.out.println(updateState);
-                System.out.println("state processed");
+//                System.out.println("client state joined to the server state:");
+//                System.out.println(updateState);
+//                System.out.println("state processed");
             }
             broadcastCond.signalAll();
         } finally {
             lock.unlock();
+            broadcasting = false;
         }
-        System.out.println("finished processing");
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
+//        System.out.println("finished processing");
+//        System.out.println("^^^^^^^^^^^^^^^^^^^^^^");
         return updateState;
     }
 
@@ -106,9 +109,9 @@ public class GameServer {
      */
     public void broadcastGameState(GameState state) {
         currentState = state;
-        System.out.println("$$$$$$$$$$$state to send$$$$$$$$$$$$");
-        System.out.println(currentState);
-        System.out.println("$$$$$$$$$$$$$$$$$$$");
+//        System.out.println("$$$$$$$$$$$state to send$$$$$$$$$$$$");
+//        System.out.println(currentState);
+//        System.out.println("$$$$$$$$$$$$$$$$$$$");
         Set clientKeys = clients.keySet();
         for (Object client : clientKeys) {
             try {
@@ -139,7 +142,9 @@ public class GameServer {
     }
 
     public void addGameState(GameState state) {
-        clientStates.add(state);
+        if (!broadcasting) {
+            clientStates.add(state);
+        }
     }
 
     /**

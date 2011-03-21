@@ -22,20 +22,20 @@ public class ClientSocketListener implements Runnable {
 
     public void listen() {
         while (!Thread.interrupted()) {
-            System.out.println("listening");
+//            System.out.println("listening");
             try {
                 String s = (String) sock.readObject();
-                System.out.println(s);
+//                System.out.println(s);
                 if (s.equals("disconnect")) {
-                    System.out.println("got disconnect message.");
+//                    System.out.println("got disconnect message.");
                     sock.disconnect(false);
                 }
                 if (s.equals("sockname")) {
-                    System.out.println("got set name message.");
+//                    System.out.println("got set name message.");
                     client.readName();
                 }
                 if (s.equals("gamestate")){
-                    System.out.println("got sending game state message");
+//                    System.out.println("got sending game state message");
                     client.readServerGameState();
                 }
             } catch (IOException ex) {

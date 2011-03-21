@@ -72,7 +72,7 @@ public class GameClient {
     public void readServerGameState() {
         try {
             GameState nG = (GameState) sock.readObject();
-            System.out.println(nG);
+//            System.out.println(nG);
             serverState = nG;
         } catch (IOException ex) {
             System.out.println("IO exception while attempting to get server game state.");

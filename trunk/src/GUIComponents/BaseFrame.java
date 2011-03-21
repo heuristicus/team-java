@@ -47,10 +47,10 @@ public class BaseFrame extends JFrame {
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         setSize(windowSize);
-        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
-//        this.setTitle("client");
-        Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
-//        this.setTitle("server");
+//        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
+////        this.setTitle("client");
+//        Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
+////        this.setTitle("server");
         Single = new GamePanel(this.getWidth(), this.getHeight());
         this.setTitle("Single Player");
         menuPanel = new MenuPanel();

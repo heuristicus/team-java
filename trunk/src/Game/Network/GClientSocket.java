@@ -74,10 +74,10 @@ public class GClientSocket {
 
     public Object readObject() throws IOException, ClassNotFoundException {
         Object in = objIn.readObject();
-        System.out.println("%%%%%%%%%%%%%%%%%%% RECEIVED FROM SERVER %%%%%%%%%%");
-        System.out.println("Read: ");
-        System.out.println(in);
-        System.out.println("%%%%%%%%%%%%%%%%%");
+//        System.out.println("%%%%%%%%%%%%%%%%%%% RECEIVED FROM SERVER %%%%%%%%%%");
+//        System.out.println("Read: ");
+//        System.out.println(in);
+//        System.out.println("%%%%%%%%%%%%%%%%%");
         return in;
     }
 }

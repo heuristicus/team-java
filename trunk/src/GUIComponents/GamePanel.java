@@ -193,31 +193,31 @@ public class GamePanel extends JPanel {
                 if (gameServer != null && gameServer.getNumConnections() != 0) {
                     currentState = gameServer.processGameStates();
                     if (currentState != null) {
-                        System.out.println("Setting the current game state to the amalgamated state.");
+//                        System.out.println("Setting the current game state to the amalgamated state.");
                         gameLogic.setGameState(currentState);
-                        System.out.println("***********CURRENT SERVER STATE*************");
-                        System.out.println(currentState);
-                        System.out.println("**********************************");
+//                        System.out.println("***********CURRENT SERVER STATE*************");
+//                        System.out.println(currentState);
+//                        System.out.println("**********************************");
                     }
                     logic();
-                    System.out.println("(((((((((((((((logic performed)))))))))))))))))))");
-                    System.out.println(gameLogic.getGameState(playerDeath, paused, running));
-                    System.out.println("(((((((((((((((((((()))))))))))))))))))))))");
+//                    System.out.println("(((((((((((((((logic performed)))))))))))))))))))");
+//                    System.out.println(gameLogic.getGameState(playerDeath, paused, running));
+//                    System.out.println("(((((((((((((((((((()))))))))))))))))))))))");
                     gameServer.broadcastGameState(gameLogic.getGameState(playerDeath, paused, running));
-                    System.out.println("Game state sent to clients.");
+//                    System.out.println("Game state sent to clients.");
                     repaint();
                 } else if (gameClient != null && gameClient.isConnected()) {
-                    System.out.println("&&&&&&&&&&&&&&&current state&&&&&&&&&&&&&&");
-                    System.out.println(currentState);
-                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
-                    System.out.println("Updating state to server state ");
+//                    System.out.println("&&&&&&&&&&&&&&&current state&&&&&&&&&&&&&&");
+//                    System.out.println(currentState);
+//                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+//                    System.out.println("Updating state to server state ");
                     currentState = gameClient.getCurrentServerState();
 
                     if (currentState != null) {
                         gameLogic.setGameState(currentState);
-                        System.out.println("~~~~~~~~~~~Server updated state~~~~~~~~~~");
-                        System.out.println(currentState);
-                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
+//                        System.out.println("~~~~~~~~~~~Server updated state~~~~~~~~~~");
+//                        System.out.println(currentState);
+//                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
                     }
                     logic();
                     repaint();
