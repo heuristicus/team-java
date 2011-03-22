@@ -4,6 +4,10 @@
  */
 package GUIComponents;
 
+import Background.Background;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -14,6 +18,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  *
@@ -25,12 +30,23 @@ public class MenuPanel extends JPanel implements ActionListener {
     boolean switchReq = false;
     int buttonPress;
     private boolean Start;
+    Background background;
+    Timer timer;
 
     public MenuPanel() {
         super();
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setFocusable(true);
         initButtons();
+        setBackground(Color.BLACK);
+
+//        timer = new Timer(20, new ActionListener() {
+//
+//            public void actionPerformed(ActionEvent e) {
+//                background.tick();
+//            }
+//        });
+//        timer.start();
     }
 
     private void initButtons() {
@@ -54,6 +70,7 @@ public class MenuPanel extends JPanel implements ActionListener {
             this.add(Box.createVerticalStrut(20));
             curButton.addActionListener(this);
         }
+        background = new Background(40);
     }
 
     public void actionPerformed(ActionEvent e) {
@@ -77,6 +94,12 @@ public class MenuPanel extends JPanel implements ActionListener {
 
 
     }
+
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        Graphics2D g2 = (Graphics2D) g;
+//        //  background.draw(g2);
+//    }
 
     /**
      * Sets the menu to be in a certain state - either a game is in place, or

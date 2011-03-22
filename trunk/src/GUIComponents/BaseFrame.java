@@ -6,7 +6,14 @@ package GUIComponents;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
-import java.net.UnknownHostException;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import javax.sound.midi.InvalidMidiDataException;
+import javax.sound.midi.MidiSystem;
+import javax.sound.midi.MidiUnavailableException;
+import javax.sound.midi.Sequence;
+import javax.sound.midi.Sequencer;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -57,11 +64,35 @@ public class BaseFrame extends JFrame {
         this.setTitle("Single Player");
         menuPanel = new MenuPanel();
         //       Single.initialize();
-
+music();
         initCardLayoutPanel();
         initFrame();
         setEnabled(true);
+        
 
+
+    }
+
+    private void music() {
+        try {
+            // From file
+            Sequence sequence = MidiSystem.getSequence(new File(".//src//GUIComponents//Europe-FinalCountdown.mid"));
+
+            // From URL
+            //sequence = MidiSystem.getSequence(new URL("http://hostname/midiaudiofile"));
+
+            // Create a sequencer for the sequence
+            Sequencer sequencer = MidiSystem.getSequencer();
+            sequencer.open();
+            sequencer.setSequence(sequence);
+
+            // Start playing
+            sequencer.start();
+        } catch (MalformedURLException e) {
+        } catch (IOException e) {
+        } catch (MidiUnavailableException e) {
+        } catch (InvalidMidiDataException e) {
+        }
     }
 
     private void initFrame() {
@@ -77,7 +108,7 @@ public class BaseFrame extends JFrame {
         cardPanel = new JPanel(new CardLayout());
         cardPanel.add(menuPanel, "Menu");
         cardPanel.add(Single, "Single");
- //       cardPanel.add(Server, "Server");
+        //       cardPanel.add(Server, "Server");
 //        cardPanel.add(Client, "Client");
 
     }
