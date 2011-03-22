@@ -94,6 +94,7 @@ public class GameServer {
         try {
             broadcastCond = lock.newCondition();
             for (GameState gameState : clientStates) {
+                System.out.println(gameState);
 //                System.out.println("processing client state:\n" + gameState);
                 updateState.joinState(gameState);
 //                System.out.println("client state joined to the server state:");

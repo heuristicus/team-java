@@ -86,6 +86,10 @@ public abstract class Unit implements Serializable{
         return health;
     }
 
+    public void setHealth(int newhealth){
+        health = newhealth;
+    }
+
     public String getImageReference() {
         return imageReference;
     }

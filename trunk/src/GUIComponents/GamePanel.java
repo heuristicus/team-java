@@ -189,6 +189,7 @@ public class GamePanel extends JPanel {
                 if (gameServer != null && gameServer.getNumConnections() != 0) {
 
                     currentState = gameServer.processGameStates();
+                    System.out.println(currentState);
                     if (currentState != null) {
 //                        System.out.println("Setting the current game state to the amalgamated state.");
                         gameLogic.setGameState(currentState);
@@ -213,6 +214,10 @@ public class GamePanel extends JPanel {
 //                    System.out.println(currentState);
 //                    System.out.println("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 //                    System.out.println("Updating state to server state ");
+//                    System.out.println("objref client" + one.objectReference);
+                    if (gameClient.getPlayerNumber() == 0) {
+                        gameClient.setPlayerNumber(one.objectReference);
+                    }
                     currentState = gameClient.getCurrentServerState();
 
                     if (currentState != null) {
@@ -221,10 +226,7 @@ public class GamePanel extends JPanel {
 //                        System.out.println("~~~~~~~~~~~Server updated state~~~~~~~~~~");
 //                        System.out.println(currentState);
 //                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
-//                        if (!playerAdded) {
-//                            gameLogic.addPlayer(one);
-//                            playerAdded = true;
-//                        }
+                        gameLogic.addPlayer(one);
                     }
                     logic();
                     repaint();

@@ -4,7 +4,7 @@
  */
 package Game.Network;
 
-import Projectile.Projectile;
+import Unit.Player;
 import java.io.IOException;
 
 /**
@@ -20,6 +20,7 @@ public class GameClient {
     GameState serverState;
     GameState ownState;
     boolean connected;
+    int playerNumber;
 
     public static void main(String[] args) {
         GameClient c = new GameClient("localhost", 2000);
@@ -42,6 +43,14 @@ public class GameClient {
         sock.disconnect(true);
         connected = false;
         Thread.currentThread().interrupt();
+    }
+
+    public int getPlayerNumber(){
+        return playerNumber;
+    }
+
+    public void setPlayerNumber(int number){
+        this.playerNumber = number;
     }
 
     public void setOwnState(GameState state){
@@ -113,7 +122,7 @@ public class GameClient {
         GameState updateState = state.clone();
 //        System.out.println(ownState);
 //        System.out.println(serverState);
-        updateState.removeDuplicates(serverState);
+        updateState.removeDuplicates(serverState, playerNumber);
 //        for (Projectile p : updateState.getProjectiles()) {
 //            System.out.println(serverState.getProjectiles().contains(p));
 //        }

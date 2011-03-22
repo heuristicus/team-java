@@ -82,13 +82,26 @@ public class GameState implements Serializable {
         return new GameState(clonePlayers, cloneEnemies, cloneProjectiles, cloneSpawns, playerDeath, paused, running);
     }
 
+    public boolean containsPlayer(int playerRef){
+        for (Player p : players) {
+            if (p.objectReference == playerRef){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * removes objects from this state's arrays which are also present in the state
-     * passed to the method.
+     * passed to the method. Does not remove the player whose reference matches the number passed.
      * !!!!Not sure if this works if passing object over a network!!!!
      * @param state
      */
-    public void removeDuplicates(GameState state) {
+    public void removeDuplicates(GameState state, int playerNumber) {
+//        System.out.println("**STATE REMOVING FROM**");
+//        System.out.println(state);
+//        System.out.println("**BEFORE**");
+//        System.out.println(this);
         ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
         for (Projectile projectile : projectiles) {
             for (Projectile otherProjectile : state.getProjectiles()) {
@@ -105,9 +118,18 @@ public class GameState implements Serializable {
                 }
             }
         }
+
+        ArrayList<Player> toRemovePlayer = new ArrayList<Player>();
+        for (Player player : players) {
+            if (player.objectReference != playerNumber) {
+                toRemovePlayer.add(player);
+            }
+        }
         projectiles.removeAll(toRemoveProj);
         enemies.removeAll(toRemoveEnemy);
-        players.clear();
+        players.removeAll(toRemovePlayer);
+        System.out.println("**AFTER");
+        System.out.println(this);
     }
 
     /**
@@ -116,9 +138,21 @@ public class GameState implements Serializable {
      */
     public void joinState(GameState state) {
         enemies.addAll(state.getEnemies());
-        players.addAll(state.getPlayers());
         projectiles.addAll(state.getProjectiles());
         spawns.addAll(state.getSpawns());
+        for (Player p0 : state.getPlayers()) {
+            if (!containsPlayer(p0.objectReference)){
+                players.add(p0);
+            }
+            for (Player p : players) {
+
+                if (p.objectReference == p0.objectReference){
+                    p.setLocation(p0.getLocation());
+                    p.setHealth(p0.getHealth());
+                }
+            }
+        }
+
     }
 
     @Override
