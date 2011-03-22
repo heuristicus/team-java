@@ -77,15 +77,10 @@ music();
         try {
             // From file
             Sequence sequence = MidiSystem.getSequence(new File(".//src//GUIComponents//Europe-FinalCountdown.mid"));
-
-            // From URL
-            //sequence = MidiSystem.getSequence(new URL("http://hostname/midiaudiofile"));
-
-            // Create a sequencer for the sequence
+           // Create a sequencer for the sequence
             Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();
             sequencer.setSequence(sequence);
-
             // Start playing
             sequencer.start();
         } catch (MalformedURLException e) {
