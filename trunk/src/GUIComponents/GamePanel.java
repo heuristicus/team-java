@@ -76,6 +76,7 @@ public class GamePanel extends JPanel {
     GameClient gameClient;
     boolean networked = false;
     public Map imageMap;
+    boolean playerAdded = false;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -128,14 +129,14 @@ public class GamePanel extends JPanel {
     public void initImageMap() {
 //        try {
 //
-            imageMap = new HashMap();
+        imageMap = new HashMap();
 
 //            Image i = Toolkit.getDefaultToolkit().getImage(getClass().getResource(".//src//Unit//player.png"));
 //            
-            imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
-            imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
-            imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
-            imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
+        imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
+        imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
+        imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
+        imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
 
 //            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
 //            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
@@ -186,10 +187,16 @@ public class GamePanel extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 checkUserMovement();
                 if (gameServer != null && gameServer.getNumConnections() != 0) {
+
                     currentState = gameServer.processGameStates();
                     if (currentState != null) {
 //                        System.out.println("Setting the current game state to the amalgamated state.");
                         gameLogic.setGameState(currentState);
+                        if (!playerAdded) {
+                            System.out.println("adding player");
+                            gameLogic.addPlayer(one);
+                            playerAdded = true;
+                        }
 //                        System.out.println("***********CURRENT SERVER STATE*************");
 //                        System.out.println(currentState);
 //                        System.out.println("**********************************");
@@ -214,6 +221,10 @@ public class GamePanel extends JPanel {
 //                        System.out.println("~~~~~~~~~~~Server updated state~~~~~~~~~~");
 //                        System.out.println(currentState);
 //                        System.out.println("~~~~~~~~~~~~~~~~~~~~~~");
+//                        if (!playerAdded) {
+//                            gameLogic.addPlayer(one);
+//                            playerAdded = true;
+//                        }
                     }
                     logic();
                     repaint();
@@ -435,5 +446,4 @@ public class GamePanel extends JPanel {
     public boolean isPaused() {
         return paused;
     }
-
 }

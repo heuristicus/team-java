@@ -32,6 +32,7 @@ public class GameServer {
     Condition broadcastCond;
     Lock lock;
     boolean broadcasting;
+    boolean initialised = false;
 
     public static void main(String[] args) {
         GameServer g = new GameServer();
@@ -51,6 +52,11 @@ public class GameServer {
         numConnections = 0;
         clients = new HashMap<String, GServerSocket>();
         manageConnections();
+    }
+
+    public void initialise(GameState currentState){
+        this.currentState = currentState.clone();
+        initialised = true;
     }
 
     /*
@@ -80,6 +86,7 @@ public class GameServer {
      */
     public GameState processGameStates() {
         GameState updateState = currentState;
+        System.out.println(currentState);
 //        System.out.println("^^^^^^^^^^^processing states received from clients^^^^^^^^^^^^^^");
 //        System.out.println("current server state:\n" + updateState);
         lock.lock();
@@ -237,6 +244,10 @@ public class GameServer {
             return true;
         }
         return false;
+    }
+
+    public boolean isInitialised() {
+        return initialised;
     }
     // </editor-fold>
 }

@@ -126,6 +126,6 @@ public abstract class Unit implements Serializable{
 
     @Override
     public String toString() {
-        return "Unit{" + "health=" + health + "xCoord=" + xCoord + "yCoord=" + yCoord + "hash: " + this.hashCode() + '}';
+        return "Unit{" + "health=" + health + "xCoord=" + xCoord + "yCoord=" + yCoord + " object index: " + objectReference + '}';
     }
 }
