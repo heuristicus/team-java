@@ -323,7 +323,7 @@ public class GamePanel extends JPanel {
                 shape = new Ellipse2D.Double(gameLogic.getEnemyArray().get(i).getX(), gameLogic.getEnemyArray().get(i).getY() - 15, 5, 5);
                 gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
                         gameLogic.getEnemyArray().get(i).getY() - 15,
-                        100, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP), gameLogic.getEnemyArray().get(i).getWeapon().getProjectile().getProjectileType()));
+                        5, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP), gameLogic.getEnemyArray().get(i).getWeapon().getProjectile().getProjectileType()));
             }
         }
         g2.setColor(Color.BLUE);
@@ -436,4 +436,9 @@ public class GamePanel extends JPanel {
         }
         return false;
     }
+
+    public boolean isPaused() {
+        return paused;
+    }
+
 }

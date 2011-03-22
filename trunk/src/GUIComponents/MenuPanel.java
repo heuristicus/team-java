@@ -23,6 +23,8 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     Map buttons;
     boolean switchReq = false;
+    int buttonPress;
+    private boolean Start;
 
     public MenuPanel() {
         super();
@@ -58,10 +60,16 @@ public class MenuPanel extends JPanel implements ActionListener {
 
         String pressed = e.getActionCommand();
         if (pressed.equals("Resume")) {
+
             switchReq = true;
         } else if (pressed.equals("Single Player")) {
+            Start = true;
+            buttonPress = 1;
+            switchReq = true;
             System.out.println("sp");
         } else if (pressed.equals("Multiplayer")) {
+            Start = true;
+            buttonPress = 2;
             JOptionPane.showMessageDialog(this, "Haha, you must be joking.");
         } else if (pressed.equals("Quit")) {
             System.exit(0);
@@ -75,6 +83,18 @@ public class MenuPanel extends JPanel implements ActionListener {
      * there is no game in place. This will disable certain buttons.
      */
     public void setState() {
+    }
+
+    public int getButtonPress() {
+        return buttonPress;
+    }
+
+    public boolean isStart() {
+        return Start;
+    }
+
+    public void setStart(boolean Start) {
+        this.Start = Start;
     }
 
     /**

@@ -6,6 +6,7 @@ package GUIComponents;
 
 import java.awt.CardLayout;
 import java.awt.Dimension;
+import java.net.UnknownHostException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -31,43 +32,54 @@ public class BaseFrame extends JFrame {
 
     private static Dimension _windowSize;
     JPanel cardPanel;
-    GamePanel gamePanel;
+    GamePanel Single;
+    GamePanel Server;
+    GamePanel Client;
     MenuPanel menuPanel;
+    int Type; // 1 for single, 2 for server, 3 for client
+    private boolean start;
 
     enum Panels {
 
-        GAME, MENU
+        SINGLE, MENU, MULTIS, MULTIC
     }
     // TODO change this to start from the menu. Will require a change in the init methods as well.
-    Panels currentPanel = Panels.GAME;
+    Panels currentPanel = Panels.MENU;
 
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         setSize(windowSize);
-        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
-        this.setTitle("client");
-//        gamePanel = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
-//        this.setTitle("server");
-//        gamePanel = new GamePanel(this.getWidth(), this.getHeight());
-//        this.setTitle("singlePlayer");
+//        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
+////        this.setTitle("client");
+//        Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
+////        this.setTitle("server");
+        Single = new GamePanel(this.getWidth(), this.getHeight());
+        this.setTitle("Single Player");
         menuPanel = new MenuPanel();
+        //       Single.initialize();
+
         initCardLayoutPanel();
         initFrame();
+        setEnabled(true);
+
     }
 
     private void initFrame() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setEnabled(true);
         add("Center", cardPanel);
-        gamePanel.initialize();
+        //Single.initialize();
         setVisible(true);
         waitForPanelChangeRequest();
     }
 
     private void initCardLayoutPanel() {
         cardPanel = new JPanel(new CardLayout());
-        cardPanel.add(gamePanel, "game");
-        cardPanel.add(menuPanel, "menu");
+        cardPanel.add(menuPanel, "Menu");
+        cardPanel.add(Single, "Single");
+ //       cardPanel.add(Server, "Server");
+//        cardPanel.add(Client, "Client");
+
     }
 
     /**
@@ -76,16 +88,38 @@ public class BaseFrame extends JFrame {
      */
     private void waitForPanelChangeRequest() {
         while (true) {
+
+
             switch (currentPanel) {
-                case GAME:
-                    boolean gTemp = gamePanel.getPanelSwitchRequest();
-                    if (gTemp == true) {
+                case SINGLE:
+                    boolean Temp1 = Single.getPanelSwitchRequest();
+                    if (menuPanel.getButtonPress() == 1) {
+                        Temp1 = true;
+                    }
+                    if (Temp1 == true && Single.isPaused()) {
+
+                        switchPanels();
+                    }
+                    break;
+                case MULTIC:
+                    boolean Temp2 = Client.getPanelSwitchRequest();
+                    if (menuPanel.getButtonPress() == 2) {
+                        Temp2 = true;
+                    }
+                    if (Temp2 == true) {
+                        switchPanels();
+                    }
+                    break;
+
+                case MULTIS:
+                    boolean Temp3 = Server.getPanelSwitchRequest();
+                    if (Temp3 == true) {
                         switchPanels();
                     }
                     break;
                 case MENU:
-                    boolean mTemp = menuPanel.getPanelSwitchRequest();
-                    if (mTemp == true) {
+                    boolean Temp4 = menuPanel.getPanelSwitchRequest();
+                    if (Temp4 == true) {
                         switchPanels();
                     }
                     break;
@@ -106,9 +140,10 @@ public class BaseFrame extends JFrame {
      * !!!!!!!!!This method assumes that there are only two panels!!!!!!!!!!!!!!
      */
     public void switchPanels() {
+        Type = menuPanel.getButtonPress();
         CardLayout l = (CardLayout) cardPanel.getLayout();
         switch (currentPanel) {
-            case GAME:
+            case SINGLE:
                 l.next(cardPanel);
                 currentPanel = Panels.MENU;
                 break;
@@ -118,10 +153,51 @@ public class BaseFrame extends JFrame {
                  * !!!!!Also use this to pass things from the menu to the game !!!!
                  */
                 l.next(cardPanel);
-                gamePanel.regainFocus();
-                gamePanel.setRun(true);
-                currentPanel = Panels.GAME;
+                if (menuPanel.isStart() == false) {
+                    if (Type == 1) {
+                        Single.regainFocus();
+                        Single.setRun(true);
+                        currentPanel = Panels.SINGLE;
+                    } else if (Type == 2) {
+                        Server.regainFocus();
+                        Server.setRun(true);
+                        currentPanel = Panels.MULTIS;
+
+                    } else if (Type == 3) {
+                        Client.regainFocus();
+                        Client.setRun(true);
+                        currentPanel = Panels.MULTIC;
+                    }
+                }
+                if (menuPanel.isStart() == true) {
+                    menuPanel.setStart(false);
+                    if (Type == 1) {
+                        Single.initialize();
+                        Single.setRun(true);
+                        currentPanel = Panels.SINGLE;
+                    } else if (Type == 2) {
+                        Server.initialize();
+                        Server.setRun(true);
+                        currentPanel = Panels.MULTIS;
+
+                    } else if (Type == 3) {
+                        Client.initialize();
+                        Client.setRun(true);
+                        currentPanel = Panels.MULTIC;
+                    }
+                }
+
                 break;
+
+            case MULTIS:
+                l.next(cardPanel);
+                currentPanel = Panels.MENU;
+                break;
+            case MULTIC:
+                l.next(cardPanel);
+                currentPanel = Panels.MENU;
+                break;
+
         }
     }
 
