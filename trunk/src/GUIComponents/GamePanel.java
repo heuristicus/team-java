@@ -28,14 +28,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -131,25 +126,25 @@ public class GamePanel extends JPanel {
     }
 
     public void initImageMap() {
-        try {
-
+//        try {
+//
             imageMap = new HashMap();
 
 //            Image i = Toolkit.getDefaultToolkit().getImage(getClass().getResource(".//src//Unit//player.png"));
 //            
-//            imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
-//            imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
-//            imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
-//            imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
+            imageMap.put("player", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/player.png")));
+            imageMap.put("enemy", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Unit/enemy.png")));
+            imageMap.put("proton", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/proton.png")));
+            imageMap.put("laser", Toolkit.getDefaultToolkit().getImage(getClass().getResource("/Weapon/laser.png")));
 
-            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
-            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
-            imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
-            imageMap.put("laser", ImageIO.read(new File(".//src//Weapon//laser.png")));
-        } catch (IOException ex) {
-            System.out.println("Error while reading in image data.");
-            ex.printStackTrace();
-        }
+//            imageMap.put("player", ImageIO.read(new File(".//src//Unit//player.png")));
+//            imageMap.put("enemy", ImageIO.read(new File(".//src//Unit//enemy.png")));
+//            imageMap.put("proton", ImageIO.read(new File(".//src//Weapon//proton.png")));
+//            imageMap.put("laser", ImageIO.read(new File(".//src//Weapon//laser.png")));
+//        } catch (IOException ex) {
+//            System.out.println("Error while reading in image data.");
+//            ex.printStackTrace();
+//        }
     }
 
     // Initialization
