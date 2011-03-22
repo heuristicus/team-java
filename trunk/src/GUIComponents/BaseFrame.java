@@ -9,6 +9,7 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URL;
 import javax.sound.midi.InvalidMidiDataException;
 import javax.sound.midi.MidiSystem;
 import javax.sound.midi.MidiUnavailableException;
@@ -43,6 +44,7 @@ public class BaseFrame extends JFrame {
     GamePanel Server;
     GamePanel Client;
     MenuPanel menuPanel;
+    Menu menu;
     int Type; // 1 for single, 2 for server, 3 for client
     private boolean start;
 
@@ -56,19 +58,20 @@ public class BaseFrame extends JFrame {
     public BaseFrame(Dimension windowSize) {
         _windowSize = windowSize;
         setSize(windowSize);
-//        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
+//        Single = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
 ////        this.setTitle("client");
-//        Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
+//       Single = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
 ////        this.setTitle("server");
-        Single = new GamePanel(this.getWidth(), this.getHeight());
+        Single = new GamePanel(this.getWidth(), this.getHeight()); //single player
         this.setTitle("Single Player");
         menuPanel = new MenuPanel();
+//        menu = new Menu();
         //       Single.initialize();
-music();
+        music();
         initCardLayoutPanel();
         initFrame();
         setEnabled(true);
-        
+
 
 
     }
@@ -77,12 +80,13 @@ music();
         try {
             // From file
             Sequence sequence = MidiSystem.getSequence(new File(".//src//GUIComponents//Europe-FinalCountdown.mid"));
-           // Create a sequencer for the sequence
+            // Create a sequencer for the sequence
             Sequencer sequencer = MidiSystem.getSequencer();
             sequencer.open();
             sequencer.setSequence(sequence);
             // Start playing
             sequencer.start();
+            sequencer.setLoopCount(sequencer.LOOP_CONTINUOUSLY);
         } catch (MalformedURLException e) {
         } catch (IOException e) {
         } catch (MidiUnavailableException e) {
@@ -102,6 +106,7 @@ music();
     private void initCardLayoutPanel() {
         cardPanel = new JPanel(new CardLayout());
         cardPanel.add(menuPanel, "Menu");
+  //      cardPanel.add(menu, "Menu");
         cardPanel.add(Single, "Single");
         //       cardPanel.add(Server, "Server");
 //        cardPanel.add(Client, "Client");

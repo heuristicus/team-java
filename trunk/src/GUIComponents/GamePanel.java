@@ -159,7 +159,7 @@ public class GamePanel extends JPanel {
         a = new Controls();
         initImageMap();
         setBackground(bgColor);
-        gameLogic.pruneArrays(this.getSize());
+        gameLogic.pruneArrays(new Dimension(width, height));
         // height = this.getSize().height;
         // width = this.getSize().width;
         one.setLocation(new Point(player1_x, player1_y));

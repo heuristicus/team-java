@@ -41,7 +41,11 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     }
 
     public Menu() {
+        
         this(false);
+            addMouseListener(this);
+        addMouseMotionListener(this);
+        
     }
 
     @Override
