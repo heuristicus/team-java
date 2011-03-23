@@ -326,17 +326,23 @@ public class GamePanel extends JPanel {
 
     private void drawProjectiles(Graphics2D g2) {
 
-        if (counter >= 120 && counter <= 300) {
-            for (int i = 1; i < gameLogic.getEnemyArray().size() - 1; i++) {
-                shape = new Ellipse2D.Double(gameLogic.getEnemyArray().get(i).getX(), gameLogic.getEnemyArray().get(i).getY() - 15, 5, 5);
-                gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
-                        gameLogic.getEnemyArray().get(i).getY() - 15,
-                        5, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP), gameLogic.getEnemyArray().get(i).getWeapon().getProjectile().getProjectileType()));
+        for (Enemy enemy : gameLogic.getEnemyArray()) {
+            if ((counter % enemy.getWeapon().getFireRate()) == 0) {
+                gameLogic.addManyProjectiles(enemy.getWeapon().fire(enemy.getX(), enemy.getY()));
             }
         }
+//            for (int i = 1; i < gameLogic.getEnemyArray().size() - 1; i++) {
+//                shape = new Ellipse2D.Double(gameLogic.getEnemyArray().get(i).getX(), gameLogic.getEnemyArray().get(i).getY() - 15, 5, 5);
+//                gameLogic.addProjectileToArray(new ComplexProjectile(gameLogic.getEnemyArray().get(i).getX(),
+//                        gameLogic.getEnemyArray().get(i).getY() - 15,
+//                        5, speed, true, shape, color, new StraightPath(StraightPath.Direction.UP), gameLogic.getEnemyArray().get(i).getWeapon().getProjectile().getProjectileType()));
+//            }
         g2.setColor(Color.BLUE);
         ArrayList<Projectile> projectiles = gameLogic.getProjectileArray();
         for (Projectile projectile : projectiles) {
+            g2.setColor(Color.blue);
+            g2.draw(gameLogic.getCenteredBoxProjectile(projectile.getLocation()));
+            g2.setColor(Color.black);
             projectile.draw(g2, imageMap);
         }
 
@@ -377,11 +383,12 @@ public class GamePanel extends JPanel {
             if (a.isSpace()) {
                 //testPro = new BasicProjectile(one.getX(), one.getY());
                 //shape = new Ellipse2D.Double(one.getX(), one.getY(), 5, 5);
-                shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
+//                shape = new Rectangle2D.Double(one.getX(), one.getY(), 5, 5);
                 // shape = new Line2D.Double(one.getX(), one.getY(), one.getX(), one.getY()+10);
-                gameLogic.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
-                        100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
-                        one.getWeapon().getProjectile().getProjectileType()));
+//                gameLogic.addProjectileToArray(new ComplexProjectile(one.getX(), one.getY() - 15,
+//                        100, speed, false, shape, color, new StraightPath(StraightPath.Direction.DOWN),
+//                        one.getWeapon().getProjectile().getProjectileType()));
+                gameLogic.addManyProjectiles(one.getWeapon().fire(player1_x, player1_y));
             }
             if (a.isEsc()) {
                 switchPanel = true;

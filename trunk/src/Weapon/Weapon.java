@@ -2,6 +2,7 @@ package Weapon;
 
 import Projectile.Projectile;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  *
@@ -13,6 +14,7 @@ public abstract class Weapon implements Serializable {
     protected int range;
     protected Projectile projectile;
     String imageReference;
+    private int fireRate;
 //    protected BufferedImage texture;
 
     public Weapon(Projectile projectile, int range, String imageReference) {
@@ -50,6 +52,17 @@ public abstract class Weapon implements Serializable {
     public void setProjectile(Projectile proj) {
         this.projectile = proj;
     }
+
+    public abstract ArrayList<Projectile> fire(int x, int y);
+
+    public void setFireRate(int fireRate){
+        this.fireRate = fireRate;
+    }
+
+    public int getFireRate() {
+        return fireRate;
+    }
+
 //    public BufferedImage getTexture() {
 //        return texture;
 //    }

@@ -11,28 +11,32 @@ import java.io.Serializable;
  *
  * @author michal
  */
-public class DiagonalPath extends Path implements Serializable{
+public class DiagonalPath extends Path implements Serializable {
+
+    private final Direction vertDirection;
 
     public enum Direction {
 
-        LEFT, RIGHT
+        LEFT, RIGHT, UP, DOWN
     }
-    public Direction direction;
+    public Direction sideDirection;
 
     /**
      * Default constructor. Chooses a random direction for the path to go in.
      */
     public DiagonalPath() {
         // Goes left if the random value is less than 0.5, otherwise goes right.
-        direction = Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;
+        sideDirection = Math.random() < 0.5 ? Direction.LEFT : Direction.RIGHT;
+        vertDirection = Math.random() < 0.5 ? Direction.UP : Direction.DOWN;
     }
 
     /**
      * Constructor which allows specification of direction of movement
      * @param direction
      */
-    public DiagonalPath(Direction direction) {
-        this.direction = direction;
+    public DiagonalPath(Direction sideDirection, Direction vertDirection) {
+        this.sideDirection = sideDirection;
+        this.vertDirection = vertDirection;
     }
 
     /**
@@ -44,10 +48,10 @@ public class DiagonalPath extends Path implements Serializable{
      */
     @Override
     public Point getNextLocation(int curX, int curY) {
-        if (direction == Direction.LEFT) {
-            return new Point(curX - 1, curY + 3);
+        if (sideDirection == Direction.LEFT) {
+            return new Point(curX - 1, curY + (vertDirection == Direction.UP ? -3 : +3));
         } else {
-            return new Point(curX + 1, curY + 3);
+            return new Point(curX + 1, curY + (vertDirection == Direction.UP ? -3 : +3));
         }
     }
 }

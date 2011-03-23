@@ -7,19 +7,19 @@ package Unit;
 import Path.Path;
 import Weapon.Weapon;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class Enemy extends Unit implements Serializable{
+public class Enemy extends Unit implements Serializable {
 
     Path movePath;
 
-    public Enemy(int health, int speed,  Weapon weaponType, Path movePath, int pointValue, int xCoord, int yCoord, Color color) {
+    public Enemy(int health, int speed, Weapon weaponType, Path movePath, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color, "enemy");
 //        setTextureFromFile(".//src//Unit//enemy.png");
         this.movePath = movePath;
@@ -39,13 +39,11 @@ public class Enemy extends Unit implements Serializable{
 //      //  g2.draw(new Rectangle2D.Double(xCoord + 2, yCoord + 2, 27, 27));
 //        g2.drawImage(getTexture(),xCoord,yCoord,null);
 //    }
-
     /**
      * Moves the enemy to its next location along its path.
      */
-    public void doMove(){
+    public void doMove() {
         Point nextLoc = movePath.getNextLocation(super.getX(), super.getY());
         super.setLocation(nextLoc);
     }
-
 }
