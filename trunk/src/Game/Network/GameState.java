@@ -82,9 +82,9 @@ public class GameState implements Serializable {
         return new GameState(clonePlayers, cloneEnemies, cloneProjectiles, cloneSpawns, playerDeath, paused, running);
     }
 
-    public boolean containsPlayer(int playerRef){
+    public boolean containsPlayer(int playerRef) {
         for (Player p : players) {
-            if (p.objectReference == playerRef){
+            if (p.objectReference == playerRef) {
                 return true;
             }
         }
@@ -104,20 +104,18 @@ public class GameState implements Serializable {
 //        System.out.println(this);
         ArrayList<Projectile> toRemoveProj = new ArrayList<Projectile>();
         for (Projectile projectile : projectiles) {
-            for (Projectile otherProjectile : state.getProjectiles()) {
-                if (projectile.objectReference == otherProjectile.objectReference) {
-                    toRemoveProj.add(projectile);
-                }
+            if (!projectile.isNew() || projectile.isEnemy()){
+                toRemoveProj.add(projectile);
             }
         }
-        ArrayList<Enemy> toRemoveEnemy = new ArrayList<Enemy>();
-        for (Enemy enemy : enemies) {
-            for (Enemy otherEnemy : state.getEnemies()) {
-                if (enemy.objectReference == otherEnemy.objectReference) {
-                    toRemoveEnemy.add(enemy);
-                }
-            }
-        }
+//        ArrayList<Enemy> toRemoveEnemy = new ArrayList<Enemy>();
+//        for (Enemy enemy : enemies) {
+//            for (Enemy otherEnemy : state.getEnemies()) {
+//                if (enemy.objectReference == otherEnemy.objectReference) {
+//                    toRemoveEnemy.add(enemy);
+//                }
+//            }
+//        }
 
         ArrayList<Player> toRemovePlayer = new ArrayList<Player>();
         for (Player player : players) {
@@ -125,11 +123,17 @@ public class GameState implements Serializable {
                 toRemovePlayer.add(player);
             }
         }
+//        if (players.size() != 1){
+//            for (int i = 0; i < players.size()-1; i++) {
+//                players.remove(i);
+//            }
+//        }
         projectiles.removeAll(toRemoveProj);
-        enemies.removeAll(toRemoveEnemy);
+//        enemies.removeAll(toRemoveEnemy);
+        enemies.clear();
         players.removeAll(toRemovePlayer);
-        System.out.println("**AFTER");
-        System.out.println(this);
+//        System.out.println("**AFTER");
+//        System.out.println(this);
     }
 
     /**
@@ -139,14 +143,16 @@ public class GameState implements Serializable {
     public void joinState(GameState state) {
         enemies.addAll(state.getEnemies());
         projectiles.addAll(state.getProjectiles());
+        for (Projectile projectile : projectiles) {
+            projectile.setNew(false);
+        }
         spawns.addAll(state.getSpawns());
         for (Player p0 : state.getPlayers()) {
-            if (!containsPlayer(p0.objectReference)){
+            if (!containsPlayer(p0.objectReference)) {
                 players.add(p0);
             }
             for (Player p : players) {
-
-                if (p.objectReference == p0.objectReference){
+                if (p.objectReference == p0.objectReference) {
                     p.setLocation(p0.getLocation());
                     p.setHealth(p0.getHealth());
                 }

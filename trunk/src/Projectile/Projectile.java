@@ -23,6 +23,7 @@ public abstract class Projectile implements Serializable{
     private int y;
     public String projectileType;
     public final int objectReference;
+    boolean _new;
 //    protected BufferedImage texture;
 
     public Projectile(int x, int y, int damage, int speed, boolean enemy, Shape shape, Color color, String projectileType) {
@@ -34,6 +35,11 @@ public abstract class Projectile implements Serializable{
         this.shape = shape;
         this.color = color;
         this.projectileType = projectileType;
+        if (enemy){
+            _new = false;
+        } else {
+            _new = true;
+        }
         objectReference = this.hashCode();
 //        this.texture = texture;
     }
@@ -41,6 +47,14 @@ public abstract class Projectile implements Serializable{
     // Accessory methods.
     public int getDamage() {
         return damage;
+    }
+
+    public boolean isNew(){
+        return _new;
+    }
+
+    public void setNew(boolean _new){
+        this._new = _new;
     }
 
     public String getProjectileType() {
