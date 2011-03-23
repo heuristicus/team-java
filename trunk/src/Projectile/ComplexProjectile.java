@@ -5,6 +5,7 @@
 package Projectile;
 
 import Path.Path;
+import Path.StraightPath;
 import java.awt.Color;
 import java.awt.Point;
 import java.awt.Shape;
@@ -15,7 +16,7 @@ import java.io.Serializable;
  *
  * @author michal
  */
-public class ComplexProjectile extends Projectile implements Serializable{
+public class ComplexProjectile extends Projectile implements Serializable {
     //Shape shape;
 
     Path movePath;
@@ -23,6 +24,12 @@ public class ComplexProjectile extends Projectile implements Serializable{
     public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath, String imageReference) {
         super(x, y, damage, speed, isEnemy, shape, color, imageReference);
         this.movePath = movePath;
+    }
+
+    public ComplexProjectile(int x, int y, int damage, int speed, boolean isEnemy, Shape shape, Color color, Path movePath, String imageReference, int playerRef) {
+        super(x, y, damage, speed, isEnemy, shape, color, imageReference);
+        this.movePath = movePath;
+        super.setPlayerRef(playerRef);
     }
 
     @Override
@@ -51,19 +58,13 @@ public class ComplexProjectile extends Projectile implements Serializable{
 //            }
 //
 //            // super.setShape(shape);
-//        }
+//        }x
         super.setLocation(new Point(x, y));
     }
 
     @Override
     public void doMove() {
-        if (isEnemy()) {
-
-            Point2D nextLoc = movePath.getNextLocation(super.getX(), super.getY());
+            Point nextLoc = movePath.getNextLocation(super.getX(), super.getY());
             move((int) nextLoc.getX(), (int) nextLoc.getY());
-        } else {
-            Point2D nextLoc = movePath.getNextLocation(super.getX(), super.getY());
-            move((int) nextLoc.getX(), (int) nextLoc.getY());
-        }
     }
 }

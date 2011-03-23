@@ -15,6 +15,7 @@ public abstract class Weapon implements Serializable {
     protected Projectile projectile;
     String imageReference;
     private int fireRate;
+    int playerRef;
 //    protected BufferedImage texture;
 
     public Weapon(Projectile projectile, int range, String imageReference) {
@@ -26,6 +27,14 @@ public abstract class Weapon implements Serializable {
 
     public Weapon(int range) {
         this.range = range;
+    }
+
+    public void setPlayerRef(int playerRef) {
+        this.playerRef = playerRef;
+    }
+
+    public int getPlayerRef() {
+        return playerRef;
     }
 
     public String getImageReference() {
@@ -55,14 +64,13 @@ public abstract class Weapon implements Serializable {
 
     public abstract ArrayList<Projectile> fire(int x, int y);
 
-    public void setFireRate(int fireRate){
+    public void setFireRate(int fireRate) {
         this.fireRate = fireRate;
     }
 
     public int getFireRate() {
         return fireRate;
     }
-
 //    public BufferedImage getTexture() {
 //        return texture;
 //    }

@@ -49,7 +49,6 @@ public class BaseFrame extends JFrame {
     private boolean start;
 
     enum Panels {
-
         SINGLE, MENU, MULTIS, MULTIC
     }
     // TODO change this to start from the menu. Will require a change in the init methods as well.
@@ -59,21 +58,19 @@ public class BaseFrame extends JFrame {
         _windowSize = windowSize;
         setSize(windowSize);
 //        Single = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000); // client
-////        this.setTitle("client");
-//       Single = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
-////        this.setTitle("server");
-        Single = new GamePanel(this.getWidth(), this.getHeight()); //single player
-        this.setTitle("Single Player");
+//        this.setTitle("client");
+       Single = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4); //server
+        this.setTitle("server");
+//        Single = new GamePanel(this.getWidth(), this.getHeight()); //single player
+//        this.setTitle("Single Player");
         menuPanel = new MenuPanel();
 //        menu = new Menu();
         //       Single.initialize();
         music();
         initCardLayoutPanel();
         initFrame();
+        setResizable(false);
         setEnabled(true);
-
-
-
     }
 
     private void music() {

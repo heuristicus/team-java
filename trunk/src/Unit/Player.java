@@ -6,21 +6,32 @@ package Unit;
 
 import Weapon.Weapon;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 
 /**
  *
  * @author michal
  */
-public class Player extends Unit implements Serializable{
+public class Player extends Unit implements Serializable {
+
+    int score;
 
     public Player(int health, int speed, Weapon weaponType, int pointValue, int xCoord, int yCoord, Color color) {
         super(health, speed, weaponType, pointValue, xCoord, yCoord, color, "player");
 //        setTextureFromFile(".//src//Unit//player.png");
     }
 
+    public int getObjectReference() {
+        return objectReference;
+    }
 
+    public void addToScore(int num) {
+        score += num;
+    }
+
+    public int getScore() {
+        return score;
+    }
 //    public Polygon ship(Graphics g){
 //       Graphics2D g2 = (Graphics2D) g;
 //
@@ -36,7 +47,6 @@ public class Player extends Unit implements Serializable{
 //
 //        return ship;
 //    }
-
 //    public void draw(Graphics2D g2){
 //        //Graphics2D g_ = (Graphics2D) g;
 //       /* g2.setColor(color);
@@ -50,5 +60,4 @@ public class Player extends Unit implements Serializable{
 //      //  g2.draw(new Rectangle2D.Double(xCoord+2, yCoord+2, 27, 27));
 //        g2.drawImage(getTexture(),xCoord,yCoord,null);
 //    }
-
 }

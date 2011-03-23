@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * @author Jere
  */
 public class LaserWeapon extends Weapon implements Serializable {
-
     Projectile p1, p2, p3;
 
     public LaserWeapon() {
@@ -42,9 +41,9 @@ public class LaserWeapon extends Weapon implements Serializable {
     @Override
     public ArrayList<Projectile> fire(int x, int y) {
         ArrayList<Projectile> newProjectiles = new ArrayList<Projectile>();
-        newProjectiles.add(new ComplexProjectile(x, y, 30, 10, false, null, Color.yellow, new StraightPath(StraightPath.Direction.DOWN), "laser"));
-        newProjectiles.add(new ComplexProjectile(x, y, 10, 10, false, null, Color.yellow, new DiagonalPath(DiagonalPath.Direction.LEFT, DiagonalPath.Direction.UP), "laser"));
-        newProjectiles.add(new ComplexProjectile(x, y, 10, 10, false, null, Color.yellow, new DiagonalPath(DiagonalPath.Direction.RIGHT, DiagonalPath.Direction.UP), "laser"));
+        newProjectiles.add(new ComplexProjectile(x, y, 30, 10, false, null, Color.yellow, new StraightPath(StraightPath.Direction.DOWN), "laser", playerRef));
+        newProjectiles.add(new ComplexProjectile(x, y, 10, 10, false, null, Color.yellow, new DiagonalPath(DiagonalPath.Direction.LEFT, DiagonalPath.Direction.UP), "laser", playerRef));
+        newProjectiles.add(new ComplexProjectile(x, y, 10, 10, false, null, Color.yellow, new DiagonalPath(DiagonalPath.Direction.RIGHT, DiagonalPath.Direction.UP), "laser", playerRef));
         return newProjectiles;
     }
 }

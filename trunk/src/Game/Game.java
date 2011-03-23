@@ -72,6 +72,8 @@ public class Game {
                 if (colliding(enemy, projectile)) {
                     enemy.giveDamage(projectile.getDamage());
                     if (enemy.getHealth() <= 0) {
+                        Player dest = getPlayer(projectile.getPlayerRef());
+                        dest.addToScore(enemy.getPointValue());
                         toRemove.add(enemy);
                     }
                     toRemoveProj.add(projectile);
@@ -381,6 +383,15 @@ public class Game {
     public void removePlayer(int index) throws PlayerDeathException {
         players.remove(index);
         throw new PlayerDeathException(index);
+    }
+
+    public Player getPlayer(int playerReference){
+        for (Player player : players) {
+            if (player.getObjectReference() == playerReference){
+                return player;
+            }
+        }
+        return null;
     }
 
     public ArrayList<Player> getPlayerArray() {

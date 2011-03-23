@@ -12,7 +12,7 @@ import java.util.Map;
  *
  * @author Jere
  */
-public abstract class Projectile implements Serializable{
+public abstract class Projectile implements Serializable {
 
     private int damage;
     private Shape shape;
@@ -23,6 +23,7 @@ public abstract class Projectile implements Serializable{
     private int y;
     public String projectileType;
     public final int objectReference;
+    int playerReference; // which player spawned this object.
     boolean _new;
 //    protected BufferedImage texture;
 
@@ -35,7 +36,7 @@ public abstract class Projectile implements Serializable{
         this.shape = shape;
         this.color = color;
         this.projectileType = projectileType;
-        if (enemy){
+        if (enemy) {
             _new = false;
         } else {
             _new = true;
@@ -49,16 +50,24 @@ public abstract class Projectile implements Serializable{
         return damage;
     }
 
-    public boolean isNew(){
+    public boolean isNew() {
         return _new;
     }
 
-    public void setNew(boolean _new){
+    public void setNew(boolean _new) {
         this._new = _new;
     }
 
     public String getProjectileType() {
         return projectileType;
+    }
+
+    public int getPlayerRef() {
+        return playerReference;
+    }
+
+    public void setPlayerRef(int playerRef) {
+        this.playerReference = playerRef;
     }
 
     public void setProjectileType(String projectileType) {
@@ -72,12 +81,17 @@ public abstract class Projectile implements Serializable{
 //    public void setTexture(BufferedImage texture) {
 //        this.texture = texture;
 //    }
-
     public Shape getShape() {
         return shape;
     }
-    public void setX(int x) { this.x = x; }
-    public void setY(int y) { this.y = y; }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 
     public boolean isEnemy() {
         return isEnemy;
@@ -111,7 +125,6 @@ public abstract class Projectile implements Serializable{
     public void setShape(Shape shape) {
         this.shape = shape;
     }
-    
 
     // Abstract methods.
     public abstract void move(int x, int y);
@@ -131,6 +144,4 @@ public abstract class Projectile implements Serializable{
     public String toString() {
         return "Projectile{" + "damage=" + damage + "isEnemy=" + isEnemy + "x=" + x + "y=" + y + this.hashCode() + '}';
     }
-
-    
 }

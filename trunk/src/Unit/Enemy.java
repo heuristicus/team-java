@@ -25,6 +25,10 @@ public class Enemy extends Unit implements Serializable {
         this.movePath = movePath;
     }
 
+    public int getPointValue(){
+        return pointValue;
+    }
+
 //    public void draw(Graphics2D g2) {
 //       // Graphics2D g_ = (Graphics2D) g;
 //     /*   g2.setColor(color);

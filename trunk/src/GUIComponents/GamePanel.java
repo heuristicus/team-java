@@ -77,6 +77,7 @@ public class GamePanel extends JPanel {
     boolean networked = false;
     public Map imageMap;
     boolean playerAdded = false;
+    int thisPlayerRef;
 
     public GamePanel(int width, int height) {
         this.width = width;
@@ -157,6 +158,8 @@ public class GamePanel extends JPanel {
         gameLogic = new Game();
         background = new Background(40);
         one = new Player(300, 200, laser, 200, player1_x, player1_y, Color.WHITE);
+        laser.setPlayerRef(one.getObjectReference());
+        thisPlayerRef = one.getObjectReference();
         a = new Controls();
         initImageMap();
         setBackground(bgColor);
@@ -284,11 +287,17 @@ public class GamePanel extends JPanel {
 //        }
                 background.draw(g2);
                 drawHealthBar(g2);
+                drawScore(g2);
                 drawShips(g2);
                 drawProjectiles(g2);
             }
         }
+    }
 
+    public void drawScore(Graphics2D g2){
+        g2.setColor(Color.PINK);
+        g2.drawString(String.format("Score: %d", one.getScore()), 600, 550);
+        g2.setColor(Color.black);
     }
 
     private void drawShips(Graphics2D g2) {
