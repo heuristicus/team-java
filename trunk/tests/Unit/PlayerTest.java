@@ -31,7 +31,6 @@ public class PlayerTest {
      */
     public PlayerTest() {
         p = new Player(HEALTH, SPEED, WEAPON, POINTVALUE, X, Y, COLOR);
-        p.check();
     }
 
     @BeforeClass

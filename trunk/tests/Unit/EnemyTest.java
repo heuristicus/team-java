@@ -7,7 +7,11 @@ package Unit;
 import java.awt.geom.*;
 import java.awt.Shape;
 import java.awt.Point;
+
+import Path.DiagonalPath;
+import Path.Path;
 import Weapon.*;
+
 import java.awt.Color;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,13 +32,14 @@ public class EnemyTest {
     private static Shape SHAPE = new Rectangle2D.Double(10,10,5,5);
     private static Color COLOR = Color.white;
     private static Weapon WEAPON = new BasicWeapon();
+    private static Path PATH = new DiagonalPath();
 
     /**
      * EnemyTest constructor creates new instance of the enemy class to be tested.
      */
+    
     public EnemyTest() {
-        e = new Enemy(HEALTH, SPEED, WEAPON, POINTVALUE, X, Y, COLOR);
-        e.check();
+        e = new Enemy(HEALTH, SPEED, WEAPON, PATH, POINTVALUE, X, Y, COLOR);
     }
 
     @BeforeClass

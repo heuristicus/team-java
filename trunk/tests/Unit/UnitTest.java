@@ -140,7 +140,7 @@ public class UnitTest {
     public class UnitImpl extends Unit {
 
         public UnitImpl() {
-            super(0, 0, null, 0, 0, 0, null);
+            super(0, 0, null, 0, 0, 0, null, null);
         }
 
         public void draw(Graphics g) {
