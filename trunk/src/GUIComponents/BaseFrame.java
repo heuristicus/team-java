@@ -109,7 +109,6 @@ public class BaseFrame extends JFrame {
         //cardPanel.add(Single, "Single");
         //       cardPanel.add(Server, "Server");
 //        cardPanel.add(Client, "Client");
-
     }
 
     /**
@@ -117,59 +116,70 @@ public class BaseFrame extends JFrame {
      * the panel changed.
      */
     private void waitForPanelChangeRequest() {
-        while (true) {
-            Type = menu.getState();
 
-            switch (currentPanel) {
-                case SINGLE:
-                    boolean Temp1 = Single.getPanelSwitchRequest();
-                    if (Single.switchPanel == true) {
-                        currentPanel = currentPanel.RESUME;
-                        break;
-                    }
-                    if (menu.getState() == menu.getState().SP) {
-                        Temp1 = true;
-                    }
-                    if (Temp1 == true) {
+        Thread td = new Thread(new Runnable() {
+            public void run() {
+                while (true) {
+                    Type = menu.getState();
+                    switch (currentPanel) {
+                        case SINGLE:
+                            System.out.println("single");
+                            boolean Temp1 = Single.getPanelSwitchRequest();
+                            System.out.println(Temp1);
+                            if (Single.switchPanel == true) {
+                                currentPanel = currentPanel.RESUME;
+                                break;
+                            }
+//                    if (menu.getState() == menu.getState().SP) {
+//                        System.out.println("menstatesp");
+//                        Temp1 = true;
+//                    }
+                            if (Temp1 == true) {
+                                switchPanels();
+                            }
+                            break;
+                        case MULTIC:
+                            boolean Temp2 = Client.getPanelSwitchRequest();
+                            System.out.println("client");
+                            System.out.println(Temp2);
+                            if (Temp2 == true) {
+                                switchPanels();
+                            }
+                            break;
 
+                        case MULTIS:
+                            boolean Temp3 = Server.getPanelSwitchRequest();
+                            System.out.println("serv");
+                            System.out.println(Temp3);
+                            if (Temp3 == true) {
+                                switchPanels();
+                            }
+                            break;
+                        case MENU:
+                            System.out.println("menu");
+                            boolean Temp4 = menu.getPanelSwitchRequest();
+                            System.out.println(Temp4);
+                            if (Temp4 == true) {
+                                switchPanels();
+                            }
+                            break;
+                        case RESUME:
 
-                        switchPanels();
-                    }
-                    break;
-                case MULTIC:
-                    boolean Temp2 = Client.getPanelSwitchRequest();
-                    if (Temp2 == true) {
-                        switchPanels();
-                    }
-                    break;
+                            if (Type == menu.getState().RESUME) {
 
-                case MULTIS:
-                    boolean Temp3 = Server.getPanelSwitchRequest();
-
-                    if (Temp3 == true) {
-                        switchPanels();
+                                switchPanels();
+                            }
                     }
-                    break;
-                case MENU:
-                    boolean Temp4 = menu.getPanelSwitchRequest();
-                    if (Temp4 == true) {
-                        switchPanels();
+                    try {
+                        Thread.sleep(500);
+                    } catch (InterruptedException ex) {
+                        System.out.printf("Thread interrupted at %s, method %s\n", this.getClass().toString(), "waitforpanelchangerequest");
+                        ex.printStackTrace();
                     }
-                    break;
-                case RESUME:
-
-                    if (Type == menu.getState().RESUME) {
-                        
-                        switchPanels();
-                    }
+                }
             }
-            try {
-                Thread.sleep(500);
-            } catch (InterruptedException ex) {
-                System.out.printf("Thread interrupted at %s, method %s\n", this.getClass().toString(), "waitforpanelchangerequest");
-                ex.printStackTrace();
-            }
-        }
+        });
+        td.start();
     }
 
     /**
@@ -213,14 +223,14 @@ public class BaseFrame extends JFrame {
                     }
                 }
                 if (menu.gameAlreadyRunning == true) {
-
+                    System.out.println("running");
                     if (Type == menu.getState().SP) {
                         Single = new GamePanel(this.getWidth(), this.getHeight());
                         cardPanel.add(Single, "Single");
                         Single.initialize();
                         Single.regainFocus();
                         Single.setRun(true);
-                        currentPanel = Panels.SINGLE;
+//                        currentPanel = Panels.SINGLE;
 
                     } else if (Type == menu.getState().HOST) {
                         Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4);
