@@ -15,11 +15,26 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
     JFrame frame;
     Rectangle2D firstRect, secondRect, thirdRect, fourthRect;
-    Graphics2D g2;
+    Graphics2D g3;
     Boolean onFirst, onSecond, onThird, onFourth;
     Boolean gameAlreadyRunning;
     Boolean multiplayer;
     String IP;
+    private boolean switchReq;
+
+    public enum MenuState {
+
+        NEWGAME,
+        RESUME,
+        SP,
+        MP,
+        MAINMENU,
+        CLIENT,
+        HOST,
+        QUIT,
+        NULL
+    }
+    public MenuState state = MenuState.NULL;
 
     public Menu(Boolean gameAlreadyRunning) {
         this.gameAlreadyRunning = gameAlreadyRunning;
@@ -41,18 +56,18 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     }
 
     public Menu() {
-        
+
         this(false);
-            addMouseListener(this);
+        addMouseListener(this);
         addMouseMotionListener(this);
-        
+
     }
 
     @Override
     protected void paintComponent(Graphics g) {
 
-        g2 = (Graphics2D) g;
-        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+        g3 = (Graphics2D) g;
+        g3.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
 
         int height = 30;
@@ -63,11 +78,11 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
         thirdRect = new Rectangle2D.Double(320, 280, width, height);
         fourthRect = new Rectangle2D.Double(320, 380, width, height);
 
-        g2.setColor(Color.BLACK);
-        g2.fillRect(0, 0, 800, 600);
+        g3.setColor(Color.BLACK);
+        g3.fillRect(0, 0, 800, 600);
 
-        drawStrings(g2);
-        drawRectOutlines(g2);
+        drawStrings(g3);
+        drawRectOutlines(g3);
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -79,38 +94,46 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     public void mouseReleased(MouseEvent e) {
         if (gameAlreadyRunning) {
             if (firstRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.RESUME;
-               
+                state = MenuState.RESUME;
+                switchReq = true;
+
             } else if (secondRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.NEWGAME;
+                state = MenuState.NEWGAME;
                 repaint();
+                switchReq = true;
             } else if (thirdRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.MAINMENU;
+                state = MenuState.MAINMENU;
                 repaint();
             } else if (fourthRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.QUIT;
+                state = MenuState.QUIT;
                 System.exit(0);
             }
-        } else if (State.state == State.MenuState.MP) {
+        } else if (state == MenuState.MP) {
             if (secondRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.CLIENT;
+                state = MenuState.CLIENT;
+                gameAlreadyRunning = true;
                 repaint();
+                switchReq = true;
             } else if (thirdRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.HOST;
+                state = MenuState.HOST;
+                gameAlreadyRunning = true;
                 repaint();
+                switchReq = true;
             } else if (fourthRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.MAINMENU;
+                state = MenuState.MAINMENU;
                 repaint();
             }
         } else {
             if (secondRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.SP;
-              //  repaint();
+                state = MenuState.SP;
+                gameAlreadyRunning = true;
+                switchReq = true;
+                //  repaint();
             } else if (thirdRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.MP;
+                state = MenuState.MP;
                 repaint();
             } else if (fourthRect.contains(e.getX(), e.getY())) {
-                State.state = State.MenuState.QUIT;
+                state = MenuState.QUIT;
                 System.exit(0);
             }
         }
@@ -151,7 +174,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
             g2.drawString("New Game", 355, 200);
             g2.drawString("Main Menu", 355, 300);
             g2.drawString("Quit", 370, 400);
-        } else if (State.state == State.MenuState.MP) {
+        } else if (state == MenuState.MP) {
             g2.drawString("Client", 370, 200);
             g2.drawString("Host", 370, 300);
             g2.drawString("Main Menu", 355, 400);
@@ -199,5 +222,19 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
     public Boolean getRunning() {
         return gameAlreadyRunning;
+    }
+
+    public MenuState getState() {
+        return state;
+    }
+
+    public boolean getPanelSwitchRequest() {
+        System.out.println("switch req menu");
+        if (switchReq == true) {
+            System.out.println("switch true");
+            switchReq = false;
+            return true;
+        }
+        return false;
     }
 }
