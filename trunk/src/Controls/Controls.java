@@ -69,6 +69,7 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             currentKey = 32;
         }
         if (e.getKeyCode() == 27) { // escape
+            System.out.println("escape 1");
             esc = true;
             currentKey = 27;
         }
@@ -101,9 +102,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
         if (e.getKeyCode() == 32) {//space
             space = false;
         }
-        if (e.getKeyCode() == 27) { // esc
-            esc = false;
-        }
+//        if (e.getKeyCode() == 27) { // esc
+//            esc = false;
+//        }
 
     }
 
@@ -230,4 +231,9 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
     public boolean isPause() {
         return pause;
     }
+
+    public void setEsc(boolean esc) {
+        this.esc = esc;
+    }
+
 }

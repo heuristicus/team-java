@@ -401,6 +401,7 @@ public class GamePanel extends JPanel {
                 gameLogic.addManyProjectiles(one.getWeapon().fire(player1_x, player1_y));
             }
             if (a.isEsc()) {
+                System.out.println("escape");
                 switchPanel = true;
                 a.setEscFalse();
             }

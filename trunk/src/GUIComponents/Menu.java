@@ -136,7 +136,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
                 repaint();
                 switchReq = true;
             
-//            } else if (thirdRect.contains(e.getX(), e.getY())) {
+            } else if (thirdRect.contains(e.getX(), e.getY())) {
                 state = MenuState.HOST;
                 gameAlreadyRunning = true;
                 repaint();

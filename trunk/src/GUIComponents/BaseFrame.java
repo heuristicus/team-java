@@ -123,7 +123,7 @@ public class BaseFrame extends JFrame {
             switch (currentPanel) {
                 case SINGLE:
                     boolean Temp1 = Single.getPanelSwitchRequest();
-                    if (menu.gameAlreadyRunning == false) {
+                    if (Single.switchPanel == true) {
                         currentPanel = currentPanel.RESUME;
                         break;
                     }
@@ -158,7 +158,8 @@ public class BaseFrame extends JFrame {
                     break;
                 case RESUME:
 
-                    if (Type == menu.getState().RESUME && menu.gameAlreadyRunning == false) {
+                    if (Type == menu.getState().RESUME) {
+                        
                         switchPanels();
                     }
             }
