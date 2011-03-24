@@ -295,7 +295,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    public void drawScore(Graphics2D g2){
+    public void drawScore(Graphics2D g2) {
         g2.setColor(Color.PINK);
         g2.drawString(String.format("Score: %d", one.getScore()), 600, 550);
         g2.setColor(Color.black);
@@ -372,6 +372,9 @@ public class GamePanel extends JPanel {
      * used to control the movement
      */
     private void checkUserMovement() {
+        if (!this.isFocusOwner()) {
+            this.regainFocus();
+        }
         if (!paused && running) {
             if (mouse) {
                 player1_x = a.getMouseX();
