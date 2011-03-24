@@ -26,6 +26,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     private boolean switchReq;
     Background background = new Background((20));
     Timer t;
+    String response;
 
     public enum MenuState {
 
@@ -128,9 +129,14 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
             if (secondRect.contains(e.getX(), e.getY())) {
                 state = MenuState.CLIENT;
                 gameAlreadyRunning = true;
+
+
+                response = JOptionPane.showInputDialog(null,"Insert Ip to connect to",  "Insert Ip to connect to",  JOptionPane.OK_CANCEL_OPTION);
+
                 repaint();
                 switchReq = true;
-            } else if (thirdRect.contains(e.getX(), e.getY())) {
+            
+//            } else if (thirdRect.contains(e.getX(), e.getY())) {
                 state = MenuState.HOST;
                 gameAlreadyRunning = true;
                 repaint();
@@ -245,6 +251,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     }
 
     public boolean getPanelSwitchRequest() {
+
        // System.out.println("switch req menu");
         if (switchReq == true) {
             System.out.println("switch true");
@@ -253,4 +260,10 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
         }
         return false;
     }
+
+    public String getResponse() {
+        return response;
+    }
+
+
 }

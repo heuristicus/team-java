@@ -180,6 +180,7 @@ public class GamePanel extends JPanel {
 //            shootGame.addUnitToArray(spawns.get(i));
 //        }
         setFocusable(true);
+        //requestFocus();
         addMouseListener(a);
         addKeyListener(a);
         addMouseMotionListener(a);

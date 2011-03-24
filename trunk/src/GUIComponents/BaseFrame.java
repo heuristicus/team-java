@@ -184,6 +184,7 @@ public class BaseFrame extends JFrame {
         switch (currentPanel) {
             case SINGLE:
                 l.next(cardPanel);
+                Single.regainFocus();
                 currentPanel = Panels.MENU;
                 break;
             case MENU:
@@ -216,6 +217,7 @@ public class BaseFrame extends JFrame {
                         Single = new GamePanel(this.getWidth(), this.getHeight());
                         cardPanel.add(Single, "Single");
                         Single.initialize();
+                        Single.regainFocus();
                         Single.setRun(true);
                         currentPanel = Panels.SINGLE;
 
@@ -223,14 +225,16 @@ public class BaseFrame extends JFrame {
                         Server = new GamePanel(this.getWidth(), this.getHeight(), 2000, 4);
                         cardPanel.add(Server, "Server");
                         Server.initialize();
+                        Server.regainFocus();
                         Server.setRun(true);
 
                         currentPanel = Panels.MULTIS;
                         l.next(cardPanel);
                     } else if (Type == menu.getState().CLIENT) {
-                        Client = new GamePanel(this.getWidth(), this.getHeight(), "localhost", 2000);
+                        Client = new GamePanel(this.getWidth(), this.getHeight(), menu.getResponse(), 2000);
                         cardPanel.add(Client, "Client");
                         Client.initialize();
+                        Client.regainFocus();
                         Client.setRun(true);
                         currentPanel = Panels.MULTIC;
                         l.next(cardPanel);
