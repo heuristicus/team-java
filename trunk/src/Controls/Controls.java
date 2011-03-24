@@ -46,8 +46,6 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
      * @param e
      */
     public void keyPressed(KeyEvent e) {
-        System.out.println(e.getKeyCode());
-        // System.out.println("press");
         if (e.getKeyCode() == 40) {//down
             down = true;
             currentKey = 40;
@@ -69,7 +67,6 @@ public class Controls implements KeyListener, MouseListener, MouseMotionListener
             currentKey = 32;
         }
         if (e.getKeyCode() == 27) { // escape
-            System.out.println("escape 1");
             esc = true;
             currentKey = 27;
         }

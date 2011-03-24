@@ -118,6 +118,7 @@ public class BaseFrame extends JFrame {
     private void waitForPanelChangeRequest() {
 
         Thread td = new Thread(new Runnable() {
+
             public void run() {
                 while (true) {
                     Type = menu.getState();
@@ -158,6 +159,13 @@ public class BaseFrame extends JFrame {
                         case MENU:
                             System.out.println("menu");
                             boolean Temp4 = menu.getPanelSwitchRequest();
+                            if (Single != null) {
+                                boolean Temp5 = Single.getPanelSwitchRequest();
+                                if (Temp5) {
+                                    currentPanel = currentPanel.SINGLE;
+                                    switchPanels();
+                                }
+                            }
                             System.out.println(Temp4);
                             if (Temp4 == true) {
                                 switchPanels();
@@ -205,9 +213,10 @@ public class BaseFrame extends JFrame {
                  */
                 l.next(cardPanel);
                 if (menu.gameAlreadyRunning == false) {
+                    System.out.println("running");
                     if (Type == menu.getState().SP) {
                         Single.regainFocus();
-                        Single.setRun(true);
+                        Single.setRun(false);
                         currentPanel = Panels.SINGLE;
 
                     } else if (Type == menu.getState().HOST) {
