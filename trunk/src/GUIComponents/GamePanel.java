@@ -248,8 +248,11 @@ public class GamePanel extends JPanel {
     // Logic methods
     private void logic() {
         // FIXME would be nice to put this somewhere else, but don't know where.
-
+if(counter == 400){
+    background.removeStars(width, height);
+}
         if (running) {
+            
             mouse = a.isMouse();
             gameLogic.pruneArrays(new Dimension(this.getSize()));
             gameLogic.moveEnemies();
