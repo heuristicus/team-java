@@ -1,6 +1,9 @@
 package GUIComponents;
 
+import Background.Background;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -21,6 +24,8 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     Boolean multiplayer;
     String IP;
     private boolean switchReq;
+    Background background = new Background((20));
+    Timer t;
 
     public enum MenuState {
 
@@ -53,6 +58,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
         onFourth = false;
 
         multiplayer = false;
+
     }
 
     public Menu() {
@@ -60,6 +66,14 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
         this(false);
         addMouseListener(this);
         addMouseMotionListener(this);
+
+        t = new Timer(50, new ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                background.tick();
+            }
+        });
+        t.start();
 
     }
 
@@ -83,6 +97,8 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
 
         drawStrings(g3);
         drawRectOutlines(g3);
+        background.draw(g3);
+        repaint();
     }
 
     public void mouseClicked(MouseEvent e) {
@@ -229,7 +245,7 @@ public class Menu extends JPanel implements MouseListener, MouseMotionListener {
     }
 
     public boolean getPanelSwitchRequest() {
-        System.out.println("switch req menu");
+       // System.out.println("switch req menu");
         if (switchReq == true) {
             System.out.println("switch true");
             switchReq = false;
