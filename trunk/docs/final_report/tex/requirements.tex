@@ -6,82 +6,165 @@
 This section outlines the functional requirements which the system will be tested against. Functional requirements are what the system is expected to do and how to user interacts with the software. Each requirement is split into sub-requirements for ease of understanding and clarity.
 
 \begin{enumerate}
-
-\large{ \item \textbf{The human player is able to play the game}}
-\\*This requirement ensures that the user can actually use the game in single player mode without any crashes or bugs
-
-\begin {enumerate}
-\item The user's spaceship is to move freely along the x and y coordinates but remain within the game's boundary (edges of window)
-\item The user's spaceship will be able to 'shoot' 
-\item Input for the user's controls will be keyboard or mouse
-\item Each player will have a health value as a percentage (represented as an integer).
-\end{enumerate}
-
-\large{ \item \textbf{Enemies will be created}}
-\\*This requirement produces enemies on the screen which will 'attack' the user's spacecraft.
-
+\item \textbf{The human player is able to control one's spaceship}
+\\* This is a core requirement needed to be able to play the game successfully in at least a single player mode without any crashes or bugs.
 \begin{enumerate}
-\item Enemies will be created at 7 set spawn points on the screen at regular intervals of the game cycle.
-\item Enemies will move in a random path
-\item Enemies will be able to 'shoot' back towards the players damaging the user's health
-\item Enemies will be distinguished by a different shape and colour
-\item Enemies will be able to be 'shot' by the players
-\item Enemies will have a set health value as a percentage (represented as an integer)
+\item The user is able to use either a mouse or the keyboard's arrow keys to move the spaceship.
+\item The user's spaceship is able to move freely along the x and y coordinates but not leave the frame's boundaries.
+\item The user will be able to hold more than one key for diagonal movement where the movement speed much be normalised.
+\item The user's spaceship will be able to be represented graphically on the screen.
 \end{enumerate}
 
-\large{ \item \textbf{Other players will be able to play across a network}}
-\\*This allows for one or more human players to play along side each other using networks and sockets.
-
+\item \textbf{The human player will be able to shoot}
+\\* The aim of the game is to enable the user to destroy enemy ships and therefore shooting is a must-have requirement of the game.
 \begin{enumerate}
-\item The first player is to act as a server which controls the game state
-\item Other players (clients) will be able to connect to the game by entering or selecting the server's IP address.
-\item Both screens are to be identical and refreshed immediately with each change that occurs in the game state.
-\item Packets of data containing user and enemy position, projectiles and scores will be sent across the network by the use of sockets.
+\item The user will be able to shoot by tapping or holding the spacebar or the mouse button (left click).
+\item The user's spaceship will have a type of weapon to use, this can be changed during the game (if implemented - dependant on future requirement).
+\item The user's shot will follow a set path forwards (negative y-coordinate movement).
+\item Shots which leave the frame's boundary will be removed from the game state.
 \end{enumerate}
 
-\large{ \item \textbf{The game is to run properly and increment scores}}
-\\*This requirement ensures that the game ends properly and progresses naturally with each player gaining a sense of achievement.
-
+\item \textbf{Enemies will be created to be destroyed by the user}
+\\* This is a core functional requirement that needs to be implemented to enable the user to progress through the game by shooting down opposing units.
 \begin{enumerate}
-\item Players will 'die' when the health is depleted from enemy fire only (not friendly)
-\item Players can also die if a collision with an enemy is detected.
-\item The game should end when ALL players have 'died' to allow for multiplayer capabilities.
-\item The player's score should be incremented when an enemy is 'killed' by that player.
-\item The game will continue to spawn enemies until the game ends.
+\item Enemies will be spawned at set locations on the screen.
+\item Enemy units are to have a set health limit.
+\item Enemies will be able to be shot by any user spaceship.
+\item Enemies are to be distinguishable from friendly user spaceships by using different shapes or graphics.
+\item The enemy unit's health will be decreased when a user's shot collides with the enemy.
+\item Enemy's will 'die' once all their health have been depleted.
 \end{enumerate}
 
-\large{ \item \textbf{The game is to have a graphical interface}}
-\\*This requirement allows the game to be played. Input devices will interact with the game as produce a graphical output to play the game.
-
+\item \textbf{Enemies are to be able to return a level of resistance}
+\\* This requirement is needed to make the game more interesting by introducing the possibility of a player 'death'
 \begin{enumerate}
-\item Initially the players, enemies and projectiles are to be represented by Java Shape objects.
-\item Graphical sprites (images) are to be added later in the development stages
-\item The game should have a scrolling background to give a sense of flying through space.
-\item A menu should be implemented to choose from single player and multi-player modes.
-\item The game should be able to be paused
-\item The menu should be accessible during game play.
-\item Enemies and projectiles should be removed from the game state when they leave the frame
+\item Enemies are able to return shots towards the human players with the use of different weapons.
+\item Enemies are able to move in certain paths (zig-zag, diagonal, straight, side-to-side).
+\item If the player collides with an enemy the player will 'die'
+\item 'Boss' enemies are to be introduced which fire more shots and have more health.
 \end{enumerate}
 
-\large{ \item \textbf{The game is to have a graphical interface}}
-\\*This requirement allows the game to be played. Input devices will interact with the game as produce a graphical output to play the game.
-
+\item \textbf{The game is to run continuously with set events occurring at regular intervals}
+\\* This requirement ensures the game runs smoothly and that something will always happen. For example, to stop the incidence of no more enemies being spawned (so the game is playable).
 \begin{enumerate}
-\item Initially the players, enemies and projectiles are to be represented by Java Shape objects.
-\item Graphical sprites (images) are to be added later in the development stages
-\item The game should have a scrolling background to give a sense of flying through space.
-\item A menu should be implemented to choose from single player and multi-player modes.
-\item The game should be able to be paused
-\item The menu should be accessible during game play.
+\item The game is to implement a Timer class.
+\item Enemies will always be spawned at set intervals during the game. These can be changed to be more or less frequent (if future requirement is implemented).
+\item Each tick of the timer will move enemies, player units (depending on user input) and projectiles.
+\item The game panel will be redrawn at every tick of the timer.
+\end{enumerate}
+
+\item \textbf{The game will be able to be multiplayer across the network}
+\\* This requirement is necessary to fulfil the assessment criteria allowing for a second human user to play in co-operative mode with each other against the computer enemies.
+\begin{enumerate}
+\item Each human user will be able to select whether they will act as the host or the client PC.
+\item Clients will be able to enter the Host's IP address to connect.
+\item The host's game will start immediately after selection with clients dropping into the game at a set spawn point.
+\item The game must be able to support at least two human players and a maximum of eight players (7 clients).
+\item All users must be connected to the same LAN network.
+\item All users must have similar game information on their screens (player, enemy and projectile positions).
+\item With each tick of the timer (requirement 5) each player's screen will be updated with network data from the host.
+\end{enumerate}
+
+\item \textbf{The game must have a terminating clause}
+\\* This requirement ensures that the game will end at some point.
+\begin{enumerate}
+\item Once a player's health has been depleted, that unit will 'die' and be removed from the game allowing other player's to carry on playing.
+\item If a player collides with an enemy unit they will also 'die'
+\item The player's score will be displayed on termination and if high enough will be recorded in a high scores table.
+\end{enumerate}
+
+\item \textbf{The game will include a Graphical User Interface (GUI)}
+\\* This allows all users to be able to start the necessary game type as well as actually play the game with the information displayed on the screen.
+\begin{enumerate}
+\item The game will run from a single frame.
+\item Panel's are to be added to the frame: Menu, Game, Gameover.
+\item The Menu Panel is to feature buttons corresponding to various game types and options.
+\item The Menu Panel is to be accessible from within the game (Esc key).
+\item The Game is to be able to be paused using the 'P' key.
+\item The window is to be resizable allowing for full-screen play.
+\item The Game Panel is to feature a scrolling 'star-like' background (black with white stars).
+\item The game objects (players, enemies and projectiles) are to be represented by shapes or sprites (graphics).
 \end{enumerate}
 
 \end{enumerate}
+
+
+\subsection{Attributes}
+\label{sec: req_attributes}
+
+\noindent\begin{tabular}{| l || p{6cm} | p{7cm} |}\hline
+  \textbf{Attribute} & \textbf{Requirement No.} & \textbf{Comment}  \\\hline\hline
+  Status & All & Approved - development started \\\hline
+ Priority & 1, 2, 3, 4abc, 5, 6, 7, 8abch  - Mandatory. &  Mandatory requirements must be implemented.\\
+ & 4d, 8defg - Important & \\\hline
+ Effort & All & Deadline for code: 22/03/11 (10 weeks). Estimated 40 person-weeks for first release. \\\hline
+ Risk & All & Medium probability of risk occurring. Large impact if assessment is not complete. High risk with networking code due to lack of experience. \\\hline
+ Target Release & 1, 8a, 8h & v0.1 \\
+ & 2 & v0.2 \\
+ & 3b-f & v0.3 \\
+ & 4, 5, 7 & v0.4 \\
+ & 3a, 8b-g & v0.5 \\
+ & 6 & v0.6 \\\hline
+ Assigned To & All & 4 x Team Members. Requirements and tasks to be distributed at weekly meetings. \\\hline
+\end{tabular}\vspace*{1cm}
 
 
 \section{Non-functional User Requirements}
 \label{sec: non-functional}
 
-Things like ease of use, adaptability, accessibility etc.
+This section outlines the non-functional requirements. These requirements relate to the quality of the product and testing requires opinions and qualitative methods rather than quantitative feedback. The project has been split into different categories of requirement.
+
+\paragraph{Usability} 
+\begin{enumerate}
+\setcounter{enumi}{8}
+\item \textbf{To provide a simple, easy to use system in order to play the game}
+\begin{enumerate}
+\item A novice to the game should be able to gain understanding and play the game within 10 minutes of first playing.
+\item Expert gamers should be able to grasp game concept within 1-2 minutes of playing.
+\item The game should have a clean look and feel.
+\item The user should feel in control of their spaceship with smooth movement and quick reactions.
+\item The menu should have a standard, organised layout with minimal pages
+\item The game should have a professional look
+\end{enumerate}
+\end{enumerate}
+
+\paragraph{Efficiency}
+\begin{enumerate}
+\setcounter{enumi}{9}
+\item \textbf{The game should be constantly quick to respond}
+\begin{enumerate}
+\item The game should run at a constant quick speed without any lag.
+\item The user's input should have an almost instant effect on the game.
+\item Network play should be stable for 95\% of the time.
+\end{enumerate}
+\end{enumerate}
+
+\paragraph{Dependability}
+\begin{enumerate}
+\setcounter{enumi}{10}
+\item The game should run first time, all of the time as single player or host.
+\item Network clients should be able to drop-into the host's game within 5 seconds.
+\end{enumerate}
+
+\paragraph{Environmental}
+\begin{enumerate}
+\setcounter{enumi}{12}
+\item The game should run on the platforms detailed in the below section (system requirements).
+\end{enumerate}
+
+\paragraph{Development}
+\begin{enumerate}
+\setcounter{enumi}{13}
+\item The project should be developed using appropriate software engineering practises within the time frame for the assessment.
+\item The project must be written in the Java programming language.
+\end{enumerate}
+
+\paragraph{Operational}
+\begin{enumerate}
+\setcounter{enumi}{15}
+\item The multiplayer game must be able to run on any LAN with the IP addresses given.
+\item High scores will remain stored in each copy of the game until they are overridden by a higher score.
+\end{enumerate}
 
 \section{System Requirements}
 \label {sec: system_requirements}
