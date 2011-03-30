@@ -310,15 +310,15 @@ if(counter == 400){
         ArrayList<Player> players = gameLogic.getPlayerArray();
         for (Player player : players) {
             player.draw(g2, imageMap);
-            g2.setColor(Color.red);
-            g2.draw(gameLogic.getCenteredBox(player.getLocation()));
-            g2.setColor(Color.black);
+//            g2.setColor(Color.red);
+//            g2.draw(gameLogic.getCenteredBox(player.getLocation()));
+//            g2.setColor(Color.black);
         }
         for (Enemy enemy : enemies) {
             enemy.draw(g2, imageMap);
-            g2.setColor(Color.red);
-            g2.draw(gameLogic.getCenteredBox(enemy.getLocation()));
-            g2.setColor(Color.black);
+//            g2.setColor(Color.red);
+//            g2.draw(gameLogic.getCenteredBox(enemy.getLocation()));
+//            g2.setColor(Color.black);
         }
 
 //        System.out.println(counter);
