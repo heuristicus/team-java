@@ -14,3 +14,26 @@ clean boundary between modules, so that some team members use the
 functionality provided by the interface, while another team member
 implements it. Bear in mind Software Engineering principles of good
 design like coherence and coupling.
+
+\section{Release Plan}
+\label{sec: release_plan}
+This section outlines the proposed release plan of the project. It has been decided that the project will take the incremental approach of software development with acceptance testing taking place at each stage. The six internal releases will be implemented consecutively to bring the project to the first public release within the 10 week timeframe.
+
+\begin{itemize}
+\item \textbf{Version 0.1:} Basic player spaceship (Java shape) on screen with controls and movement.
+\item \textbf{Version 0.2:} Basic shooting from the player's spaceship.
+\item \textbf{Version 0.3:} Static enemies on the screen, player able to shoot the enemy and score incremented.
+\item \textbf{Version 0.4:} Enemies have movement with the use of paths, are able to shoot back and collide with players.
+\item \textbf{Version 0.5:} Background scrolling, enemies are spawned at regular intervals at set points using a timer.
+\item \textbf{Version 0.6:} Multiplayer networking implemented.
+\end{itemize} This brings the project to the first public stable release which satisfies the requirements for the assessment. It time is available certain future requirements (section \ref{sec: future_requirements}) towards the second public release.
+
+\section{Class Design}
+\label{sec: class_design}
+Below shows a diagram of how the project is to be organised in terms of classes and packages (dotted lines show packages).
+\begin{figure}
+ \centering
+ \includegraphics[width=15cm]{class_diagram.eps}
+ \caption{Proposed class diagram for the project}
+ \label{fig: class_diagram}
+\end{figure}
