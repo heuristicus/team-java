@@ -4,7 +4,6 @@ import Path.DiagonalPath;
 import Path.StraightPath;
 import Projectile.*;
 import java.awt.Color;
-import java.awt.Graphics2D;
 import java.io.Serializable;
 import java.util.ArrayList;
 

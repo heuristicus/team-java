@@ -298,6 +298,7 @@ public class Game {
         for (Enemy enemy : toRemove) {
             enemies.remove(enemy);
         }
+        toRemove = null;
     }
 
     /**
@@ -317,6 +318,7 @@ public class Game {
         for (Projectile projectile : toRemove) {
             projectiles.remove(projectile);
         }
+        toRemove = null;
     }
     //</editor-fold>
 
