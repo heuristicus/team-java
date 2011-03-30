@@ -39,7 +39,8 @@ Below shows a diagram of how the project is to be organised in terms of classes 
 \end{figure}
 
 \section{Implementation}
-\subsection{GUI}
+\subsection{GUI and Controls}
+The GUI was written using the standard JFrame and JPanel layout. A menu and a game panel were embedded inside the JFrame using a panel with a CardLayout. The menu and panel are part of the card layout, and can therefore be switched to very easily by referring to the name given to the CardLayout when each panel is added. There were some problems implementing a switching method to switch out the game and menu when either was required. Since the GamePanel is controlled by a timer, it is not possible to throw exceptions out. Therefore, another method was devised, by which the frame would call a method in the currently active panel to check if a `switch' flag was set. Based on this flag, the frame would change the panel that was currently being displayed, along with performing relevant actions. For example, when the menu is accessed while playing the game, the game has to be paused, and so the frame accesses a variable in the GamePanel which controls whether the game logic is progressing or not.
 \subsection{Game Logic}
 \subsection{Game Objects}
 \subsection{Network}
