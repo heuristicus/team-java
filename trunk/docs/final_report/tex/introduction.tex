@@ -3,42 +3,22 @@
 \label{cha:introduction}
 
 This aim of this report is to give a overview of the team Java work we did for 11 weeks on a Space Shooter game and how it progressed from an idea on paper to a functional program.
-It will be broken into sections covering important details on the design process, the way we worked and put the project together, the problems we faced, how we over came those problems and how we could improve the project futher with more time and resources.
+It will be broken into sections covering important details on the design process, the way we worked and put the project together, the problems we faced, how we over came those problems and how we could improve the project further with more time and resources.\\\\
+The first task when the team has first been introduced was to decide what type of game were to be produced, this is where the team discussed their own strengths and weaknesses so the plan could be outlined once the subject of the game had been chosen.
 
-
-Give a brief overview and guide the reader to the important points
-in the remaining sections.
-
-This template for your report also contains some examples of how to use some
-{\LaTeX} elements and commands. In particular, there are examples for tables,
-how to include figures, and various environments for bullet points or
-enumerations.
-
-For further information (and here is how to do a bullet list):
+\section{Introduction to the Game}
+\label{sec: intro_to_game}
+The module outlined the core necessities for the project which was to produce a working multi-player game based on the Java platform which includes various aspects of sockets programming to facilitate the multi-player functionality. The game also had to have a single player mode.\\\\
+With this brief the team started to brainstorm ideas in the first week of the project to see what interests each team member had. It was finally, and rather quickly, decided that the team's project would be to implement a side-scrolling space shooter game similar to the retro games from the Amiga/DOS times.\\\\
+The team comprises of four students with a deadline for the project in 11 weeks time (end of 2nd semester) with a demonstration in the 10th week.
+\subsection{Uniqueness}It has been mentioned that the game is similar to those of Space Invaders and Asteroids so rather than to simply 'reinvent the wheel' the team had to ensure the game had a unique feature.\\\\
+The specifications were drawn up by each member of the team and the unique point was highlighted. The game would be able to be multi-player through a network which hasn't been implemented yet to the knowledge of the team. The game would also feature extra additions such as power ups, boss fights, background music and different weapons which are also not present in current games of this type.
+\section{Report}
+This report contains the steps taken to produce the game, it's structure is outlined below.
 \begin{itemize}
-\item look on the Team Java web page,\\
-\url{http://www.cs.bham.ac.uk/internal/courses/team-java/current}\\
-  (Click on ``Guidance''.)
-\item google ``latex''
-\item look at the \LaTeX book \cite{latex}
+	\item \textbf{Requirements:} This section outlines what is required from the game and features which must be implemented to be tested against. It is important this section is fully detailed before coding begins on the game to ensure everyone has a decent understanding of the game's functionality. Failure to properly understand the game can lead to delays in the game's production which could also induce bugs as well as work being undone to correct it.
+	\item \textbf{Design:} This section details how the game is to be structured. In the first week the look of the game was roughly sketched and can be found in this section. The section also includes descriptions of how each class would work and interact with each other, again this is important to detail before coding commences to aid the understanding of the internal components of the game.
+	\item \textbf{Validation and Testing:} After several components of the game were released they needed to be tested in order to confirm that each section of the game works as they should. The module introduced the JUnit package which was used to test the integrity of the game but other methods were needed to ensure the non-functional requirements were satisfied. The validation section details the steps taken to ensure the game was built correctly.
+	\item \textbf{Software Engineering:} Any project has to have some management behind it and each team member had various levels of expertise; whether it be coding, design or management. This section details what approaches were taken to produce the project successfully. A time plan had to be organised to avoid the project being delayed.
+	\item \textbf{Conclusions:} In this section, details explaining what was learnt from the project are described. If the project were to be run again several things might have to be changed which is part of the learning process. It also details what may have gone wrong in the project and where the difficulties lie.
 \end{itemize}
-
-
-This is how to do numbered lists:
-\begin{enumerate}
-\item First point
-\item Second point
-\item \ldots
-\end{enumerate}
-
-This is how to do sections:
-
-\section{Some topic}\label{some}
-
-\section{Another topic}\label{another}
-
-If you set a label with the \texttt{label} command, you can then use
-the \texttt{ref} command to refer to that section -- e.g.
-section~\ref{some}. This means you don't need to know about section
-numbers. Note that \texttt{\~} means a space that cannot be broken
-across lines.
