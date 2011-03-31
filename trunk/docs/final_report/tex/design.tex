@@ -74,7 +74,7 @@ Networking is based on a client-server principle. Upon choosing the multiplayer 
 Graphics is implemented using a map stored in the game panel class. This map is initialised upon loading of the game with images from the relevant locations. Each object which must be drawn has an image reference string, which refers to the string that the image was added to the map with. When the object is drawn, the image reference is used to retrieve the image for that particular object, which is passed to the draw method of the object, which then draws it. Using this method meant that it was not necessary to pass images over the network, which would greatly slow communication due to the relatively large size of images. However, this method could, in theory, lead to the modification of the image files which are used to draw objects. In actuality, this will have no real effect on gameplay, since the size of the images are not at all considered when processing game logic.
 \section{GUI Design}
 \label{sec: gui_design}
-The GUI will be fairly simple and initially the on-screen components will be made up of shapes )Java objects). The initial sketches are shown below which were created in the first week of development to aim understanding of the project.\\
+The GUI will be fairly simple and initially the on-screen components will be made up of shapes (Java objects). The initial sketches are shown below which were created in the first week of development to aim understanding of the project.\\
 \begin{center}
 \includegraphics{GUI1.eps}
 \includegraphics{GUI2.eps}
